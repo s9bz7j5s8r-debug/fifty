@@ -1,0 +1,119 @@
+{% schema %}
+{
+  "name": "Fifty Landing Page",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Fifty Landing"
+    }
+  ]
+}
+{% endschema %}
+
+{% style %}
+:root {
+  --ink: #0d0d0d;
+  --paper: #f5f0e8;
+  --accent: #c8401a;
+  --muted: #8a8070;
+  --border: #d4cfc4;
+  --white: #fefdfb;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'DM Mono', monospace;
+}
+
+.fifty-hero {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 8rem 2rem;
+  text-align: center;
+}
+
+.fifty-hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3rem, 8vw, 6rem);
+}
+
+.fifty-price {
+  font-size: 4rem;
+  font-weight: bold;
+  color: var(--accent);
+}
+
+.fifty-btn {
+  background: var(--ink);
+  color: white;
+  padding: 1rem 2rem;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: 1.5rem;
+}
+
+.features {
+  padding: 5rem 2rem;
+}
+
+.feature {
+  margin-bottom: 2rem;
+}
+{% endstyle %}
+
+<div class="fifty-wrapper">
+
+  <!-- HERO -->
+  <section class="fifty-hero">
+    <div>
+      <p>Professional Websites · No Hidden Costs</p>
+
+      <h1>Your business online, for <em>fifty.</em></h1>
+
+      <p>
+        A professionally designed, fully hosted website for your small business —
+        one flat monthly fee.
+      </p>
+
+      <div class="fifty-price">£50/month</div>
+
+      <a href="/pages/contact" class="fifty-btn">
+        Get Your Website
+      </a>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="features">
+    <h2>Everything you need</h2>
+
+    <div class="feature">
+      <h3>Custom Design</h3>
+      <p>Designed specifically for your brand.</p>
+    </div>
+
+    <div class="feature">
+      <h3>Hosting & SSL</h3>
+      <p>Fast hosting with security included.</p>
+    </div>
+
+    <div class="feature">
+      <h3>Mobile First</h3>
+      <p>Optimised for all devices.</p>
+    </div>
+
+    <div class="feature">
+      <h3>SEO Ready</h3>
+      <p>Built to rank on Google.</p>
+    </div>
+
+    <div class="feature">
+      <h3>Unlimited Updates</h3>
+      <p>We handle changes for you.</p>
+    </div>
+
+  </section>
+
+</div>
