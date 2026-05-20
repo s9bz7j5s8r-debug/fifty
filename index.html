@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fifty — Websites for £50/month</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Mono:wght@300;400;500&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0d0d0d;
+    --paper: #f5f0e8;
+    --accent: #c8401a;
+    --muted: #8a8070;
+    --border: #d4cfc4;
+    --white: #fefdfb;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--paper); color: var(--ink); font-family: 'DM Mono', monospace; font-size: 14px; line-height: 1.7; overflow-x: hidden; }
+  body::before { content: ''; position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 999; opacity: 0.6; }
+
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; align-items: center; justify-content: space-between; padding: 1.2rem 2.5rem; background: var(--paper); border-bottom: 1px solid var(--border); }
+  .logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 900; letter-spacing: -0.03em; color: var(--ink); text-decoration: none; }
+  .logo span { color: var(--accent); }
+  nav ul { list-style: none; display: flex; gap: 2rem; align-items: center; }
+  nav a { color: var(--muted); text-decoration: none; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; }
+  nav a:hover { color: var(--ink); }
+  .nav-cta { background: var(--ink) !important; color: var(--paper) !important; padding: 0.5rem 1.2rem; border-radius: 2px; }
+  .nav-cta:hover { background: var(--accent) !important; }
+
+  .hero { min-height: 100vh; display: grid; place-items: center; padding: 8rem 2.5rem 4rem; position: relative; overflow: hidden; }
+  .hero-bg-text { position: absolute; font-family: 'Playfair Display', serif; font-size: clamp(10rem, 28vw, 28rem); font-weight: 900; color: transparent; -webkit-text-stroke: 1px var(--border); top: 50%; left: 50%; transform: translate(-50%, -50%); white-space: nowrap; pointer-events: none; user-select: none; letter-spacing: -0.05em; animation: float 8s ease-in-out infinite; }
+  @keyframes float { 0%,100%{transform:translate(-50%,-50%) translateY(0);} 50%{transform:translate(-50%,-50%) translateY(-1.5rem);} }
+  .hero-inner { position: relative; z-index: 1; max-width: 780px; text-align: center; }
+  .hero-eyebrow { display: inline-block; font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent); padding: 0.35rem 0.9rem; margin-bottom: 2rem; animation: fadeUp 0.8s ease both; }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 8vw, 6.5rem); font-weight: 900; line-height: 1.0; letter-spacing: -0.03em; margin-bottom: 1.5rem; animation: fadeUp 0.8s 0.15s ease both; }
+  .hero h1 em { font-style: italic; color: var(--accent); }
+  .hero-sub { font-size: 0.95rem; color: var(--muted); max-width: 500px; margin: 0 auto 2.5rem; animation: fadeUp 0.8s 0.3s ease both; }
+  .hero-price { display: inline-flex; align-items: baseline; gap: 0.4rem; font-family: 'Playfair Display', serif; animation: fadeUp 0.8s 0.45s ease both; margin-bottom: 2.5rem; }
+  .hero-price .pound { font-size: 2rem; font-weight: 700; color: var(--accent); }
+  .hero-price .amount { font-size: 5rem; font-weight: 900; line-height: 1; }
+  .hero-price .per { font-family: 'DM Mono', monospace; font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-left: 0.3rem; }
+  .hero-ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; animation: fadeUp 0.8s 0.6s ease both; }
+  .btn-primary { background: var(--ink); color: var(--paper); padding: 0.9rem 2.2rem; border: none; border-radius: 2px; font-family: 'DM Mono', monospace; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; cursor: pointer; transition: background 0.2s, transform 0.15s; display: inline-block; }
+  .btn-primary:hover { background: var(--accent); transform: translateY(-2px); }
+  .btn-ghost { background: transparent; color: var(--ink); padding: 0.9rem 2.2rem; border: 1px solid var(--border); border-radius: 2px; font-family: 'DM Mono', monospace; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; cursor: pointer; transition: border-color 0.2s; display: inline-block; }
+  .btn-ghost:hover { border-color: var(--ink); }
+
+  .marquee-bar { background: var(--ink); color: var(--paper); padding: 0.75rem 0; overflow: hidden; white-space: nowrap; }
+  .marquee-track { display: inline-flex; animation: marquee 25s linear infinite; gap: 3rem; font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; }
+  .marquee-track span { color: var(--accent); margin-right: 1rem; }
+  @keyframes marquee { 0%{transform:translateX(0);} 100%{transform:translateX(-50%);} }
+
+  section { padding: 6rem 2.5rem; }
+  .section-label { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; line-height: 1.1; letter-spacing: -0.02em; max-width: 580px; }
+  .section-title em { font-style: italic; color: var(--accent); }
+
+  /* CINEMATIC AD TRIGGER */
+  .cinema-section { background: #050505; color: white; padding: 0; position: relative; overflow: hidden; min-height: 70vh; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+  .cinema-bg { position: absolute; inset: 0; background: radial-gradient(ellipse at center, rgba(200,64,26,0.15) 0%, transparent 60%), linear-gradient(180deg, #0a0a0a 0%, #000 100%); }
+  .cinema-bg::before { content: ''; position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%); }
+  .cinema-inner { position: relative; z-index: 2; text-align: center; padding: 4rem 2rem; max-width: 900px; }
+  .cinema-label { font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.5rem; }
+  .cinema-title { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 900; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 2rem; color: white; }
+  .cinema-title em { font-style: italic; color: var(--accent); }
+  .cinema-sub { color: rgba(255,255,255,0.5); max-width: 500px; margin: 0 auto 2.5rem; font-size: 0.88rem; }
+  .play-btn { display: inline-flex; align-items: center; gap: 1.2rem; padding: 1rem 2rem 1rem 1rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 100px; cursor: pointer; color: white; font-family: 'DM Mono', monospace; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; transition: background 0.3s, transform 0.2s; }
+  .play-btn:hover { background: rgba(255,255,255,0.1); transform: scale(1.04); }
+  .play-icon { width: 52px; height: 52px; background: var(--accent); border-radius: 50%; display: grid; place-items: center; position: relative; flex-shrink: 0; }
+  .play-icon::before { content: ''; width: 0; height: 0; border-top: 9px solid transparent; border-bottom: 9px solid transparent; border-left: 14px solid white; margin-left: 4px; }
+  .play-icon::after { content: ''; position: absolute; inset: -8px; border-radius: 50%; border: 1px solid rgba(200,64,26,0.4); animation: pulse 2s ease-out infinite; }
+  @keyframes pulse { 0%{transform:scale(1); opacity:1;} 100%{transform:scale(1.5); opacity:0;} }
+  .cinema-duration { display: block; margin-top: 1.5rem; color: rgba(255,255,255,0.3); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; }
+
+  /* PLAYER */
+  .cinema-player { position: fixed; inset: 0; background: #000; z-index: 2000; opacity: 0; pointer-events: none; transition: opacity 0.4s; }
+  .cinema-player.active { opacity: 1; pointer-events: all; }
+  .cinema-stage { position: relative; width: 100%; height: 100%; overflow: hidden; }
+  .letterbox { position: absolute; left: 0; right: 0; height: 10vh; background: #000; z-index: 10; transition: transform 0.6s cubic-bezier(0.65,0.05,0.36,1); }
+  .letterbox.top { top: 0; transform: translateY(-100%); }
+  .letterbox.bottom { bottom: 0; transform: translateY(100%); }
+  .cinema-player.active .letterbox.top { transform: translateY(0); }
+  .cinema-player.active .letterbox.bottom { transform: translateY(0); }
+  .cinema-close { position: absolute; top: 2rem; right: 2rem; z-index: 20; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 0.6rem 1.2rem; border-radius: 2px; font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; opacity: 0; transition: opacity 0.4s 1s, background 0.2s; }
+  .cinema-player.active .cinema-close { opacity: 1; }
+  .cinema-close:hover { background: rgba(255,255,255,0.1); }
+
+  .scene { position: absolute; inset: 0; display: grid; place-items: center; opacity: 0; transition: opacity 0.8s; padding: 4rem; }
+  .scene.active { opacity: 1; }
+  .scene-content { text-align: center; max-width: 1100px; }
+
+  .scene-1 { background: #000; }
+  .scene-1 .scene-bg { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.9) 100%), radial-gradient(ellipse at 50% 70%, rgba(150,80,40,0.2) 0%, transparent 60%); z-index: 0; }
+  .scene-1 .door { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 220px; height: 360px; border: 3px solid rgba(255,255,255,0.15); border-radius: 4px 4px 0 0; z-index: 1; }
+  .scene-1 .door::before { content: ''; position: absolute; inset: 16px; border: 1px solid rgba(255,255,255,0.1); }
+  .scene-1 .door::after { content: 'CLOSED'; position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 0.3em; color: rgba(255,255,255,0.3); }
+  .scene-1 .light-flicker { position: absolute; left: 50%; top: 20%; transform: translateX(-50%); width: 400px; height: 200px; background: radial-gradient(ellipse, rgba(255,200,140,0.15) 0%, transparent 70%); animation: flicker 4s ease-in-out infinite; z-index: 1; }
+  @keyframes flicker { 0%,100%{opacity:1;} 45%{opacity:0.4;} 50%{opacity:1;} 55%{opacity:0.6;} }
+  .scene-1 .caption { position: absolute; bottom: 16vh; left: 50%; transform: translateX(-50%); font-family: 'Playfair Display', serif; font-style: italic; font-size: clamp(1.2rem, 2vw, 1.8rem); color: rgba(255,255,255,0.7); z-index: 5; text-align: center; max-width: 700px; padding: 0 2rem; }
+
+  .scene-2 { background: #000; }
+  .scene-2 .browser { width: min(720px, 90vw); margin: 0 auto; background: #1a1a1a; border-radius: 8px; overflow: hidden; box-shadow: 0 30px 80px rgba(200,64,26,0.15); border: 1px solid rgba(255,255,255,0.08); }
+  .scene-2 .browser-bar { background: #222; padding: 0.8rem 1rem; display: flex; align-items: center; gap: 0.5rem; }
+  .scene-2 .browser-dot { width: 11px; height: 11px; border-radius: 50%; background: #444; }
+  .scene-2 .browser-search { flex: 1; margin-left: 1rem; padding: 0.4rem 1rem; background: #0a0a0a; border-radius: 100px; color: #ccc; font-size: 0.78rem; font-family: 'DM Mono', monospace; text-align: left; min-height: 28px; }
+  .scene-2 .cursor { display: inline-block; width: 2px; height: 14px; background: var(--accent); vertical-align: middle; margin-left: 2px; animation: blink 0.8s infinite; }
+  @keyframes blink { 0%,50%{opacity:1;} 51%,100%{opacity:0;} }
+  .scene-2 .browser-body { padding: 2rem; min-height: 200px; color: #888; text-align: left; }
+  .scene-2 .result-item { padding: 0.8rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.85rem; opacity: 0.4; transition: all 0.3s; }
+  .scene-2 .result-item.highlight { opacity: 1; color: white; border-left: 2px solid var(--accent); padding-left: 1rem; }
+  .scene-2 .result-item .url { color: var(--accent); font-size: 0.72rem; margin-bottom: 0.3rem; }
+  .scene-2 .caption { margin-top: 2rem; font-family: 'Playfair Display', serif; font-style: italic; font-size: clamp(1.1rem, 2vw, 1.5rem); color: rgba(255,255,255,0.7); }
+
+  .scene-3 { background: linear-gradient(180deg, #1a0a05 0%, #000 100%); }
+  .scene-3 .big-stat { font-family: 'Bebas Neue', sans-serif; font-size: clamp(6rem, 22vw, 18rem); line-height: 1; color: var(--accent); letter-spacing: -0.02em; }
+  .scene-3 .stat-context { font-family: 'Playfair Display', serif; font-size: clamp(1.3rem, 2.5vw, 2rem); color: rgba(255,255,255,0.9); margin-top: 1rem; max-width: 700px; line-height: 1.3; }
+  .scene-3 .stat-context strong { color: var(--accent); font-style: italic; }
+  .scene-3 .source { display: block; margin-top: 1.5rem; color: rgba(255,255,255,0.3); font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; }
+
+  .scene-4 { background: #000; padding: 0; }
+  .scene-4 .split { display: grid; grid-template-columns: 1fr 1fr; width: 100%; height: 100%; position: absolute; inset: 0; }
+  .scene-4 .panel { position: relative; display: grid; place-items: center; padding: 4rem; overflow: hidden; }
+  .scene-4 .panel-left { background: #0a0a0a; }
+  .scene-4 .panel-right { background: #f5f0e8; color: var(--ink); }
+  .scene-4 .panel-label { position: absolute; top: 3rem; left: 3rem; font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; }
+  .scene-4 .panel-left .panel-label { color: rgba(255,255,255,0.3); }
+  .scene-4 .panel-right .panel-label { color: var(--accent); }
+  .scene-4 .panel-content { text-align: center; }
+  .scene-4 .panel-content h3 { font-family: 'Playfair Display', serif; font-size: clamp(1.4rem, 2.8vw, 2.4rem); font-weight: 900; line-height: 1.2; letter-spacing: -0.02em; }
+  .scene-4 .panel-left h3 { color: rgba(255,255,255,0.5); }
+  .scene-4 .panel-right h3 { color: var(--ink); }
+  .scene-4 .panel-content p { margin-top: 1rem; font-size: 0.85rem; max-width: 320px; }
+  .scene-4 .panel-left p { color: rgba(255,255,255,0.3); }
+  .scene-4 .panel-right p { color: var(--muted); }
+
+  .scene-5 { background: #000; }
+  .scene-5 .tagline { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 7vw, 6rem); font-weight: 900; line-height: 1.05; letter-spacing: -0.02em; color: white; }
+  .scene-5 .tagline em { font-style: italic; color: var(--accent); }
+  .scene-5 .tagline span { display: block; opacity: 0; transform: translateY(20px); transition: opacity 0.7s, transform 0.7s; }
+  .scene-5.active .tagline span:nth-child(1) { opacity: 1; transform: none; transition-delay: 0.2s; }
+  .scene-5.active .tagline span:nth-child(2) { opacity: 1; transform: none; transition-delay: 0.9s; }
+  .scene-5.active .tagline span:nth-child(3) { opacity: 1; transform: none; transition-delay: 1.6s; }
+
+  .scene-6 { background: radial-gradient(ellipse at center, #1a0a05 0%, #000 70%); }
+  .scene-6 .end-logo { font-family: 'Playfair Display', serif; font-size: clamp(5rem, 14vw, 12rem); font-weight: 900; letter-spacing: -0.04em; color: white; line-height: 1; }
+  .scene-6 .end-logo span { color: var(--accent); }
+  .scene-6 .end-price { font-family: 'DM Mono', monospace; font-size: 0.9rem; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-top: 1.5rem; }
+  .scene-6 .end-cta { display: inline-block; margin-top: 2.5rem; padding: 1rem 2.5rem; background: var(--accent); color: white; text-decoration: none; font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; border-radius: 2px; transition: transform 0.2s; }
+  .scene-6 .end-cta:hover { transform: translateY(-3px); }
+
+  .cinema-progress { position: absolute; bottom: 3vh; left: 50%; transform: translateX(-50%); width: min(600px, 50vw); height: 2px; background: rgba(255,255,255,0.1); z-index: 15; border-radius: 2px; overflow: hidden; }
+  .cinema-progress-fill { height: 100%; background: var(--accent); width: 0%; transition: width 0.1s linear; }
+
+  /* FEATURES */
+  .features { background: var(--white); }
+  .features-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  .features-left { position: sticky; top: 6rem; }
+  .features-right { display: flex; flex-direction: column; }
+  .feature-item { border-top: 1px solid var(--border); padding: 1.8rem 0; display: grid; grid-template-columns: 2.5rem 1fr; gap: 1rem; }
+  .feature-item:last-child { border-bottom: 1px solid var(--border); }
+  .feature-num { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--accent); font-style: italic; padding-top: 0.1rem; }
+  .feature-name { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; margin-bottom: 0.4rem; }
+  .feature-desc { color: var(--muted); font-size: 0.82rem; line-height: 1.65; }
+
+  /* PORTFOLIO */
+  .portfolio { background: var(--paper); padding-top: 4rem; padding-bottom: 8rem; }
+  .portfolio-head { max-width: 1200px; margin: 0 auto 3rem; display: flex; justify-content: space-between; align-items: flex-end; gap: 2rem; flex-wrap: wrap; }
+  .portfolio-head-text { max-width: 580px; }
+  .portfolio-hint { font-size: 0.78rem; color: var(--muted); display: flex; align-items: center; gap: 0.5rem; }
+  .portfolio-hint::before { content: '↘'; color: var(--accent); font-size: 1rem; }
+  .portfolio-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+  .portfolio-card { cursor: pointer; position: relative; overflow: hidden; border-radius: 4px; background: var(--ink); transition: transform 0.4s cubic-bezier(0.2,0.8,0.2,1), box-shadow 0.4s; }
+  .portfolio-card:hover { transform: translateY(-8px); box-shadow: 0 25px 50px rgba(13,13,13,0.2); }
+  .portfolio-mockup { width: 100%; display: block; }
+  .portfolio-card-meta { padding: 1.2rem 1.4rem; background: var(--white); border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+  .portfolio-card-name { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1rem; }
+  .portfolio-card-tag { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+  .portfolio-card::after { content: 'View'; position: absolute; top: 1rem; right: 1rem; background: var(--accent); color: white; padding: 0.4rem 0.9rem; border-radius: 100px; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 600; opacity: 0; transform: translateY(-4px); transition: opacity 0.3s, transform 0.3s; z-index: 5; }
+  .portfolio-card:hover::after { opacity: 1; transform: none; }
+
+  /* LIGHTBOX */
+  .lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 1500; display: flex; align-items: center; justify-content: center; padding: 2rem; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+  .lightbox.active { opacity: 1; pointer-events: all; }
+  .lightbox-content { max-width: 1100px; width: 100%; position: relative; }
+  .lightbox-mockup svg { width: 100%; height: auto; max-height: 80vh; display: block; }
+  .lightbox-info { position: absolute; bottom: -3rem; left: 0; color: rgba(255,255,255,0.7); font-size: 0.85rem; }
+  .lightbox-info strong { font-family: 'Playfair Display', serif; font-weight: 700; color: white; margin-right: 0.6rem; }
+  .lightbox-close { position: absolute; top: -3rem; right: 0; background: rgba(255,255,255,0.1); color: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; }
+  .lightbox-close:hover { background: rgba(255,255,255,0.2); }
+  .lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.1); color: white; border: none; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; font-size: 1.3rem; transition: background 0.2s; z-index: 10; }
+  .lightbox-nav:hover { background: rgba(255,255,255,0.2); }
+  .lightbox-prev { left: 2rem; }
+  .lightbox-next { right: 2rem; }
+
+  /* PRICING */
+  .pricing { background: var(--paper); }
+  .pricing-inner { max-width: 900px; margin: 0 auto; text-align: center; }
+  .pricing-inner .section-title { margin: 0 auto 1rem; }
+  .pricing-sub { color: var(--muted); margin-bottom: 3.5rem; font-size: 0.88rem; }
+  .plan-card { background: var(--ink); color: var(--paper); border-radius: 4px; padding: 3.5rem; position: relative; overflow: hidden; text-align: left; }
+  .plan-card::before { content: '£50'; position: absolute; right: -1rem; top: -2rem; font-family: 'Playfair Display', serif; font-size: 12rem; font-weight: 900; color: rgba(255,255,255,0.04); line-height: 1; pointer-events: none; }
+  .plan-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem; }
+  .plan-name { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; }
+  .plan-badge { background: var(--accent); color: white; font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.3rem 0.8rem; border-radius: 2px; }
+  .plan-price-row { display: flex; align-items: baseline; gap: 0.5rem; margin-bottom: 0.5rem; }
+  .plan-price-big { font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: 900; line-height: 1; }
+  .plan-price-label { font-size: 0.78rem; color: rgba(255,255,255,0.5); letter-spacing: 0.1em; }
+  .plan-includes { font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 2rem; }
+  .plan-items { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem 2rem; list-style: none; margin-bottom: 2.5rem; }
+  .plan-items li { font-size: 0.82rem; color: rgba(255,255,255,0.8); display: flex; align-items: center; gap: 0.6rem; }
+  .plan-items li::before { content: '✓'; color: var(--accent); font-weight: 700; }
+  .plan-cta { background: var(--paper); color: var(--ink); padding: 1rem 2.5rem; border: none; border-radius: 2px; font-family: 'DM Mono', monospace; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; cursor: pointer; transition: background 0.2s, color 0.2s; display: inline-block; }
+  .plan-cta:hover { background: var(--accent); color: white; }
+
+  /* PROCESS */
+  .process { background: var(--white); }
+  .process-inner { max-width: 1100px; margin: 0 auto; }
+  .process-grid { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 3.5rem; }
+  .process-step { padding: 2rem; border-left: 1px solid var(--border); }
+  .process-step:first-child { border-left: none; }
+  .step-num { font-family: 'Playfair Display', serif; font-size: 3.5rem; font-weight: 900; color: var(--border); line-height: 1; margin-bottom: 1rem; }
+  .step-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; margin-bottom: 0.6rem; }
+  .step-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.65; }
+
+  /* FAQ */
+  .faq { background: var(--paper); }
+  .faq-inner { max-width: 700px; margin: 0 auto; }
+  .faq-inner .section-title { margin-bottom: 2.5rem; }
+  .faq-item { border-top: 1px solid var(--border); }
+  .faq-item:last-child { border-bottom: 1px solid var(--border); }
+  .faq-q { width: 100%; background: none; border: none; padding: 1.4rem 0; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: var(--ink); text-align: left; gap: 1rem; }
+  .faq-icon { width: 24px; height: 24px; border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; transition: transform 0.3s, background 0.2s; color: var(--muted); }
+  .faq-item.open .faq-icon { transform: rotate(45deg); background: var(--accent); border-color: var(--accent); color: white; }
+  .faq-a { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s; font-size: 0.85rem; color: var(--muted); line-height: 1.75; }
+  .faq-item.open .faq-a { max-height: 300px; padding-bottom: 1.4rem; }
+
+  .cta-band { background: var(--accent); padding: 5rem 2.5rem; text-align: center; }
+  .cta-band h2 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; color: white; letter-spacing: -0.02em; margin-bottom: 1rem; }
+  .cta-band p { color: rgba(255,255,255,0.75); margin-bottom: 2rem; font-size: 0.9rem; }
+  .btn-white { background: white; color: var(--accent); padding: 0.9rem 2.5rem; border: none; border-radius: 2px; font-family: 'DM Mono', monospace; font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; cursor: pointer; transition: transform 0.2s; display: inline-block; }
+  .btn-white:hover { transform: translateY(-3px); }
+
+  footer { background: var(--ink); color: rgba(255,255,255,0.5); padding: 3rem 2.5rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 900; color: white; text-decoration: none; }
+  .footer-logo span { color: var(--accent); }
+  footer p { font-size: 0.75rem; }
+  footer a { color: rgba(255,255,255,0.5); text-decoration: none; }
+  footer a:hover { color: white; }
+
+  .modal-overlay { position: fixed; inset: 0; background: rgba(13,13,13,0.8); z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 2rem; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+  .modal-overlay.active { opacity: 1; pointer-events: all; }
+  .modal { background: var(--white); border-radius: 4px; padding: 3rem; max-width: 520px; width: 100%; transform: translateY(2rem); transition: transform 0.3s; }
+  .modal-overlay.active .modal { transform: translateY(0); }
+  .modal h3 { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 900; margin-bottom: 0.5rem; }
+  .modal p { color: var(--muted); font-size: 0.83rem; margin-bottom: 1.5rem; }
+  .modal-close { float: right; background: none; border: none; font-size: 1.3rem; cursor: pointer; color: var(--muted); margin-top: -0.5rem; }
+  .form-group { margin-bottom: 1.2rem; }
+  .form-group label { display: block; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.4rem; color: var(--muted); }
+  .form-group input, .form-group textarea { width: 100%; padding: 0.75rem 1rem; background: var(--paper); border: 1px solid var(--border); border-radius: 2px; font-family: 'DM Mono', monospace; font-size: 0.83rem; color: var(--ink); outline: none; }
+  .form-group input:focus, .form-group textarea:focus { border-color: var(--ink); }
+  .form-group textarea { resize: vertical; min-height: 80px; }
+  .form-submit { width: 100%; background: var(--ink); color: var(--paper); border: none; padding: 0.9rem; font-family: 'DM Mono', monospace; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; border-radius: 2px; cursor: pointer; }
+  .form-submit:hover { background: var(--accent); }
+
+  @keyframes fadeUp { from{opacity:0; transform: translateY(1.5rem);} to{opacity:1; transform: none;} }
+  .reveal { opacity: 0; transform: translateY(2rem); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  @media (max-width: 900px) { .portfolio-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 768px) {
+    nav ul { display: none; }
+    .features-inner { grid-template-columns: 1fr; }
+    .features-left { position: static; }
+    .process-grid { grid-template-columns: 1fr 1fr; }
+    .plan-items { grid-template-columns: 1fr; }
+    .portfolio-grid { grid-template-columns: 1fr; }
+    .scene-4 .split { grid-template-columns: 1fr; grid-template-rows: 1fr 1fr; }
+    footer { flex-direction: column; text-align: center; }
+  }
+  @media (max-width: 480px) { section { padding: 4rem 1.5rem; } .process-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="logo" href="#">Fifty<span>.</span></a>
+  <ul>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#portfolio">Examples</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#" class="nav-cta" onclick="openModal()">Get Started</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg-text">£50</div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Professional Websites · No Hidden Costs</div>
+    <h1>Your business<br>online, for <em>fifty.</em></h1>
+    <p class="hero-sub">A professionally designed, fully hosted website for your small business — one flat monthly fee, no surprises, no faff.</p>
+    <div class="hero-price"><span class="pound">£</span><span class="amount">50</span><span class="per">/ month</span></div>
+    <div class="hero-ctas">
+      <a href="#" class="btn-primary" onclick="openModal()">Get Your Website</a>
+      <a href="#features" class="btn-ghost">See What's Included</a>
+    </div>
+  </div>
+</section>
+
+<div class="marquee-bar"><div class="marquee-track">
+  <span>✦</span> No setup fees <span>✦</span> Hosting included <span>✦</span> Mobile ready <span>✦</span> SEO optimised <span>✦</span> SSL certificate <span>✦</span> Unlimited updates <span>✦</span> Scottish-based <span>✦</span> No long contracts &nbsp;&nbsp;&nbsp;
+  <span>✦</span> No setup fees <span>✦</span> Hosting included <span>✦</span> Mobile ready <span>✦</span> SEO optimised <span>✦</span> SSL certificate <span>✦</span> Unlimited updates <span>✦</span> Scottish-based <span>✦</span> No long contracts
+</div></div>
+
+<!-- CINEMATIC AD -->
+<section class="cinema-section" onclick="playCinema()">
+  <div class="cinema-bg"></div>
+  <div class="cinema-inner">
+    <div class="cinema-label">— A short film —</div>
+    <h2 class="cinema-title">Why your business <em>needs</em><br>to be online.</h2>
+    <p class="cinema-sub">A short film. No fluff. Just the truth about what's happening to businesses without a website.</p>
+    <button class="play-btn" onclick="event.stopPropagation(); playCinema();">
+      <span class="play-icon"></span>Watch Now
+    </button>
+    <span class="cinema-duration">Featuring real statistics</span>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="features-inner">
+    <div class="features-left reveal">
+      <div class="section-label">What You Get</div>
+      <h2 class="section-title">Everything a<br>business needs,<br><em>nothing it doesn't.</em></h2>
+      <p style="color: var(--muted); font-size: 0.85rem; margin-top: 1.5rem; max-width: 320px; line-height: 1.8;">We handle the tech so you can focus on running your business. One price, everything included.</p>
+    </div>
+    <div class="features-right">
+      <div class="feature-item reveal"><div class="feature-num">01</div><div><div class="feature-name">Custom Design</div><p class="feature-desc">A website designed specifically for your brand and industry — not a template. We build it to look and feel like you.</p></div></div>
+      <div class="feature-item reveal"><div class="feature-num">02</div><div><div class="feature-name">Hosting & SSL</div><p class="feature-desc">Your site lives on fast, reliable servers with full SSL encryption. No separate bills, no renewals to track.</p></div></div>
+      <div class="feature-item reveal"><div class="feature-num">03</div><div><div class="feature-name">Mobile-First Build</div><p class="feature-desc">Over 60% of web traffic is mobile. Your site looks perfect on every screen size, from phone to desktop.</p></div></div>
+      <div class="feature-item reveal"><div class="feature-num">04</div><div><div class="feature-name">SEO Foundation</div><p class="feature-desc">Built with search engines in mind. Proper meta tags, page speed optimisation, and local SEO setup for Google.</p></div></div>
+      <div class="feature-item reveal"><div class="feature-num">05</div><div><div class="feature-name">Content Updates</div><p class="feature-desc">Need to change your opening hours, add a new service, or update prices? Just send us a message — done within 48 hours.</p></div></div>
+      <div class="feature-item reveal"><div class="feature-num">06</div><div><div class="feature-name">Contact Forms & Maps</div><p class="feature-desc">Working enquiry forms that land in your inbox, plus Google Maps integration so customers can find you easily.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section class="portfolio" id="portfolio">
+  <div class="portfolio-head">
+    <div class="portfolio-head-text reveal">
+      <div class="section-label">Example Sites</div>
+      <h2 class="section-title">Real designs<br>for <em>real businesses.</em></h2>
+    </div>
+    <div class="portfolio-hint reveal">Click any design to view full preview</div>
+  </div>
+  <div class="portfolio-grid">
+    <div class="portfolio-card reveal" onclick="openLightbox(0)">
+      <svg class="portfolio-mockup" viewBox="0 0 600 380" xmlns="http://www.w3.org/2000/svg">
+        <defs><linearGradient id="warmGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a2820"/><stop offset="1" stop-color="#1a0f08"/></linearGradient></defs>
+        <rect width="600" height="380" fill="#1a1410"/>
+        <rect x="0" y="0" width="600" height="26" fill="#0d0a08"/>
+        <circle cx="14" cy="13" r="4" fill="#3a2820"/><circle cx="28" cy="13" r="4" fill="#3a2820"/><circle cx="42" cy="13" r="4" fill="#3a2820"/>
+        <rect x="80" y="6" width="200" height="14" rx="7" fill="#2a1f18"/>
+        <text x="30" y="60" font-family="Playfair Display, serif" font-weight="900" font-size="14" fill="#d4a574">THE ANCHOR</text>
+        <text x="490" y="60" font-family="monospace" font-size="8" letter-spacing="2" fill="#8a6f55">MENU · BOOK · ABOUT</text>
+        <rect x="30" y="80" width="540" height="200" fill="url(#warmGrad)"/>
+        <ellipse cx="200" cy="180" rx="70" ry="40" fill="#5a3f2a" opacity="0.6"/>
+        <ellipse cx="350" cy="190" rx="60" ry="35" fill="#6a4a30" opacity="0.5"/>
+        <text x="60" y="170" font-family="Playfair Display, serif" font-style="italic" font-weight="900" font-size="38" fill="#f5e6c8">Coastal Dining,</text>
+        <text x="60" y="210" font-family="Playfair Display, serif" font-style="italic" font-weight="900" font-size="38" fill="#d4a574">Since 1987.</text>
+        <rect x="60" y="230" width="110" height="22" fill="#d4a574"/>
+        <text x="78" y="245" font-family="monospace" font-size="8" letter-spacing="2" fill="#1a0f08">RESERVE TABLE</text>
+        <rect x="30" y="300" width="170" height="60" fill="#221814"/>
+        <rect x="215" y="300" width="170" height="60" fill="#221814"/>
+        <rect x="400" y="300" width="170" height="60" fill="#221814"/>
+        <text x="45" y="320" font-family="Playfair Display, serif" font-size="10" fill="#d4a574">SEAFOOD</text>
+        <text x="45" y="340" font-family="monospace" font-size="7" fill="#8a6f55">Fresh from the Forth</text>
+        <text x="230" y="320" font-family="Playfair Display, serif" font-size="10" fill="#d4a574">WINES</text>
+        <text x="230" y="340" font-family="monospace" font-size="7" fill="#8a6f55">Hand-picked cellar</text>
+        <text x="415" y="320" font-family="Playfair Display, serif" font-size="10" fill="#d4a574">PRIVATE EVENTS</text>
+        <text x="415" y="340" font-family="monospace" font-size="7" fill="#8a6f55">Bespoke gatherings</text>
+      </svg>
+      <div class="portfolio-card-meta"><span class="portfolio-card-name">The Anchor</span><span class="portfolio-card-tag">Restaurant</span></div>
+    </div>
+
+    <div class="portfolio-card reveal" onclick="openLightbox(1)">
+      <svg class="portfolio-mockup" viewBox="0 0 600 380" xmlns="http://www.w3.org/2000/svg">
+        <rect width="600" height="380" fill="#faf6f2"/>
+        <rect x="0" y="0" width="600" height="26" fill="#ebe3d9"/>
+        <circle cx="14" cy="13" r="4" fill="#c9b8a5"/><circle cx="28" cy="13" r="4" fill="#c9b8a5"/><circle cx="42" cy="13" r="4" fill="#c9b8a5"/>
+        <rect x="80" y="6" width="200" height="14" rx="7" fill="#fff"/>
+        <text x="30" y="60" font-family="Playfair Display, serif" font-weight="900" font-size="16" fill="#8a4f5f">bloom.</text>
+        <text x="450" y="60" font-family="monospace" font-size="8" letter-spacing="2" fill="#a09080">SERVICES · TEAM · BOOK</text>
+        <text x="30" y="130" font-family="Playfair Display, serif" font-weight="900" font-size="38" fill="#3a2a30">Hair, beautifully</text>
+        <text x="30" y="172" font-family="Playfair Display, serif" font-style="italic" font-weight="900" font-size="38" fill="#8a4f5f">considered.</text>
+        <rect x="30" y="200" width="120" height="32" fill="#8a4f5f"/>
+        <text x="50" y="220" font-family="monospace" font-size="8" letter-spacing="2" fill="#fff">BOOK ONLINE</text>
+        <circle cx="450" cy="160" r="90" fill="#f0d8d8"/>
+        <circle cx="450" cy="140" r="35" fill="#d8b8a8"/>
+        <rect x="420" y="170" width="60" height="50" rx="15" fill="#c8a898"/>
+        <rect x="30" y="270" width="170" height="90" fill="#fff" stroke="#ebe3d9"/>
+        <rect x="215" y="270" width="170" height="90" fill="#fff" stroke="#ebe3d9"/>
+        <rect x="400" y="270" width="170" height="90" fill="#fff" stroke="#ebe3d9"/>
+        <text x="50" y="295" font-family="Playfair Display, serif" font-style="italic" font-size="12" fill="#8a4f5f">Cut &amp; Style</text>
+        <text x="50" y="315" font-family="monospace" font-size="7" fill="#a09080">From £45</text>
+        <text x="50" y="335" font-family="monospace" font-size="7" fill="#a09080">60 minutes</text>
+        <text x="235" y="295" font-family="Playfair Display, serif" font-style="italic" font-size="12" fill="#8a4f5f">Colour</text>
+        <text x="235" y="315" font-family="monospace" font-size="7" fill="#a09080">From £85</text>
+        <text x="235" y="335" font-family="monospace" font-size="7" fill="#a09080">2 hours</text>
+        <text x="420" y="295" font-family="Playfair Display, serif" font-style="italic" font-size="12" fill="#8a4f5f">Bridal</text>
+        <text x="420" y="315" font-family="monospace" font-size="7" fill="#a09080">From £150</text>
+        <text x="420" y="335" font-family="monospace" font-size="7" fill="#a09080">Consultation</text>
+      </svg>
+      <div class="portfolio-card-meta"><span class="portfolio-card-name">Bloom</span><span class="portfolio-card-tag">Hair &amp; Beauty</span></div>
+    </div>
+
+    <div class="portfolio-card reveal" onclick="openLightbox(2)">
+      <svg class="portfolio-mockup" viewBox="0 0 600 380" xmlns="http://www.w3.org/2000/svg">
+        <rect width="600" height="380" fill="#0f1820"/>
+        <rect x="0" y="0" width="600" height="26" fill="#0a1118"/>
+        <circle cx="14" cy="13" r="4" fill="#1f3040"/><circle cx="28" cy="13" r="4" fill="#1f3040"/><circle cx="42" cy="13" r="4" fill="#1f3040"/>
+        <rect x="0" y="26" width="600" height="40" fill="#0a1118"/>
+        <text x="30" y="52" font-family="Bebas Neue, sans-serif" font-size="18" fill="#fff" letter-spacing="2">SWIFT PLUMBING</text>
+        <rect x="465" y="36" width="115" height="22" fill="#ff7a3a"/>
+        <text x="475" y="51" font-family="monospace" font-size="8" letter-spacing="1" fill="#000">24/7 EMERGENCY ☎</text>
+        <text x="30" y="120" font-family="Bebas Neue, sans-serif" font-size="36" fill="#fff" letter-spacing="1">FIFE'S MOST TRUSTED</text>
+        <text x="30" y="156" font-family="Bebas Neue, sans-serif" font-size="36" fill="#ff7a3a" letter-spacing="1">PLUMBERS.</text>
+        <text x="30" y="184" font-family="monospace" font-size="9" fill="#8a9eb0">Boiler repairs · Emergency callouts · Bathroom installs · Gas Safe</text>
+        <rect x="30" y="200" width="130" height="34" fill="#ff7a3a"/>
+        <text x="50" y="222" font-family="monospace" font-size="9" letter-spacing="2" fill="#000">GET A QUOTE →</text>
+        <rect x="180" y="200" width="130" height="34" fill="transparent" stroke="#fff"/>
+        <text x="210" y="222" font-family="monospace" font-size="9" letter-spacing="2" fill="#fff">CALL NOW</text>
+        <rect x="370" y="80" width="200" height="180" fill="#1a2530" stroke="#2a3540"/>
+        <rect x="385" y="95" width="50" height="50" fill="#ff7a3a"/>
+        <text x="397" y="128" font-family="Bebas Neue, sans-serif" font-size="22" fill="#000">★</text>
+        <text x="445" y="115" font-family="Playfair Display, serif" font-weight="700" font-size="12" fill="#fff">5/5 RATED</text>
+        <text x="445" y="130" font-family="monospace" font-size="8" fill="#8a9eb0">214 Google reviews</text>
+        <text x="385" y="170" font-family="monospace" font-size="8" fill="#8a9eb0">"Came out in an hour on</text>
+        <text x="385" y="184" font-family="monospace" font-size="8" fill="#8a9eb0">a Sunday, fixed it for half</text>
+        <text x="385" y="198" font-family="monospace" font-size="8" fill="#8a9eb0">what the last guy quoted."</text>
+        <text x="385" y="225" font-family="monospace" font-size="8" fill="#ff7a3a">— Margaret, Dunfermline</text>
+        <rect x="30" y="280" width="170" height="80" fill="#1a2530"/>
+        <rect x="215" y="280" width="170" height="80" fill="#1a2530"/>
+        <rect x="400" y="280" width="170" height="80" fill="#1a2530"/>
+        <text x="45" y="305" font-family="Bebas Neue, sans-serif" font-size="14" fill="#ff7a3a">BOILER REPAIRS</text>
+        <text x="45" y="325" font-family="monospace" font-size="7" fill="#8a9eb0">Most makes, same day</text>
+        <text x="230" y="305" font-family="Bebas Neue, sans-serif" font-size="14" fill="#ff7a3a">BATHROOMS</text>
+        <text x="230" y="325" font-family="monospace" font-size="7" fill="#8a9eb0">Full installations</text>
+        <text x="415" y="305" font-family="Bebas Neue, sans-serif" font-size="14" fill="#ff7a3a">EMERGENCY</text>
+        <text x="415" y="325" font-family="monospace" font-size="7" fill="#8a9eb0">24 hours, every day</text>
+      </svg>
+      <div class="portfolio-card-meta"><span class="portfolio-card-name">Swift Plumbing</span><span class="portfolio-card-tag">Trades</span></div>
+    </div>
+
+    <div class="portfolio-card reveal" onclick="openLightbox(3)">
+      <svg class="portfolio-mockup" viewBox="0 0 600 380" xmlns="http://www.w3.org/2000/svg">
+        <rect width="600" height="380" fill="#0a0a0a"/>
+        <rect x="0" y="0" width="600" height="26" fill="#000"/>
+        <circle cx="14" cy="13" r="4" fill="#222"/><circle cx="28" cy="13" r="4" fill="#222"/><circle cx="42" cy="13" r="4" fill="#222"/>
+        <text x="30" y="60" font-family="Bebas Neue, sans-serif" font-size="20" fill="#caff33" letter-spacing="3">IRON &amp; WILLOW</text>
+        <text x="430" y="60" font-family="monospace" font-size="8" letter-spacing="2" fill="#666">CLASSES · COACHES · JOIN</text>
+        <text x="30" y="140" font-family="Bebas Neue, sans-serif" font-size="68" fill="#fff" letter-spacing="-1">TRAIN.</text>
+        <text x="30" y="208" font-family="Bebas Neue, sans-serif" font-size="68" fill="#fff" letter-spacing="-1">RECOVER.</text>
+        <text x="30" y="276" font-family="Bebas Neue, sans-serif" font-size="68" fill="#caff33" letter-spacing="-1">REPEAT.</text>
+        <rect x="30" y="298" width="170" height="38" fill="#caff33"/>
+        <text x="50" y="321" font-family="monospace" font-size="9" letter-spacing="2" fill="#000">FREE TRIAL CLASS →</text>
+        <rect x="380" y="80" width="190" height="240" fill="#141414" stroke="#222"/>
+        <text x="395" y="105" font-family="monospace" font-size="8" letter-spacing="2" fill="#caff33">— TODAY —</text>
+        <text x="395" y="140" font-family="Bebas Neue, sans-serif" font-size="18" fill="#fff">06:00 HIIT</text>
+        <text x="395" y="158" font-family="monospace" font-size="7" fill="#666">w/ Marcus · 45 min · 4 spots</text>
+        <text x="395" y="190" font-family="Bebas Neue, sans-serif" font-size="18" fill="#fff">09:30 YOGA FLOW</text>
+        <text x="395" y="208" font-family="monospace" font-size="7" fill="#666">w/ Priya · 60 min · 8 spots</text>
+        <text x="395" y="240" font-family="Bebas Neue, sans-serif" font-size="18" fill="#fff">18:00 POWERLIFT</text>
+        <text x="395" y="258" font-family="monospace" font-size="7" fill="#666">w/ Dave · 90 min · 2 spots</text>
+        <text x="395" y="290" font-family="Bebas Neue, sans-serif" font-size="18" fill="#caff33">20:00 STRETCH</text>
+        <text x="395" y="308" font-family="monospace" font-size="7" fill="#666">w/ Priya · 30 min · OPEN</text>
+      </svg>
+      <div class="portfolio-card-meta"><span class="portfolio-card-name">Iron &amp; Willow</span><span class="portfolio-card-tag">Fitness</span></div>
+    </div>
+
+    <div class="portfolio-card reveal" onclick="openLightbox(4)">
+      <svg class="portfolio-mockup" viewBox="0 0 600 380" xmlns="http://www.w3.org/2000/svg">
+        <rect width="600" height="380" fill="#f4ede0"/>
+        <rect x="0" y="0" width="600" height="26" fill="#e6dcc8"/>
+        <circle cx="14" cy="13" r="4" fill="#b8a888"/><circle cx="28" cy="13" r="4" fill="#b8a888"/><circle cx="42" cy="13" r="4" fill="#b8a888"/>
+        <text x="30" y="60" font-family="Playfair Display, serif" font-style="italic" font-weight="900" font-size="16" fill="#4a3528">The Morning Press</text>
+        <text x="440" y="60" font-family="monospace" font-size="8" letter-spacing="2" fill="#8a7560">MENU · BEANS · VISIT</text>
+        <text x="30" y="130" font-family="Playfair Display, serif" font-weight="900" font-size="40" fill="#4a3528">Coffee, slow.</text>
+        <text x="30" y="175" font-family="Playfair Display, serif" font-style="italic" font-weight="900" font-size="40" fill="#9a6a40">Mornings, savoured.</text>
+        <text x="30" y="205" font-family="monospace" font-size="9" fill="#8a7560">Single origin pour-overs · Pastries from Bostock · Open 7am</text>
+        <circle cx="470" cy="200" r="90" fill="#d4b896"/>
+        <circle cx="470" cy="200" r="75" fill="#8a5a3a"/>
+        <ellipse cx="470" cy="190" rx="55" ry="14" fill="#3a2410"/>
+        <ellipse cx="470" cy="186" rx="40" ry="6" fill="#d8b896"/>
+        <rect x="30" y="240" width="100" height="30" fill="#4a3528"/>
+        <text x="50" y="259" font-family="monospace" font-size="8" letter-spacing="2" fill="#f4ede0">FIND US →</text>
+        <rect x="30" y="290" width="540" height="70" fill="#fff" stroke="#e6dcc8"/>
+        <text x="50" y="312" font-family="Playfair Display, serif" font-style="italic" font-size="11" fill="#9a6a40">— This week's roast —</text>
+        <text x="50" y="335" font-family="Playfair Display, serif" font-weight="900" font-size="14" fill="#4a3528">ETHIOPIA YIRGACHEFFE</text>
+        <text x="50" y="350" font-family="monospace" font-size="8" fill="#8a7560">Notes of jasmine, citrus, brown sugar · £12/250g</text>
+        <text x="470" y="335" font-family="Playfair Display, serif" font-weight="700" font-size="18" fill="#9a6a40">£12</text>
+      </svg>
+      <div class="portfolio-card-meta"><span class="portfolio-card-name">The Morning Press</span><span class="portfolio-card-tag">Café</span></div>
+    </div>
+
+    <div class="portfolio-card reveal" onclick="openLightbox(5)">
+      <svg class="portfolio-mockup" viewBox="0 0 600 380" xmlns="http://www.w3.org/2000/svg">
+        <rect width="600" height="380" fill="#fff"/>
+        <rect x="0" y="0" width="600" height="26" fill="#f0f2f5"/>
+        <circle cx="14" cy="13" r="4" fill="#c0c8d0"/><circle cx="28" cy="13" r="4" fill="#c0c8d0"/><circle cx="42" cy="13" r="4" fill="#c0c8d0"/>
+        <rect x="0" y="26" width="600" height="44" fill="#fff" stroke="#e8ebf0"/>
+        <text x="30" y="55" font-family="Playfair Display, serif" font-weight="900" font-size="16" fill="#1a3a6e">Clarity</text>
+        <text x="100" y="55" font-family="monospace" font-size="8" fill="#8a96a8" letter-spacing="1">ACCOUNTANTS</text>
+        <text x="380" y="55" font-family="monospace" font-size="8" letter-spacing="2" fill="#5a6a80">SERVICES · ABOUT · CONTACT</text>
+        <text x="30" y="130" font-family="Playfair Display, serif" font-weight="900" font-size="34" fill="#1a3a6e">Accountancy</text>
+        <text x="30" y="170" font-family="Playfair Display, serif" font-weight="900" font-size="34" fill="#1a3a6e">that <tspan font-style="italic" fill="#d4904a">actually</tspan> talks</text>
+        <text x="30" y="210" font-family="Playfair Display, serif" font-weight="900" font-size="34" fill="#1a3a6e">to humans.</text>
+        <rect x="30" y="230" width="160" height="34" fill="#1a3a6e"/>
+        <text x="44" y="252" font-family="monospace" font-size="9" letter-spacing="2" fill="#fff">FREE CONSULTATION</text>
+        <rect x="380" y="100" width="190" height="180" fill="#f8fafc" stroke="#e8ebf0"/>
+        <text x="395" y="125" font-family="monospace" font-size="8" letter-spacing="2" fill="#d4904a">— OUR PROMISE —</text>
+        <text x="395" y="160" font-family="Playfair Display, serif" font-style="italic" font-size="13" fill="#1a3a6e">Plain English.</text>
+        <text x="395" y="180" font-family="monospace" font-size="8" fill="#5a6a80">No jargon, ever.</text>
+        <text x="395" y="215" font-family="Playfair Display, serif" font-style="italic" font-size="13" fill="#1a3a6e">Fixed fees.</text>
+        <text x="395" y="235" font-family="monospace" font-size="8" fill="#5a6a80">No surprise bills.</text>
+        <text x="395" y="270" font-family="Playfair Display, serif" font-style="italic" font-size="13" fill="#1a3a6e">Real people.</text>
+        <text x="30" y="320" font-family="monospace" font-size="8" letter-spacing="2" fill="#8a96a8">SERVICES</text>
+        <text x="30" y="345" font-family="Playfair Display, serif" font-size="12" fill="#1a3a6e">Self-Assessment · Limited Co. · Bookkeeping · VAT · Payroll · Tax</text>
+      </svg>
+      <div class="portfolio-card-meta"><span class="portfolio-card-name">Clarity</span><span class="portfolio-card-tag">Professional</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="pricing-inner">
+    <div class="section-label reveal">Simple Pricing</div>
+    <h2 class="section-title reveal">One plan.<br><em>One price.</em></h2>
+    <p class="pricing-sub reveal">No tiers, no upsells. Just everything you need for a flat £50/month.</p>
+    <div class="plan-card reveal">
+      <div class="plan-header">
+        <div>
+          <div class="plan-name">The Full Package</div>
+          <div class="plan-price-row"><div class="plan-price-big">£50</div><div class="plan-price-label">/ month</div></div>
+          <div class="plan-includes">Everything included · Cancel anytime</div>
+        </div>
+        <span class="plan-badge">Most Popular</span>
+      </div>
+      <ul class="plan-items">
+        <li>Custom designed website</li><li>Up to 5 pages</li>
+        <li>Fast UK-based hosting</li><li>Free SSL certificate</li>
+        <li>Mobile responsive design</li><li>SEO optimisation</li>
+        <li>Contact forms</li><li>Google Maps embed</li>
+        <li>Social media links</li><li>Unlimited text updates</li>
+        <li>Monthly backups</li><li>Priority email support</li>
+      </ul>
+      <a href="#" class="plan-cta" onclick="openModal()">Get Started Today</a>
+    </div>
+    <p style="color: var(--muted); font-size: 0.78rem; margin-top: 1.5rem;">Domain name not included but we can help you choose and register one. Typically £10–15/yr.</p>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process" id="process">
+  <div class="process-inner">
+    <div class="section-label reveal">How It Works</div>
+    <h2 class="section-title reveal">Live in <em>days,<br></em>not months.</h2>
+    <div class="process-grid">
+      <div class="process-step reveal"><div class="step-num">01</div><div class="step-title">You Tell Us About Your Business</div><p class="step-desc">Fill in a short form — your business name, what you do, and any content or photos you have. That's it.</p></div>
+      <div class="process-step reveal"><div class="step-num">02</div><div class="step-title">We Design Your Site</div><p class="step-desc">We get to work building a custom site. You'll see a draft within 5–7 business days to review and approve.</p></div>
+      <div class="process-step reveal"><div class="step-num">03</div><div class="step-title">You Review &amp; Approve</div><p class="step-desc">We'll refine the design based on your feedback until you're happy. No limits on revision rounds.</p></div>
+      <div class="process-step reveal"><div class="step-num">04</div><div class="step-title">We Go Live</div><p class="step-desc">Once you're happy, we launch. Your website is live and your subscription begins. We handle everything from here.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="faq-inner">
+    <div class="section-label reveal">FAQ</div>
+    <h2 class="section-title reveal">Common<br><em>questions.</em></h2>
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Is there a setup fee or contract?<span class="faq-icon">+</span></button><div class="faq-a">No setup fee, no long-term contract. You pay £50/month and can cancel with 30 days' notice at any time.</div></div>
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">What if I want more than 5 pages?<span class="faq-icon">+</span></button><div class="faq-a">Each additional page beyond 5 is available for a small add-on of £5/month. Most small businesses find 5 pages covers everything they need.</div></div>
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">What happens to my website if I cancel?<span class="faq-icon">+</span></button><div class="faq-a">We'll hand over all your files and assets so you can take your website elsewhere. You own your content.</div></div>
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Do I need to provide content?<span class="faq-icon">+</span></button><div class="faq-a">Ideally you'll provide some basics — a brief description, any photos, and your contact details. If you're stuck, we can help.</div></div>
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">How long does it take to build my website?<span class="faq-icon">+</span></button><div class="faq-a">You'll see a first draft within 5–7 business days. Most clients are fully live within 2 weeks from first contact.</div></div>
+    <div class="faq-item"><button class="faq-q" onclick="toggleFaq(this)">Can I have an online shop?<span class="faq-icon">+</span></button><div class="faq-a">E-commerce websites are quoted separately. Get in touch and we'll discuss your needs.</div></div>
+  </div>
+</section>
+
+<div class="cta-band">
+  <h2>Ready to get online?</h2>
+  <p>Join local businesses already getting customers from their website.</p>
+  <a href="#" class="btn-white" onclick="openModal()">Start for £50/month</a>
+</div>
+
+<footer>
+  <a class="footer-logo" href="#">Fifty<span>.</span></a>
+  <p>Professional websites for small businesses. Flat £50/month.</p>
+  <p><a href="mailto:hello@fiftysites.co.uk">hello@fiftysites.co.uk</a></p>
+</footer>
+
+<!-- CINEMATIC PLAYER -->
+<div class="cinema-player" id="cinemaPlayer">
+  <div class="cinema-stage">
+    <div class="letterbox top"></div>
+    <div class="letterbox bottom"></div>
+    <button class="cinema-close" onclick="closeCinema()">✕ Close</button>
+
+    <div class="scene scene-1" data-scene="0">
+      <div class="scene-bg"></div>
+      <div class="light-flicker"></div>
+      <div class="door"></div>
+      <div class="caption">Every day, somewhere on the high street…<br>a business is invisible.</div>
+    </div>
+
+    <div class="scene scene-2" data-scene="1">
+      <div class="scene-content">
+        <div class="browser">
+          <div class="browser-bar">
+            <div class="browser-dot"></div><div class="browser-dot"></div><div class="browser-dot"></div>
+            <div class="browser-search" id="searchBar"><span class="cursor"></span></div>
+          </div>
+          <div class="browser-body">
+            <div class="result-item" id="r1"><div class="url">aplumbing.co.uk</div>A-Plumbing — 24/7 Emergency Service</div>
+            <div class="result-item" id="r2"><div class="url">fifeplumbers.co.uk</div>Fife Plumbers Ltd — Gas Safe Registered</div>
+            <div class="result-item" id="r3"><div class="url">swiftheating.com</div>Swift Heating &amp; Plumbing — 5★ Rated</div>
+          </div>
+        </div>
+        <div class="caption">81% of customers research online before buying.<br>If you're not there, you don't exist.</div>
+      </div>
+    </div>
+
+    <div class="scene scene-3" data-scene="2">
+      <div class="scene-content">
+        <div class="big-stat">75%</div>
+        <div class="stat-context">of consumers judge a business's credibility based on its <strong>website.</strong></div>
+        <div class="source">— Stanford Web Credibility Research</div>
+      </div>
+    </div>
+
+    <div class="scene scene-4" data-scene="3">
+      <div class="split">
+        <div class="panel panel-left">
+          <div class="panel-label">— Without a website</div>
+          <div class="panel-content">
+            <h3>"Sorry, can you<br>text me your address?"</h3>
+            <p>Customers call for basics. You answer the same questions all day. You lose them when you don't pick up.</p>
+          </div>
+        </div>
+        <div class="panel panel-right">
+          <div class="panel-label">— With a website</div>
+          <div class="panel-content">
+            <h3>"I already booked<br>through your site."</h3>
+            <p>Customers find you, see your prices, and book — at 11pm, on Sunday, while you sleep.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="scene scene-5" data-scene="4">
+      <div class="scene-content">
+        <div class="tagline">
+          <span>Your business.</span>
+          <span><em>Online.</em></span>
+          <span>For fifty pounds a month.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="scene scene-6" data-scene="5">
+      <div class="scene-content">
+        <div class="end-logo">Fifty<span>.</span></div>
+        <div class="end-price">£50 / month · No setup fees · Cancel anytime</div>
+        <a href="#" class="end-cta" onclick="closeCinema(); openModal();">Get Started →</a>
+      </div>
+    </div>
+
+    <div class="cinema-progress"><div class="cinema-progress-fill" id="cinemaProgress"></div></div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-nav lightbox-prev" onclick="navLightbox(-1)">‹</button>
+  <button class="lightbox-nav lightbox-next" onclick="navLightbox(1)">›</button>
+  <div class="lightbox-content">
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+    <div class="lightbox-mockup" id="lightboxMockup"></div>
+    <div class="lightbox-info" id="lightboxInfo"></div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h3>Let's get started</h3>
+    <p>Tell us about your business and we'll be in touch within 24 hours.</p>
+    <div class="form-group"><label>Your Name</label><input type="text" placeholder="Jane Smith"></div>
+    <div class="form-group"><label>Business Name</label><input type="text" placeholder="Smith's Plumbing"></div>
+    <div class="form-group"><label>Email Address</label><input type="email" placeholder="jane@example.co.uk"></div>
+    <div class="form-group"><label>What does your business do?</label><textarea placeholder="We're a family-run plumbing company..."></textarea></div>
+    <button class="form-submit" onclick="submitForm()">Send Enquiry</button>
+  </div>
+</div>
+
+<script>
+  function openModal() { document.getElementById('modal').classList.add('active'); }
+  function closeModal() { document.getElementById('modal').classList.remove('active'); }
+  function closeModalOutside(e) { if (e.target === document.getElementById('modal')) closeModal(); }
+  function submitForm() {
+    document.querySelector('#modal .modal').innerHTML = `
+      <div style="text-align:center; padding: 2rem 0;">
+        <div style="font-size: 3rem; margin-bottom: 1rem;">✓</div>
+        <h3 style="font-family:'Playfair Display',serif; font-size:1.8rem; margin-bottom:0.5rem;">Enquiry sent!</h3>
+        <p style="color:var(--muted); font-size:0.85rem; margin-bottom:1.5rem;">We'll be in touch within 24 hours.</p>
+        <button onclick="closeModal()" style="background:var(--ink);color:var(--paper);border:none;padding:0.75rem 2rem;font-family:'DM Mono',monospace;font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;border-radius:2px;cursor:pointer;">Close</button>
+      </div>`;
+  }
+
+  function toggleFaq(btn) {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // LIGHTBOX
+  const portfolioCards = document.querySelectorAll('.portfolio-card');
+  const portfolioData = [
+    { name: 'The Anchor', tag: 'Restaurant · Edinburgh' },
+    { name: 'Bloom', tag: 'Hair & Beauty · Glasgow' },
+    { name: 'Swift Plumbing', tag: 'Trades · Fife' },
+    { name: 'Iron & Willow', tag: 'Fitness · Dundee' },
+    { name: 'The Morning Press', tag: 'Café · Stirling' },
+    { name: 'Clarity Accountants', tag: 'Professional Services · Aberdeen' }
+  ];
+  let currentLightbox = 0;
+  function openLightbox(i) {
+    currentLightbox = i;
+    const svg = portfolioCards[i].querySelector('svg').cloneNode(true);
+    const mount = document.getElementById('lightboxMockup');
+    mount.innerHTML = '';
+    mount.appendChild(svg);
+    document.getElementById('lightboxInfo').innerHTML = `<strong>${portfolioData[i].name}</strong> ${portfolioData[i].tag}`;
+    document.getElementById('lightbox').classList.add('active');
+  }
+  function closeLightbox() { document.getElementById('lightbox').classList.remove('active'); }
+  function navLightbox(dir) {
+    currentLightbox = (currentLightbox + dir + portfolioCards.length) % portfolioCards.length;
+    openLightbox(currentLightbox);
+  }
+  document.getElementById('lightbox').addEventListener('click', (e) => {
+    if (e.target.id === 'lightbox') closeLightbox();
+  });
+
+  // CINEMATIC PLAYER
+  const sceneDurations = [4500, 6500, 5500, 6500, 6000, 5500];
+  let cinemaTimer = null;
+  let progressInterval = null;
+  let cinemaStart = 0;
+
+  function playCinema() {
+    const player = document.getElementById('cinemaPlayer');
+    player.classList.add('active');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => runScene(0), 700);
+    const total = sceneDurations.reduce((a,b)=>a+b, 0) + 700;
+    cinemaStart = Date.now();
+    if (progressInterval) clearInterval(progressInterval);
+    progressInterval = setInterval(() => {
+      const pct = Math.min(100, ((Date.now() - cinemaStart) / total) * 100);
+      document.getElementById('cinemaProgress').style.width = pct + '%';
+    }, 50);
+  }
+
+  function runScene(idx) {
+    document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
+    const scene = document.querySelector(`.scene[data-scene="${idx}"]`);
+    if (!scene) return;
+    scene.classList.add('active');
+
+    if (idx === 1) {
+      const text = 'plumber near me';
+      const bar = document.getElementById('searchBar');
+      bar.innerHTML = '<span class="cursor"></span>';
+      let i = 0;
+      const typer = setInterval(() => {
+        if (i >= text.length) { clearInterval(typer); revealResults(); return; }
+        bar.innerHTML = text.substring(0, i+1) + '<span class="cursor"></span>';
+        i++;
+      }, 120);
+    }
+
+    if (idx < sceneDurations.length - 1) {
+      cinemaTimer = setTimeout(() => runScene(idx + 1), sceneDurations[idx]);
+    }
+  }
+
+  function revealResults() {
+    setTimeout(() => { document.getElementById('r1').classList.add('highlight'); }, 400);
+    setTimeout(() => { document.getElementById('r1').classList.remove('highlight'); document.getElementById('r2').classList.add('highlight'); }, 1300);
+    setTimeout(() => { document.getElementById('r2').classList.remove('highlight'); document.getElementById('r3').classList.add('highlight'); }, 2200);
+  }
+
+  function closeCinema() {
+    document.getElementById('cinemaPlayer').classList.remove('active');
+    document.body.style.overflow = '';
+    if (cinemaTimer) clearTimeout(cinemaTimer);
+    if (progressInterval) clearInterval(progressInterval);
+    setTimeout(() => {
+      document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
+      document.getElementById('cinemaProgress').style.width = '0%';
+      document.querySelectorAll('.result-item').forEach(r => r.classList.remove('highlight'));
+    }, 500);
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      if (document.getElementById('cinemaPlayer').classList.contains('active')) closeCinema();
+      if (document.getElementById('lightbox').classList.contains('active')) closeLightbox();
+    }
+    if (document.getElementById('lightbox').classList.contains('active')) {
+      if (e.key === 'ArrowLeft') navLightbox(-1);
+      if (e.key === 'ArrowRight') navLightbox(1);
+    }
+  });
+</script>
+</body>
+</html>
