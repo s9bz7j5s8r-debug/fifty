@@ -14,6 +14,46 @@
   .fifty-nav-links a:hover { color: var(--ink); }
   .fifty-nav-cta { background: var(--ink) !important; color: var(--paper) !important; padding: 0.5rem 1.2rem; border-radius: 2px; }
   .fifty-nav-cta:hover { background: var(--accent) !important; color: var(--paper) !important; }
+  .fifty-nav-btn { background: none; border: none; cursor: pointer; font-family: 'DM Mono', monospace; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); transition: color 0.2s; padding: 0; }
+  .fifty-nav-btn:hover { color: var(--ink); }
+
+  /* WHAT'S INCLUDED MODAL */
+  .fifty-included-overlay { position: fixed; inset: 0; background: rgba(13,13,13,0.85); z-index: 3000; display: flex; align-items: center; justify-content: center; padding: 2rem; opacity: 0; pointer-events: none; transition: opacity 0.35s; }
+  .fifty-included-overlay.active { opacity: 1; pointer-events: all; }
+  .fifty-included-modal { background: var(--ink); color: var(--paper); border-radius: 4px; max-width: 820px; width: 100%; max-height: 90vh; overflow-y: auto; transform: translateY(2rem); transition: transform 0.35s; position: relative; }
+  .fifty-included-overlay.active .fifty-included-modal { transform: translateY(0); }
+  .fifty-included-header { padding: 2.5rem 3rem 0; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 2rem; display: flex; justify-content: space-between; align-items: flex-start; }
+  .fifty-included-header-text .fifty-included-eyebrow { font-size: 0.68rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.6rem; }
+  .fifty-included-header-text h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.6rem, 3vw, 2.2rem); font-weight: 900; line-height: 1.1; letter-spacing: -0.02em; color: white; }
+  .fifty-included-header-text h2 em { font-style: italic; color: var(--accent); }
+  .fifty-included-close { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.15); color: rgba(255,255,255,0.6); width: 36px; height: 36px; border-radius: 50%; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.2s, color 0.2s; margin-left: 1.5rem; margin-top: 0.2rem; }
+  .fifty-included-close:hover { background: rgba(255,255,255,0.15); color: white; }
+  .fifty-included-body { padding: 2rem 3rem; }
+  .fifty-included-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .fifty-included-item { padding: 1.4rem 0; border-bottom: 1px solid rgba(255,255,255,0.07); display: grid; grid-template-columns: 2.2rem 1fr; gap: 0.8rem; align-items: start; }
+  .fifty-included-item:nth-child(odd) { padding-right: 2rem; border-right: 1px solid rgba(255,255,255,0.07); }
+  .fifty-included-item:nth-child(even) { padding-left: 2rem; }
+  .fifty-included-item:nth-last-child(-n+2) { border-bottom: none; }
+  .fifty-included-num { font-family: 'Playfair Display', serif; font-style: italic; font-size: 0.95rem; color: var(--accent); padding-top: 0.1rem; }
+  .fifty-included-name { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: white; margin-bottom: 0.3rem; }
+  .fifty-included-desc { font-size: 0.78rem; color: rgba(255,255,255,0.45); line-height: 1.6; }
+  .fifty-included-footer { margin: 0 3rem 2.5rem; padding: 1.8rem 2rem; background: rgba(200,64,26,0.12); border: 1px solid rgba(200,64,26,0.3); border-radius: 4px; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; }
+  .fifty-included-price { display: flex; align-items: baseline; gap: 0.4rem; }
+  .fifty-included-price-big { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 900; color: white; line-height: 1; }
+  .fifty-included-price-label { font-size: 0.78rem; color: rgba(255,255,255,0.4); letter-spacing: 0.1em; text-transform: uppercase; }
+  .fifty-included-footer-text { font-size: 0.8rem; color: rgba(255,255,255,0.5); max-width: 280px; line-height: 1.6; }
+  .fifty-included-footer-text strong { color: white; }
+  .fifty-included-cta { background: var(--accent); color: white; border: none; padding: 0.85rem 2rem; border-radius: 2px; font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; transition: transform 0.2s, background 0.2s; white-space: nowrap; }
+  .fifty-included-cta:hover { transform: translateY(-2px); background: #e04d20; }
+  @media (max-width: 640px) {
+    .fifty-included-grid { grid-template-columns: 1fr; }
+    .fifty-included-item:nth-child(odd) { padding-right: 0; border-right: none; }
+    .fifty-included-item:nth-child(even) { padding-left: 0; }
+    .fifty-included-item:nth-last-child(-n+2) { border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .fifty-included-item:last-child { border-bottom: none; }
+    .fifty-included-header, .fifty-included-body { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .fifty-included-footer { margin-left: 1.5rem; margin-right: 1.5rem; }
+  }
 
   :root {
     --ink: #0d0d0d;
@@ -275,8 +315,9 @@
 <nav class="fifty-nav">
   <a class="fifty-nav-logo" href="/">Fifty<span>.</span></a>
   <ul class="fifty-nav-links">
+    <li><button class="fifty-nav-btn" onclick="fiftyOpenIncluded()">What's Included</button></li>
     <li><a href="#fifty-faq">FAQ</a></li>
-    <li><a href="/" class="fifty-nav-cta">Get Started</a></li>
+    <li><button class="fifty-nav-btn fifty-nav-cta" onclick="fiftyOpenModal()">Get Started</button></li>
   </ul>
 </nav>
 
@@ -592,6 +633,101 @@
 
 </div>
 
+<!-- WHAT'S INCLUDED MODAL -->
+<div class="fifty-included-overlay" id="fiftyIncludedOverlay" onclick="fiftyCloseIncludedOutside(event)">
+  <div class="fifty-included-modal">
+    <div class="fifty-included-header">
+      <div class="fifty-included-header-text">
+        <div class="fifty-included-eyebrow">The Full Package · £50/month</div>
+        <h2>Everything included,<br><em>nothing extra.</em></h2>
+      </div>
+      <button class="fifty-included-close" onclick="fiftyCloseIncluded()">✕</button>
+    </div>
+    <div class="fifty-included-body">
+      <div class="fifty-included-grid">
+        <div class="fifty-included-item">
+          <div class="fifty-included-num">01</div>
+          <div>
+            <div class="fifty-included-name">Custom Design</div>
+            <div class="fifty-included-desc">Built specifically for your brand — not a template. Designed to look and feel like you.</div>
+          </div>
+        </div>
+        <div class="fifty-included-item">
+          <div class="fifty-included-num">02</div>
+          <div>
+            <div class="fifty-included-name">Hosting & SSL</div>
+            <div class="fifty-included-desc">Fast UK-based servers with full SSL encryption. No extra bills, no renewals to chase.</div>
+          </div>
+        </div>
+        <div class="fifty-included-item">
+          <div class="fifty-included-num">03</div>
+          <div>
+            <div class="fifty-included-name">Mobile-First Build</div>
+            <div class="fifty-included-desc">Looks perfect on every screen — phone, tablet, and desktop. No compromise.</div>
+          </div>
+        </div>
+        <div class="fifty-included-item">
+          <div class="fifty-included-num">04</div>
+          <div>
+            <div class="fifty-included-name">SEO Foundation</div>
+            <div class="fifty-included-desc">Proper meta tags, page speed optimisation, and local SEO setup so Google can find you.</div>
+          </div>
+        </div>
+        <div class="fifty-included-item">
+          <div class="fifty-included-num">05</div>
+          <div>
+            <div class="fifty-included-name">Unlimited Text Updates</div>
+            <div class="fifty-included-desc">Opening hours, prices, new services — just message us. Done within 48 hours, always.</div>
+          </div>
+        </div>
+        <div class="fifty-included-item">
+          <div class="fifty-included-num">06</div>
+          <div>
+            <div class="fifty-included-name">Contact Forms</div>
+            <div class="fifty-included-desc">Working enquiry forms that land straight in your inbox. Never miss a lead.</div>
+          </div>
+        </div>
+        <div class="fifty-included-item">
+          <div class="fifty-included-num">07</div>
+          <div>
+            <div class="fifty-included-name">Google Maps Embed</div>
+            <div class="fifty-included-desc">Customers can find your location instantly, right from your website.</div>
+          </div>
+        </div>
+        <div class="fifty-included-item">
+          <div class="fifty-included-num">08</div>
+          <div>
+            <div class="fifty-included-name">Up to 5 Pages</div>
+            <div class="fifty-included-desc">Home, About, Services, Contact, and one more — everything most businesses need.</div>
+          </div>
+        </div>
+        <div class="fifty-included-item">
+          <div class="fifty-included-num">09</div>
+          <div>
+            <div class="fifty-included-name">Social Media Links</div>
+            <div class="fifty-included-desc">Connect your Instagram, Facebook, or any other platform directly from your site.</div>
+          </div>
+        </div>
+        <div class="fifty-included-item">
+          <div class="fifty-included-num">10</div>
+          <div>
+            <div class="fifty-included-name">Monthly Backups & Support</div>
+            <div class="fifty-included-desc">Your site is backed up every month and we're available by email whenever you need us.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="fifty-included-footer">
+      <div class="fifty-included-price">
+        <div class="fifty-included-price-big">£50</div>
+        <div class="fifty-included-price-label">/ month</div>
+      </div>
+      <div class="fifty-included-footer-text"><strong>No setup fee. No contract.</strong> Cancel with 30 days' notice at any time. Domain not included — typically £10–15/yr.</div>
+      <button class="fifty-included-cta" onclick="fiftyCloseIncluded(); fiftyOpenModal();">Get Started Today</button>
+    </div>
+  </div>
+</div>
+
 <!-- CINEMA PLAYER -->
 <div class="fifty-cinema-player" id="fiftyCinemaPlayer">
   <div class="fifty-cinema-stage">
@@ -691,6 +827,10 @@
 </div>
 
 <script>
+  function fiftyOpenIncluded() { document.getElementById('fiftyIncludedOverlay').classList.add('active'); }
+  function fiftyCloseIncluded() { document.getElementById('fiftyIncludedOverlay').classList.remove('active'); }
+  function fiftyCloseIncludedOutside(e) { if (e.target === document.getElementById('fiftyIncludedOverlay')) fiftyCloseIncluded(); }
+
   function fiftyOpenModal() { document.getElementById('fiftyModal').classList.add('active'); }
   function fiftyCloseModal() { document.getElementById('fiftyModal').classList.remove('active'); }
   function fiftyCloseModalOutside(e) { if (e.target === document.getElementById('fiftyModal')) fiftyCloseModal(); }
@@ -782,6 +922,7 @@
       if (document.getElementById('fiftyCinemaPlayer').classList.contains('active')) fiftyCloseCinema();
       if (document.getElementById('fiftyLightbox').classList.contains('active')) fiftyCloseLightbox();
       if (document.getElementById('fiftyModal').classList.contains('active')) fiftyCloseModal();
+      if (document.getElementById('fiftyIncludedOverlay').classList.contains('active')) fiftyCloseIncluded();
     }
     if (document.getElementById('fiftyLightbox').classList.contains('active')) {
       if (e.key === 'ArrowLeft') fiftyNavLightbox(-1);
