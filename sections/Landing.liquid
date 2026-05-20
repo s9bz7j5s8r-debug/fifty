@@ -1,3 +1,774 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Mono:wght@300;400;500&family=Bebas+Neue&display=swap" rel="stylesheet">
+
+{% style %}
+  :root {
+    --ink: #0d0d0d;
+    --paper: #f5f0e8;
+    --accent: #c8401a;
+    --muted: #8a8070;
+    --border: #d4cfc4;
+    --white: #fefdfb;
+  }
+
+  .fifty-wrapper *, .fifty-wrapper *::before, .fifty-wrapper *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  .fifty-wrapper { background: var(--paper); color: var(--ink); font-family: 'DM Mono', monospace; font-size: 14px; line-height: 1.7; overflow-x: hidden; }
+
+  /* HERO */
+  .fifty-hero { min-height: 100vh; display: grid; place-items: center; padding: 8rem 2.5rem 4rem; position: relative; overflow: hidden; }
+  .fifty-hero-bg-text { position: absolute; font-family: 'Playfair Display', serif; font-size: clamp(10rem, 28vw, 28rem); font-weight: 900; color: transparent; -webkit-text-stroke: 1px var(--border); top: 50%; left: 50%; transform: translate(-50%, -50%); white-space: nowrap; pointer-events: none; user-select: none; letter-spacing: -0.05em; animation: fifty-float 8s ease-in-out infinite; }
+  @keyframes fifty-float { 0%,100%{transform:translate(-50%,-50%) translateY(0);} 50%{transform:translate(-50%,-50%) translateY(-1.5rem);} }
+  .fifty-hero-inner { position: relative; z-index: 1; max-width: 780px; text-align: center; }
+  .fifty-hero-eyebrow { display: inline-block; font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent); padding: 0.35rem 0.9rem; margin-bottom: 2rem; animation: fifty-fadeUp 0.8s ease both; }
+  .fifty-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 8vw, 6.5rem); font-weight: 900; line-height: 1.0; letter-spacing: -0.03em; margin-bottom: 1.5rem; animation: fifty-fadeUp 0.8s 0.15s ease both; }
+  .fifty-hero h1 em { font-style: italic; color: var(--accent); }
+  .fifty-hero-sub { font-size: 0.95rem; color: var(--muted); max-width: 500px; margin: 0 auto 2.5rem; animation: fifty-fadeUp 0.8s 0.3s ease both; }
+  .fifty-hero-price { display: inline-flex; align-items: baseline; gap: 0.4rem; font-family: 'Playfair Display', serif; animation: fifty-fadeUp 0.8s 0.45s ease both; margin-bottom: 2.5rem; }
+  .fifty-hero-price .pound { font-size: 2rem; font-weight: 700; color: var(--accent); }
+  .fifty-hero-price .amount { font-size: 5rem; font-weight: 900; line-height: 1; }
+  .fifty-hero-price .per { font-family: 'DM Mono', monospace; font-size: 0.8rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-left: 0.3rem; }
+  .fifty-hero-ctas { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; animation: fifty-fadeUp 0.8s 0.6s ease both; }
+
+  /* BUTTONS */
+  .fifty-btn-primary { background: var(--ink); color: var(--paper); padding: 0.9rem 2.2rem; border: none; border-radius: 2px; font-family: 'DM Mono', monospace; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; cursor: pointer; transition: background 0.2s, transform 0.15s; display: inline-block; }
+  .fifty-btn-primary:hover { background: var(--accent); transform: translateY(-2px); }
+  .fifty-btn-ghost { background: transparent; color: var(--ink); padding: 0.9rem 2.2rem; border: 1px solid var(--border); border-radius: 2px; font-family: 'DM Mono', monospace; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; cursor: pointer; transition: border-color 0.2s; display: inline-block; }
+  .fifty-btn-ghost:hover { border-color: var(--ink); }
+
+  /* MARQUEE */
+  .fifty-marquee-bar { background: var(--ink); color: var(--paper); padding: 0.75rem 0; overflow: hidden; white-space: nowrap; }
+  .fifty-marquee-track { display: inline-flex; animation: fifty-marquee 25s linear infinite; gap: 3rem; font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; }
+  .fifty-marquee-track span { color: var(--accent); margin-right: 1rem; }
+  @keyframes fifty-marquee { 0%{transform:translateX(0);} 100%{transform:translateX(-50%);} }
+
+  /* SECTION COMMON */
+  .fifty-section { padding: 6rem 2.5rem; }
+  .fifty-section-label { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem; }
+  .fifty-section-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; line-height: 1.1; letter-spacing: -0.02em; max-width: 580px; }
+  .fifty-section-title em { font-style: italic; color: var(--accent); }
+
+  /* CINEMATIC */
+  .fifty-cinema-section { background: #050505; color: white; padding: 0; position: relative; overflow: hidden; min-height: 70vh; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+  .fifty-cinema-bg { position: absolute; inset: 0; background: radial-gradient(ellipse at center, rgba(200,64,26,0.15) 0%, transparent 60%), linear-gradient(180deg, #0a0a0a 0%, #000 100%); }
+  .fifty-cinema-bg::before { content: ''; position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%); }
+  .fifty-cinema-inner { position: relative; z-index: 2; text-align: center; padding: 4rem 2rem; max-width: 900px; }
+  .fifty-cinema-label { font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent); margin-bottom: 1.5rem; }
+  .fifty-cinema-title { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 6vw, 5rem); font-weight: 900; line-height: 1.05; letter-spacing: -0.02em; margin-bottom: 2rem; color: white; }
+  .fifty-cinema-title em { font-style: italic; color: var(--accent); }
+  .fifty-cinema-sub { color: rgba(255,255,255,0.5); max-width: 500px; margin: 0 auto 2.5rem; font-size: 0.88rem; }
+  .fifty-play-btn { display: inline-flex; align-items: center; gap: 1.2rem; padding: 1rem 2rem 1rem 1rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.15); border-radius: 100px; cursor: pointer; color: white; font-family: 'DM Mono', monospace; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; transition: background 0.3s, transform 0.2s; }
+  .fifty-play-btn:hover { background: rgba(255,255,255,0.1); transform: scale(1.04); }
+  .fifty-play-icon { width: 52px; height: 52px; background: var(--accent); border-radius: 50%; display: grid; place-items: center; position: relative; flex-shrink: 0; }
+  .fifty-play-icon::before { content: ''; width: 0; height: 0; border-top: 9px solid transparent; border-bottom: 9px solid transparent; border-left: 14px solid white; margin-left: 4px; }
+  .fifty-play-icon::after { content: ''; position: absolute; inset: -8px; border-radius: 50%; border: 1px solid rgba(200,64,26,0.4); animation: fifty-pulse 2s ease-out infinite; }
+  @keyframes fifty-pulse { 0%{transform:scale(1); opacity:1;} 100%{transform:scale(1.5); opacity:0;} }
+  .fifty-cinema-duration { display: block; margin-top: 1.5rem; color: rgba(255,255,255,0.3); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; }
+
+  /* CINEMA PLAYER */
+  .fifty-cinema-player { position: fixed; inset: 0; background: #000; z-index: 2000; opacity: 0; pointer-events: none; transition: opacity 0.4s; }
+  .fifty-cinema-player.active { opacity: 1; pointer-events: all; }
+  .fifty-cinema-stage { position: relative; width: 100%; height: 100%; overflow: hidden; }
+  .fifty-letterbox { position: absolute; left: 0; right: 0; height: 10vh; background: #000; z-index: 10; transition: transform 0.6s cubic-bezier(0.65,0.05,0.36,1); }
+  .fifty-letterbox.top { top: 0; transform: translateY(-100%); }
+  .fifty-letterbox.bottom { bottom: 0; transform: translateY(100%); }
+  .fifty-cinema-player.active .fifty-letterbox.top { transform: translateY(0); }
+  .fifty-cinema-player.active .fifty-letterbox.bottom { transform: translateY(0); }
+  .fifty-cinema-close { position: absolute; top: 2rem; right: 2rem; z-index: 20; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 0.6rem 1.2rem; border-radius: 2px; font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; opacity: 0; transition: opacity 0.4s 1s, background 0.2s; }
+  .fifty-cinema-player.active .fifty-cinema-close { opacity: 1; }
+  .fifty-cinema-close:hover { background: rgba(255,255,255,0.1); }
+  .fifty-scene { position: absolute; inset: 0; display: grid; place-items: center; opacity: 0; transition: opacity 0.8s; padding: 4rem; }
+  .fifty-scene.active { opacity: 1; }
+  .fifty-scene-content { text-align: center; max-width: 1100px; }
+  .fifty-scene-1 { background: #000; }
+  .fifty-scene-1 .fifty-scene-bg { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.9) 100%), radial-gradient(ellipse at 50% 70%, rgba(150,80,40,0.2) 0%, transparent 60%); z-index: 0; }
+  .fifty-scene-1 .fifty-door { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 220px; height: 360px; border: 3px solid rgba(255,255,255,0.15); border-radius: 4px 4px 0 0; z-index: 1; }
+  .fifty-scene-1 .fifty-door::before { content: ''; position: absolute; inset: 16px; border: 1px solid rgba(255,255,255,0.1); }
+  .fifty-scene-1 .fifty-door::after { content: 'CLOSED'; position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 0.3em; color: rgba(255,255,255,0.3); }
+  .fifty-scene-1 .fifty-light-flicker { position: absolute; left: 50%; top: 20%; transform: translateX(-50%); width: 400px; height: 200px; background: radial-gradient(ellipse, rgba(255,200,140,0.15) 0%, transparent 70%); animation: fifty-flicker 4s ease-in-out infinite; z-index: 1; }
+  @keyframes fifty-flicker { 0%,100%{opacity:1;} 45%{opacity:0.4;} 50%{opacity:1;} 55%{opacity:0.6;} }
+  .fifty-scene-1 .fifty-caption { position: absolute; bottom: 16vh; left: 50%; transform: translateX(-50%); font-family: 'Playfair Display', serif; font-style: italic; font-size: clamp(1.2rem, 2vw, 1.8rem); color: rgba(255,255,255,0.7); z-index: 5; text-align: center; max-width: 700px; padding: 0 2rem; }
+  .fifty-scene-2 { background: #000; }
+  .fifty-scene-2 .fifty-browser { width: min(720px, 90vw); margin: 0 auto; background: #1a1a1a; border-radius: 8px; overflow: hidden; box-shadow: 0 30px 80px rgba(200,64,26,0.15); border: 1px solid rgba(255,255,255,0.08); }
+  .fifty-scene-2 .fifty-browser-bar { background: #222; padding: 0.8rem 1rem; display: flex; align-items: center; gap: 0.5rem; }
+  .fifty-scene-2 .fifty-browser-dot { width: 11px; height: 11px; border-radius: 50%; background: #444; }
+  .fifty-scene-2 .fifty-browser-search { flex: 1; margin-left: 1rem; padding: 0.4rem 1rem; background: #0a0a0a; border-radius: 100px; color: #ccc; font-size: 0.78rem; font-family: 'DM Mono', monospace; text-align: left; min-height: 28px; }
+  .fifty-scene-2 .fifty-cursor { display: inline-block; width: 2px; height: 14px; background: var(--accent); vertical-align: middle; margin-left: 2px; animation: fifty-blink 0.8s infinite; }
+  @keyframes fifty-blink { 0%,50%{opacity:1;} 51%,100%{opacity:0;} }
+  .fifty-scene-2 .fifty-browser-body { padding: 2rem; min-height: 200px; color: #888; text-align: left; }
+  .fifty-scene-2 .fifty-result-item { padding: 0.8rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.85rem; opacity: 0.4; transition: all 0.3s; }
+  .fifty-scene-2 .fifty-result-item.highlight { opacity: 1; color: white; border-left: 2px solid var(--accent); padding-left: 1rem; }
+  .fifty-scene-2 .fifty-result-item .fifty-url { color: var(--accent); font-size: 0.72rem; margin-bottom: 0.3rem; }
+  .fifty-scene-2 .fifty-caption { margin-top: 2rem; font-family: 'Playfair Display', serif; font-style: italic; font-size: clamp(1.1rem, 2vw, 1.5rem); color: rgba(255,255,255,0.7); }
+  .fifty-scene-3 { background: linear-gradient(180deg, #1a0a05 0%, #000 100%); }
+  .fifty-scene-3 .fifty-big-stat { font-family: 'Bebas Neue', sans-serif; font-size: clamp(6rem, 22vw, 18rem); line-height: 1; color: var(--accent); letter-spacing: -0.02em; }
+  .fifty-scene-3 .fifty-stat-context { font-family: 'Playfair Display', serif; font-size: clamp(1.3rem, 2.5vw, 2rem); color: rgba(255,255,255,0.9); margin-top: 1rem; max-width: 700px; line-height: 1.3; }
+  .fifty-scene-3 .fifty-stat-context strong { color: var(--accent); font-style: italic; }
+  .fifty-scene-3 .fifty-source { display: block; margin-top: 1.5rem; color: rgba(255,255,255,0.3); font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; }
+  .fifty-scene-4 { background: #000; padding: 0; }
+  .fifty-scene-4 .fifty-split { display: grid; grid-template-columns: 1fr 1fr; width: 100%; height: 100%; position: absolute; inset: 0; }
+  .fifty-scene-4 .fifty-panel { position: relative; display: grid; place-items: center; padding: 4rem; overflow: hidden; }
+  .fifty-scene-4 .fifty-panel-left { background: #0a0a0a; }
+  .fifty-scene-4 .fifty-panel-right { background: #f5f0e8; color: var(--ink); }
+  .fifty-scene-4 .fifty-panel-label { position: absolute; top: 3rem; left: 3rem; font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; }
+  .fifty-scene-4 .fifty-panel-left .fifty-panel-label { color: rgba(255,255,255,0.3); }
+  .fifty-scene-4 .fifty-panel-right .fifty-panel-label { color: var(--accent); }
+  .fifty-scene-4 .fifty-panel-content { text-align: center; }
+  .fifty-scene-4 .fifty-panel-content h3 { font-family: 'Playfair Display', serif; font-size: clamp(1.4rem, 2.8vw, 2.4rem); font-weight: 900; line-height: 1.2; letter-spacing: -0.02em; }
+  .fifty-scene-4 .fifty-panel-left h3 { color: rgba(255,255,255,0.5); }
+  .fifty-scene-4 .fifty-panel-right h3 { color: var(--ink); }
+  .fifty-scene-4 .fifty-panel-content p { margin-top: 1rem; font-size: 0.85rem; max-width: 320px; }
+  .fifty-scene-4 .fifty-panel-left p { color: rgba(255,255,255,0.3); }
+  .fifty-scene-4 .fifty-panel-right p { color: var(--muted); }
+  .fifty-scene-5 { background: #000; }
+  .fifty-scene-5 .fifty-tagline { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 7vw, 6rem); font-weight: 900; line-height: 1.05; letter-spacing: -0.02em; color: white; }
+  .fifty-scene-5 .fifty-tagline em { font-style: italic; color: var(--accent); }
+  .fifty-scene-5 .fifty-tagline span { display: block; opacity: 0; transform: translateY(20px); transition: opacity 0.7s, transform 0.7s; }
+  .fifty-scene-5.active .fifty-tagline span:nth-child(1) { opacity: 1; transform: none; transition-delay: 0.2s; }
+  .fifty-scene-5.active .fifty-tagline span:nth-child(2) { opacity: 1; transform: none; transition-delay: 0.9s; }
+  .fifty-scene-5.active .fifty-tagline span:nth-child(3) { opacity: 1; transform: none; transition-delay: 1.6s; }
+  .fifty-scene-6 { background: radial-gradient(ellipse at center, #1a0a05 0%, #000 70%); }
+  .fifty-scene-6 .fifty-end-logo { font-family: 'Playfair Display', serif; font-size: clamp(5rem, 14vw, 12rem); font-weight: 900; letter-spacing: -0.04em; color: white; line-height: 1; }
+  .fifty-scene-6 .fifty-end-logo span { color: var(--accent); }
+  .fifty-scene-6 .fifty-end-price { font-family: 'DM Mono', monospace; font-size: 0.9rem; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(255,255,255,0.5); margin-top: 1.5rem; }
+  .fifty-scene-6 .fifty-end-cta { display: inline-block; margin-top: 2.5rem; padding: 1rem 2.5rem; background: var(--accent); color: white; text-decoration: none; font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; border-radius: 2px; transition: transform 0.2s; cursor: pointer; border: none; font-family: 'DM Mono', monospace; }
+  .fifty-scene-6 .fifty-end-cta:hover { transform: translateY(-3px); }
+  .fifty-cinema-progress { position: absolute; bottom: 3vh; left: 50%; transform: translateX(-50%); width: min(600px, 50vw); height: 2px; background: rgba(255,255,255,0.1); z-index: 15; border-radius: 2px; overflow: hidden; }
+  .fifty-cinema-progress-fill { height: 100%; background: var(--accent); width: 0%; transition: width 0.1s linear; }
+
+  /* FEATURES */
+  .fifty-features { background: var(--white); }
+  .fifty-features-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+  .fifty-features-left { position: sticky; top: 6rem; }
+  .fifty-features-right { display: flex; flex-direction: column; }
+  .fifty-feature-item { border-top: 1px solid var(--border); padding: 1.8rem 0; display: grid; grid-template-columns: 2.5rem 1fr; gap: 1rem; }
+  .fifty-feature-item:last-child { border-bottom: 1px solid var(--border); }
+  .fifty-feature-num { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--accent); font-style: italic; padding-top: 0.1rem; }
+  .fifty-feature-name { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; margin-bottom: 0.4rem; }
+  .fifty-feature-desc { color: var(--muted); font-size: 0.82rem; line-height: 1.65; }
+
+  /* PORTFOLIO */
+  .fifty-portfolio { background: var(--paper); padding-top: 4rem; padding-bottom: 8rem; }
+  .fifty-portfolio-head { max-width: 1200px; margin: 0 auto 3rem; display: flex; justify-content: space-between; align-items: flex-end; gap: 2rem; flex-wrap: wrap; }
+  .fifty-portfolio-head-text { max-width: 580px; }
+  .fifty-portfolio-hint { font-size: 0.78rem; color: var(--muted); display: flex; align-items: center; gap: 0.5rem; }
+  .fifty-portfolio-hint::before { content: '↘'; color: var(--accent); font-size: 1rem; }
+  .fifty-portfolio-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+  .fifty-portfolio-card { cursor: pointer; position: relative; overflow: hidden; border-radius: 4px; background: var(--ink); transition: transform 0.4s cubic-bezier(0.2,0.8,0.2,1), box-shadow 0.4s; }
+  .fifty-portfolio-card:hover { transform: translateY(-8px); box-shadow: 0 25px 50px rgba(13,13,13,0.2); }
+  .fifty-portfolio-mockup { width: 100%; display: block; }
+  .fifty-portfolio-card-meta { padding: 1.2rem 1.4rem; background: var(--white); border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+  .fifty-portfolio-card-name { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 1rem; }
+  .fifty-portfolio-card-tag { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+  .fifty-portfolio-card::after { content: 'View'; position: absolute; top: 1rem; right: 1rem; background: var(--accent); color: white; padding: 0.4rem 0.9rem; border-radius: 100px; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; font-weight: 600; opacity: 0; transform: translateY(-4px); transition: opacity 0.3s, transform 0.3s; z-index: 5; }
+  .fifty-portfolio-card:hover::after { opacity: 1; transform: none; }
+
+  /* LIGHTBOX */
+  .fifty-lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 1500; display: flex; align-items: center; justify-content: center; padding: 2rem; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+  .fifty-lightbox.active { opacity: 1; pointer-events: all; }
+  .fifty-lightbox-content { max-width: 1100px; width: 100%; position: relative; }
+  .fifty-lightbox-mockup svg { width: 100%; height: auto; max-height: 80vh; display: block; }
+  .fifty-lightbox-info { position: absolute; bottom: -3rem; left: 0; color: rgba(255,255,255,0.7); font-size: 0.85rem; }
+  .fifty-lightbox-info strong { font-family: 'Playfair Display', serif; font-weight: 700; color: white; margin-right: 0.6rem; }
+  .fifty-lightbox-close { position: absolute; top: -3rem; right: 0; background: rgba(255,255,255,0.1); color: white; border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 1.2rem; }
+  .fifty-lightbox-close:hover { background: rgba(255,255,255,0.2); }
+  .fifty-lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.1); color: white; border: none; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; font-size: 1.3rem; transition: background 0.2s; z-index: 10; }
+  .fifty-lightbox-nav:hover { background: rgba(255,255,255,0.2); }
+  .fifty-lightbox-prev { left: 2rem; }
+  .fifty-lightbox-next { right: 2rem; }
+
+  /* PRICING */
+  .fifty-pricing { background: var(--paper); }
+  .fifty-pricing-inner { max-width: 900px; margin: 0 auto; text-align: center; }
+  .fifty-pricing-inner .fifty-section-title { margin: 0 auto 1rem; }
+  .fifty-pricing-sub { color: var(--muted); margin-bottom: 3.5rem; font-size: 0.88rem; }
+  .fifty-plan-card { background: var(--ink); color: var(--paper); border-radius: 4px; padding: 3.5rem; position: relative; overflow: hidden; text-align: left; }
+  .fifty-plan-card::before { content: '£50'; position: absolute; right: -1rem; top: -2rem; font-family: 'Playfair Display', serif; font-size: 12rem; font-weight: 900; color: rgba(255,255,255,0.04); line-height: 1; pointer-events: none; }
+  .fifty-plan-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2.5rem; flex-wrap: wrap; gap: 1rem; }
+  .fifty-plan-name { font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 900; }
+  .fifty-plan-badge { background: var(--accent); color: white; font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; padding: 0.3rem 0.8rem; border-radius: 2px; }
+  .fifty-plan-price-row { display: flex; align-items: baseline; gap: 0.5rem; margin-bottom: 0.5rem; }
+  .fifty-plan-price-big { font-family: 'Playfair Display', serif; font-size: 4rem; font-weight: 900; line-height: 1; }
+  .fifty-plan-price-label { font-size: 0.78rem; color: rgba(255,255,255,0.5); letter-spacing: 0.1em; }
+  .fifty-plan-includes { font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 2rem; }
+  .fifty-plan-items { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem 2rem; list-style: none; margin-bottom: 2.5rem; }
+  .fifty-plan-items li { font-size: 0.82rem; color: rgba(255,255,255,0.8); display: flex; align-items: center; gap: 0.6rem; }
+  .fifty-plan-items li::before { content: '✓'; color: var(--accent); font-weight: 700; }
+  .fifty-plan-cta { background: var(--paper); color: var(--ink); padding: 1rem 2.5rem; border: none; border-radius: 2px; font-family: 'DM Mono', monospace; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; cursor: pointer; transition: background 0.2s, color 0.2s; display: inline-block; }
+  .fifty-plan-cta:hover { background: var(--accent); color: white; }
+
+  /* PROCESS */
+  .fifty-process { background: var(--white); }
+  .fifty-process-inner { max-width: 1100px; margin: 0 auto; }
+  .fifty-process-grid { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 3.5rem; }
+  .fifty-process-step { padding: 2rem; border-left: 1px solid var(--border); }
+  .fifty-process-step:first-child { border-left: none; }
+  .fifty-step-num { font-family: 'Playfair Display', serif; font-size: 3.5rem; font-weight: 900; color: var(--border); line-height: 1; margin-bottom: 1rem; }
+  .fifty-step-title { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; margin-bottom: 0.6rem; }
+  .fifty-step-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.65; }
+
+  /* FAQ */
+  .fifty-faq { background: var(--paper); }
+  .fifty-faq-inner { max-width: 700px; margin: 0 auto; }
+  .fifty-faq-inner .fifty-section-title { margin-bottom: 2.5rem; }
+  .fifty-faq-item { border-top: 1px solid var(--border); }
+  .fifty-faq-item:last-child { border-bottom: 1px solid var(--border); }
+  .fifty-faq-q { width: 100%; background: none; border: none; padding: 1.4rem 0; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: var(--ink); text-align: left; gap: 1rem; }
+  .fifty-faq-icon { width: 24px; height: 24px; border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; transition: transform 0.3s, background 0.2s; color: var(--muted); flex-shrink: 0; }
+  .fifty-faq-item.open .fifty-faq-icon { transform: rotate(45deg); background: var(--accent); border-color: var(--accent); color: white; }
+  .fifty-faq-a { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s; font-size: 0.85rem; color: var(--muted); line-height: 1.75; }
+  .fifty-faq-item.open .fifty-faq-a { max-height: 300px; padding-bottom: 1.4rem; }
+
+  /* CTA BAND */
+  .fifty-cta-band { background: var(--accent); padding: 5rem 2.5rem; text-align: center; }
+  .fifty-cta-band h2 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; color: white; letter-spacing: -0.02em; margin-bottom: 1rem; }
+  .fifty-cta-band p { color: rgba(255,255,255,0.75); margin-bottom: 2rem; font-size: 0.9rem; }
+  .fifty-btn-white { background: white; color: var(--accent); padding: 0.9rem 2.5rem; border: none; border-radius: 2px; font-family: 'DM Mono', monospace; font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; cursor: pointer; transition: transform 0.2s; display: inline-block; }
+  .fifty-btn-white:hover { transform: translateY(-3px); }
+
+  /* MODAL */
+  .fifty-modal-overlay { position: fixed; inset: 0; background: rgba(13,13,13,0.8); z-index: 3000; display: flex; align-items: center; justify-content: center; padding: 2rem; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
+  .fifty-modal-overlay.active { opacity: 1; pointer-events: all; }
+  .fifty-modal { background: var(--white); border-radius: 4px; padding: 3rem; max-width: 520px; width: 100%; transform: translateY(2rem); transition: transform 0.3s; }
+  .fifty-modal-overlay.active .fifty-modal { transform: translateY(0); }
+  .fifty-modal h3 { font-family: 'Playfair Display', serif; font-size: 1.8rem; font-weight: 900; margin-bottom: 0.5rem; color: var(--ink); }
+  .fifty-modal p { color: var(--muted); font-size: 0.83rem; margin-bottom: 1.5rem; }
+  .fifty-modal-close { float: right; background: none; border: none; font-size: 1.3rem; cursor: pointer; color: var(--muted); margin-top: -0.5rem; }
+  .fifty-form-group { margin-bottom: 1.2rem; }
+  .fifty-form-group label { display: block; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.4rem; color: var(--muted); }
+  .fifty-form-group input, .fifty-form-group textarea { width: 100%; padding: 0.75rem 1rem; background: var(--paper); border: 1px solid var(--border); border-radius: 2px; font-family: 'DM Mono', monospace; font-size: 0.83rem; color: var(--ink); outline: none; }
+  .fifty-form-group input:focus, .fifty-form-group textarea:focus { border-color: var(--ink); }
+  .fifty-form-group textarea { resize: vertical; min-height: 80px; }
+  .fifty-form-submit { width: 100%; background: var(--ink); color: var(--paper); border: none; padding: 0.9rem; font-family: 'DM Mono', monospace; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; border-radius: 2px; cursor: pointer; }
+  .fifty-form-submit:hover { background: var(--accent); }
+
+  /* ANIMATIONS */
+  @keyframes fifty-fadeUp { from{opacity:0; transform: translateY(1.5rem);} to{opacity:1; transform: none;} }
+  .fifty-reveal { opacity: 0; transform: translateY(2rem); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .fifty-reveal.visible { opacity: 1; transform: none; }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) { .fifty-portfolio-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 768px) {
+    .fifty-features-inner { grid-template-columns: 1fr; }
+    .fifty-features-left { position: static; }
+    .fifty-process-grid { grid-template-columns: 1fr 1fr; }
+    .fifty-plan-items { grid-template-columns: 1fr; }
+    .fifty-portfolio-grid { grid-template-columns: 1fr; }
+    .fifty-scene-4 .fifty-split { grid-template-columns: 1fr; grid-template-rows: 1fr 1fr; }
+  }
+  @media (max-width: 480px) { .fifty-section { padding: 4rem 1.5rem; } .fifty-process-grid { grid-template-columns: 1fr; } }
+{% endstyle %}
+
+<div class="fifty-wrapper">
+
+  <!-- HERO -->
+  <section class="fifty-hero">
+    <div class="fifty-hero-bg-text">£50</div>
+    <div class="fifty-hero-inner">
+      <div class="fifty-hero-eyebrow">Professional Websites · No Hidden Costs</div>
+      <h1>Your business<br>online, for <em>fifty.</em></h1>
+      <p class="fifty-hero-sub">A professionally designed, fully hosted website for your small business — one flat monthly fee, no surprises, no faff.</p>
+      <div class="fifty-hero-price"><span class="pound">£</span><span class="amount">50</span><span class="per">/ month</span></div>
+      <div class="fifty-hero-ctas">
+        <button class="fifty-btn-primary" onclick="fiftyOpenModal()">Get Your Website</button>
+        <a href="#fifty-features" class="fifty-btn-ghost">See What's Included</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="fifty-marquee-bar"><div class="fifty-marquee-track">
+    <span>✦</span> No setup fees <span>✦</span> Hosting included <span>✦</span> Mobile ready <span>✦</span> SEO optimised <span>✦</span> SSL certificate <span>✦</span> Unlimited updates <span>✦</span> Scottish-based <span>✦</span> No long contracts &nbsp;&nbsp;&nbsp;
+    <span>✦</span> No setup fees <span>✦</span> Hosting included <span>✦</span> Mobile ready <span>✦</span> SEO optimised <span>✦</span> SSL certificate <span>✦</span> Unlimited updates <span>✦</span> Scottish-based <span>✦</span> No long contracts
+  </div></div>
+
+  <!-- CINEMATIC -->
+  <section class="fifty-cinema-section" onclick="fiftyPlayCinema()">
+    <div class="fifty-cinema-bg"></div>
+    <div class="fifty-cinema-inner">
+      <div class="fifty-cinema-label">— A short film —</div>
+      <h2 class="fifty-cinema-title">Why your business <em>needs</em><br>to be online.</h2>
+      <p class="fifty-cinema-sub">A short film. No fluff. Just the truth about what's happening to businesses without a website.</p>
+      <button class="fifty-play-btn" onclick="event.stopPropagation(); fiftyPlayCinema();">
+        <span class="fifty-play-icon"></span>Watch Now
+      </button>
+      <span class="fifty-cinema-duration">Featuring real statistics</span>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="fifty-section fifty-features" id="fifty-features">
+    <div class="fifty-features-inner">
+      <div class="fifty-features-left fifty-reveal">
+        <div class="fifty-section-label">What You Get</div>
+        <h2 class="fifty-section-title">Everything a<br>business needs,<br><em>nothing it doesn't.</em></h2>
+        <p style="color: var(--muted); font-size: 0.85rem; margin-top: 1.5rem; max-width: 320px; line-height: 1.8;">We handle the tech so you can focus on running your business. One price, everything included.</p>
+      </div>
+      <div class="fifty-features-right">
+        <div class="fifty-feature-item fifty-reveal"><div class="fifty-feature-num">01</div><div><div class="fifty-feature-name">Custom Design</div><p class="fifty-feature-desc">A website designed specifically for your brand and industry — not a template. We build it to look and feel like you.</p></div></div>
+        <div class="fifty-feature-item fifty-reveal"><div class="fifty-feature-num">02</div><div><div class="fifty-feature-name">Hosting & SSL</div><p class="fifty-feature-desc">Your site lives on fast, reliable servers with full SSL encryption. No separate bills, no renewals to track.</p></div></div>
+        <div class="fifty-feature-item fifty-reveal"><div class="fifty-feature-num">03</div><div><div class="fifty-feature-name">Mobile-First Build</div><p class="fifty-feature-desc">Over 60% of web traffic is mobile. Your site looks perfect on every screen size, from phone to desktop.</p></div></div>
+        <div class="fifty-feature-item fifty-reveal"><div class="fifty-feature-num">04</div><div><div class="fifty-feature-name">SEO Foundation</div><p class="fifty-feature-desc">Built with search engines in mind. Proper meta tags, page speed optimisation, and local SEO setup for Google.</p></div></div>
+        <div class="fifty-feature-item fifty-reveal"><div class="fifty-feature-num">05</div><div><div class="fifty-feature-name">Content Updates</div><p class="fifty-feature-desc">Need to change your opening hours, add a new service, or update prices? Just send us a message — done within 48 hours.</p></div></div>
+        <div class="fifty-feature-item fifty-reveal"><div class="fifty-feature-num">06</div><div><div class="fifty-feature-name">Contact Forms & Maps</div><p class="fifty-feature-desc">Working enquiry forms that land in your inbox, plus Google Maps integration so customers can find you easily.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PORTFOLIO -->
+  <section class="fifty-section fifty-portfolio" id="fifty-portfolio">
+    <div class="fifty-portfolio-head">
+      <div class="fifty-portfolio-head-text fifty-reveal">
+        <div class="fifty-section-label">Example Sites</div>
+        <h2 class="fifty-section-title">Real designs<br>for <em>real businesses.</em></h2>
+      </div>
+      <div class="fifty-portfolio-hint fifty-reveal">Click any design to view full preview</div>
+    </div>
+    <div class="fifty-portfolio-grid">
+
+      <div class="fifty-portfolio-card fifty-reveal" onclick="fiftyOpenLightbox(0)">
+        <svg class="fifty-portfolio-mockup" viewBox="0 0 600 380" xmlns="http://www.w3.org/2000/svg">
+          <defs><linearGradient id="warmGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a2820"/><stop offset="1" stop-color="#1a0f08"/></linearGradient></defs>
+          <rect width="600" height="380" fill="#1a1410"/>
+          <rect x="0" y="0" width="600" height="26" fill="#0d0a08"/>
+          <circle cx="14" cy="13" r="4" fill="#3a2820"/><circle cx="28" cy="13" r="4" fill="#3a2820"/><circle cx="42" cy="13" r="4" fill="#3a2820"/>
+          <rect x="80" y="6" width="200" height="14" rx="7" fill="#2a1f18"/>
+          <text x="30" y="60" font-family="Playfair Display, serif" font-weight="900" font-size="14" fill="#d4a574">THE ANCHOR</text>
+          <text x="490" y="60" font-family="monospace" font-size="8" letter-spacing="2" fill="#8a6f55">MENU · BOOK · ABOUT</text>
+          <rect x="30" y="80" width="540" height="200" fill="url(#warmGrad)"/>
+          <ellipse cx="200" cy="180" rx="70" ry="40" fill="#5a3f2a" opacity="0.6"/>
+          <ellipse cx="350" cy="190" rx="60" ry="35" fill="#6a4a30" opacity="0.5"/>
+          <text x="60" y="170" font-family="Playfair Display, serif" font-style="italic" font-weight="900" font-size="38" fill="#f5e6c8">Coastal Dining,</text>
+          <text x="60" y="210" font-family="Playfair Display, serif" font-style="italic" font-weight="900" font-size="38" fill="#d4a574">Since 1987.</text>
+          <rect x="60" y="230" width="110" height="22" fill="#d4a574"/>
+          <text x="78" y="245" font-family="monospace" font-size="8" letter-spacing="2" fill="#1a0f08">RESERVE TABLE</text>
+          <rect x="30" y="300" width="170" height="60" fill="#221814"/>
+          <rect x="215" y="300" width="170" height="60" fill="#221814"/>
+          <rect x="400" y="300" width="170" height="60" fill="#221814"/>
+          <text x="45" y="320" font-family="Playfair Display, serif" font-size="10" fill="#d4a574">SEAFOOD</text>
+          <text x="45" y="340" font-family="monospace" font-size="7" fill="#8a6f55">Fresh from the Forth</text>
+          <text x="230" y="320" font-family="Playfair Display, serif" font-size="10" fill="#d4a574">WINES</text>
+          <text x="230" y="340" font-family="monospace" font-size="7" fill="#8a6f55">Hand-picked cellar</text>
+          <text x="415" y="320" font-family="Playfair Display, serif" font-size="10" fill="#d4a574">PRIVATE EVENTS</text>
+          <text x="415" y="340" font-family="monospace" font-size="7" fill="#8a6f55">Bespoke gatherings</text>
+        </svg>
+        <div class="fifty-portfolio-card-meta"><span class="fifty-portfolio-card-name">The Anchor</span><span class="fifty-portfolio-card-tag">Restaurant</span></div>
+      </div>
+
+      <div class="fifty-portfolio-card fifty-reveal" onclick="fiftyOpenLightbox(1)">
+        <svg class="fifty-portfolio-mockup" viewBox="0 0 600 380" xmlns="http://www.w3.org/2000/svg">
+          <rect width="600" height="380" fill="#faf6f2"/>
+          <rect x="0" y="0" width="600" height="26" fill="#ebe3d9"/>
+          <circle cx="14" cy="13" r="4" fill="#c9b8a5"/><circle cx="28" cy="13" r="4" fill="#c9b8a5"/><circle cx="42" cy="13" r="4" fill="#c9b8a5"/>
+          <rect x="80" y="6" width="200" height="14" rx="7" fill="#fff"/>
+          <text x="30" y="60" font-family="Playfair Display, serif" font-weight="900" font-size="16" fill="#8a4f5f">bloom.</text>
+          <text x="450" y="60" font-family="monospace" font-size="8" letter-spacing="2" fill="#a09080">SERVICES · TEAM · BOOK</text>
+          <text x="30" y="130" font-family="Playfair Display, serif" font-weight="900" font-size="38" fill="#3a2a30">Hair, beautifully</text>
+          <text x="30" y="172" font-family="Playfair Display, serif" font-style="italic" font-weight="900" font-size="38" fill="#8a4f5f">considered.</text>
+          <rect x="30" y="200" width="120" height="32" fill="#8a4f5f"/>
+          <text x="50" y="220" font-family="monospace" font-size="8" letter-spacing="2" fill="#fff">BOOK ONLINE</text>
+          <circle cx="450" cy="160" r="90" fill="#f0d8d8"/>
+          <circle cx="450" cy="140" r="35" fill="#d8b8a8"/>
+          <rect x="420" y="170" width="60" height="50" rx="15" fill="#c8a898"/>
+          <rect x="30" y="270" width="170" height="90" fill="#fff" stroke="#ebe3d9"/>
+          <rect x="215" y="270" width="170" height="90" fill="#fff" stroke="#ebe3d9"/>
+          <rect x="400" y="270" width="170" height="90" fill="#fff" stroke="#ebe3d9"/>
+          <text x="50" y="295" font-family="Playfair Display, serif" font-style="italic" font-size="12" fill="#8a4f5f">Cut &amp; Style</text>
+          <text x="50" y="315" font-family="monospace" font-size="7" fill="#a09080">From £45</text>
+          <text x="50" y="335" font-family="monospace" font-size="7" fill="#a09080">60 minutes</text>
+          <text x="235" y="295" font-family="Playfair Display, serif" font-style="italic" font-size="12" fill="#8a4f5f">Colour</text>
+          <text x="235" y="315" font-family="monospace" font-size="7" fill="#a09080">From £85</text>
+          <text x="235" y="335" font-family="monospace" font-size="7" fill="#a09080">2 hours</text>
+          <text x="420" y="295" font-family="Playfair Display, serif" font-style="italic" font-size="12" fill="#8a4f5f">Bridal</text>
+          <text x="420" y="315" font-family="monospace" font-size="7" fill="#a09080">From £150</text>
+          <text x="420" y="335" font-family="monospace" font-size="7" fill="#a09080">Consultation</text>
+        </svg>
+        <div class="fifty-portfolio-card-meta"><span class="fifty-portfolio-card-name">Bloom</span><span class="fifty-portfolio-card-tag">Hair &amp; Beauty</span></div>
+      </div>
+
+      <div class="fifty-portfolio-card fifty-reveal" onclick="fiftyOpenLightbox(2)">
+        <svg class="fifty-portfolio-mockup" viewBox="0 0 600 380" xmlns="http://www.w3.org/2000/svg">
+          <rect width="600" height="380" fill="#0f1820"/>
+          <rect x="0" y="0" width="600" height="26" fill="#0a1118"/>
+          <circle cx="14" cy="13" r="4" fill="#1f3040"/><circle cx="28" cy="13" r="4" fill="#1f3040"/><circle cx="42" cy="13" r="4" fill="#1f3040"/>
+          <rect x="0" y="26" width="600" height="40" fill="#0a1118"/>
+          <text x="30" y="52" font-family="Bebas Neue, sans-serif" font-size="18" fill="#fff" letter-spacing="2">SWIFT PLUMBING</text>
+          <rect x="465" y="36" width="115" height="22" fill="#ff7a3a"/>
+          <text x="475" y="51" font-family="monospace" font-size="8" letter-spacing="1" fill="#000">24/7 EMERGENCY ☎</text>
+          <text x="30" y="120" font-family="Bebas Neue, sans-serif" font-size="36" fill="#fff" letter-spacing="1">FIFE'S MOST TRUSTED</text>
+          <text x="30" y="156" font-family="Bebas Neue, sans-serif" font-size="36" fill="#ff7a3a" letter-spacing="1">PLUMBERS.</text>
+          <text x="30" y="184" font-family="monospace" font-size="9" fill="#8a9eb0">Boiler repairs · Emergency callouts · Bathroom installs · Gas Safe</text>
+          <rect x="30" y="200" width="130" height="34" fill="#ff7a3a"/>
+          <text x="50" y="222" font-family="monospace" font-size="9" letter-spacing="2" fill="#000">GET A QUOTE →</text>
+          <rect x="180" y="200" width="130" height="34" fill="transparent" stroke="#fff"/>
+          <text x="210" y="222" font-family="monospace" font-size="9" letter-spacing="2" fill="#fff">CALL NOW</text>
+          <rect x="370" y="80" width="200" height="180" fill="#1a2530" stroke="#2a3540"/>
+          <rect x="385" y="95" width="50" height="50" fill="#ff7a3a"/>
+          <text x="397" y="128" font-family="Bebas Neue, sans-serif" font-size="22" fill="#000">★</text>
+          <text x="445" y="115" font-family="Playfair Display, serif" font-weight="700" font-size="12" fill="#fff">5/5 RATED</text>
+          <text x="445" y="130" font-family="monospace" font-size="8" fill="#8a9eb0">214 Google reviews</text>
+          <text x="385" y="170" font-family="monospace" font-size="8" fill="#8a9eb0">"Came out in an hour on</text>
+          <text x="385" y="184" font-family="monospace" font-size="8" fill="#8a9eb0">a Sunday, fixed it for half</text>
+          <text x="385" y="198" font-family="monospace" font-size="8" fill="#8a9eb0">what the last guy quoted."</text>
+          <text x="385" y="225" font-family="monospace" font-size="8" fill="#ff7a3a">— Margaret, Dunfermline</text>
+          <rect x="30" y="280" width="170" height="80" fill="#1a2530"/>
+          <rect x="215" y="280" width="170" height="80" fill="#1a2530"/>
+          <rect x="400" y="280" width="170" height="80" fill="#1a2530"/>
+          <text x="45" y="305" font-family="Bebas Neue, sans-serif" font-size="14" fill="#ff7a3a">BOILER REPAIRS</text>
+          <text x="45" y="325" font-family="monospace" font-size="7" fill="#8a9eb0">Most makes, same day</text>
+          <text x="230" y="305" font-family="Bebas Neue, sans-serif" font-size="14" fill="#ff7a3a">BATHROOMS</text>
+          <text x="230" y="325" font-family="monospace" font-size="7" fill="#8a9eb0">Full installations</text>
+          <text x="415" y="305" font-family="Bebas Neue, sans-serif" font-size="14" fill="#ff7a3a">EMERGENCY</text>
+          <text x="415" y="325" font-family="monospace" font-size="7" fill="#8a9eb0">24 hours, every day</text>
+        </svg>
+        <div class="fifty-portfolio-card-meta"><span class="fifty-portfolio-card-name">Swift Plumbing</span><span class="fifty-portfolio-card-tag">Trades</span></div>
+      </div>
+
+      <div class="fifty-portfolio-card fifty-reveal" onclick="fiftyOpenLightbox(3)">
+        <svg class="fifty-portfolio-mockup" viewBox="0 0 600 380" xmlns="http://www.w3.org/2000/svg">
+          <rect width="600" height="380" fill="#0a0a0a"/>
+          <rect x="0" y="0" width="600" height="26" fill="#000"/>
+          <circle cx="14" cy="13" r="4" fill="#222"/><circle cx="28" cy="13" r="4" fill="#222"/><circle cx="42" cy="13" r="4" fill="#222"/>
+          <text x="30" y="60" font-family="Bebas Neue, sans-serif" font-size="20" fill="#caff33" letter-spacing="3">IRON &amp; WILLOW</text>
+          <text x="430" y="60" font-family="monospace" font-size="8" letter-spacing="2" fill="#666">CLASSES · COACHES · JOIN</text>
+          <text x="30" y="140" font-family="Bebas Neue, sans-serif" font-size="68" fill="#fff" letter-spacing="-1">TRAIN.</text>
+          <text x="30" y="208" font-family="Bebas Neue, sans-serif" font-size="68" fill="#fff" letter-spacing="-1">RECOVER.</text>
+          <text x="30" y="276" font-family="Bebas Neue, sans-serif" font-size="68" fill="#caff33" letter-spacing="-1">REPEAT.</text>
+          <rect x="30" y="298" width="170" height="38" fill="#caff33"/>
+          <text x="50" y="321" font-family="monospace" font-size="9" letter-spacing="2" fill="#000">FREE TRIAL CLASS →</text>
+          <rect x="380" y="80" width="190" height="240" fill="#141414" stroke="#222"/>
+          <text x="395" y="105" font-family="monospace" font-size="8" letter-spacing="2" fill="#caff33">— TODAY —</text>
+          <text x="395" y="140" font-family="Bebas Neue, sans-serif" font-size="18" fill="#fff">06:00 HIIT</text>
+          <text x="395" y="158" font-family="monospace" font-size="7" fill="#666">w/ Marcus · 45 min · 4 spots</text>
+          <text x="395" y="190" font-family="Bebas Neue, sans-serif" font-size="18" fill="#fff">09:30 YOGA FLOW</text>
+          <text x="395" y="208" font-family="monospace" font-size="7" fill="#666">w/ Priya · 60 min · 8 spots</text>
+          <text x="395" y="240" font-family="Bebas Neue, sans-serif" font-size="18" fill="#fff">18:00 POWERLIFT</text>
+          <text x="395" y="258" font-family="monospace" font-size="7" fill="#666">w/ Dave · 90 min · 2 spots</text>
+          <text x="395" y="290" font-family="Bebas Neue, sans-serif" font-size="18" fill="#caff33">20:00 STRETCH</text>
+          <text x="395" y="308" font-family="monospace" font-size="7" fill="#666">w/ Priya · 30 min · OPEN</text>
+        </svg>
+        <div class="fifty-portfolio-card-meta"><span class="fifty-portfolio-card-name">Iron &amp; Willow</span><span class="fifty-portfolio-card-tag">Fitness</span></div>
+      </div>
+
+      <div class="fifty-portfolio-card fifty-reveal" onclick="fiftyOpenLightbox(4)">
+        <svg class="fifty-portfolio-mockup" viewBox="0 0 600 380" xmlns="http://www.w3.org/2000/svg">
+          <rect width="600" height="380" fill="#f4ede0"/>
+          <rect x="0" y="0" width="600" height="26" fill="#e6dcc8"/>
+          <circle cx="14" cy="13" r="4" fill="#b8a888"/><circle cx="28" cy="13" r="4" fill="#b8a888"/><circle cx="42" cy="13" r="4" fill="#b8a888"/>
+          <text x="30" y="60" font-family="Playfair Display, serif" font-style="italic" font-weight="900" font-size="16" fill="#4a3528">The Morning Press</text>
+          <text x="440" y="60" font-family="monospace" font-size="8" letter-spacing="2" fill="#8a7560">MENU · BEANS · VISIT</text>
+          <text x="30" y="130" font-family="Playfair Display, serif" font-weight="900" font-size="40" fill="#4a3528">Coffee, slow.</text>
+          <text x="30" y="175" font-family="Playfair Display, serif" font-style="italic" font-weight="900" font-size="40" fill="#9a6a40">Mornings, savoured.</text>
+          <text x="30" y="205" font-family="monospace" font-size="9" fill="#8a7560">Single origin pour-overs · Pastries from Bostock · Open 7am</text>
+          <circle cx="470" cy="200" r="90" fill="#d4b896"/>
+          <circle cx="470" cy="200" r="75" fill="#8a5a3a"/>
+          <ellipse cx="470" cy="190" rx="55" ry="14" fill="#3a2410"/>
+          <ellipse cx="470" cy="186" rx="40" ry="6" fill="#d8b896"/>
+          <rect x="30" y="240" width="100" height="30" fill="#4a3528"/>
+          <text x="50" y="259" font-family="monospace" font-size="8" letter-spacing="2" fill="#f4ede0">FIND US →</text>
+          <rect x="30" y="290" width="540" height="70" fill="#fff" stroke="#e6dcc8"/>
+          <text x="50" y="312" font-family="Playfair Display, serif" font-style="italic" font-size="11" fill="#9a6a40">— This week's roast —</text>
+          <text x="50" y="335" font-family="Playfair Display, serif" font-weight="900" font-size="14" fill="#4a3528">ETHIOPIA YIRGACHEFFE</text>
+          <text x="50" y="350" font-family="monospace" font-size="8" fill="#8a7560">Notes of jasmine, citrus, brown sugar · £12/250g</text>
+          <text x="470" y="335" font-family="Playfair Display, serif" font-weight="700" font-size="18" fill="#9a6a40">£12</text>
+        </svg>
+        <div class="fifty-portfolio-card-meta"><span class="fifty-portfolio-card-name">The Morning Press</span><span class="fifty-portfolio-card-tag">Café</span></div>
+      </div>
+
+      <div class="fifty-portfolio-card fifty-reveal" onclick="fiftyOpenLightbox(5)">
+        <svg class="fifty-portfolio-mockup" viewBox="0 0 600 380" xmlns="http://www.w3.org/2000/svg">
+          <rect width="600" height="380" fill="#fff"/>
+          <rect x="0" y="0" width="600" height="26" fill="#f0f2f5"/>
+          <circle cx="14" cy="13" r="4" fill="#c0c8d0"/><circle cx="28" cy="13" r="4" fill="#c0c8d0"/><circle cx="42" cy="13" r="4" fill="#c0c8d0"/>
+          <rect x="0" y="26" width="600" height="44" fill="#fff" stroke="#e8ebf0"/>
+          <text x="30" y="55" font-family="Playfair Display, serif" font-weight="900" font-size="16" fill="#1a3a6e">Clarity</text>
+          <text x="100" y="55" font-family="monospace" font-size="8" fill="#8a96a8" letter-spacing="1">ACCOUNTANTS</text>
+          <text x="380" y="55" font-family="monospace" font-size="8" letter-spacing="2" fill="#5a6a80">SERVICES · ABOUT · CONTACT</text>
+          <text x="30" y="130" font-family="Playfair Display, serif" font-weight="900" font-size="34" fill="#1a3a6e">Accountancy</text>
+          <text x="30" y="170" font-family="Playfair Display, serif" font-weight="900" font-size="34" fill="#1a3a6e">that <tspan font-style="italic" fill="#d4904a">actually</tspan> talks</text>
+          <text x="30" y="210" font-family="Playfair Display, serif" font-weight="900" font-size="34" fill="#1a3a6e">to humans.</text>
+          <rect x="30" y="230" width="160" height="34" fill="#1a3a6e"/>
+          <text x="44" y="252" font-family="monospace" font-size="9" letter-spacing="2" fill="#fff">FREE CONSULTATION</text>
+          <rect x="380" y="100" width="190" height="180" fill="#f8fafc" stroke="#e8ebf0"/>
+          <text x="395" y="125" font-family="monospace" font-size="8" letter-spacing="2" fill="#d4904a">— OUR PROMISE —</text>
+          <text x="395" y="160" font-family="Playfair Display, serif" font-style="italic" font-size="13" fill="#1a3a6e">Plain English.</text>
+          <text x="395" y="180" font-family="monospace" font-size="8" fill="#5a6a80">No jargon, ever.</text>
+          <text x="395" y="215" font-family="Playfair Display, serif" font-style="italic" font-size="13" fill="#1a3a6e">Fixed fees.</text>
+          <text x="395" y="235" font-family="monospace" font-size="8" fill="#5a6a80">No surprise bills.</text>
+          <text x="395" y="270" font-family="Playfair Display, serif" font-style="italic" font-size="13" fill="#1a3a6e">Real people.</text>
+          <text x="30" y="320" font-family="monospace" font-size="8" letter-spacing="2" fill="#8a96a8">SERVICES</text>
+          <text x="30" y="345" font-family="Playfair Display, serif" font-size="12" fill="#1a3a6e">Self-Assessment · Limited Co. · Bookkeeping · VAT · Payroll · Tax</text>
+        </svg>
+        <div class="fifty-portfolio-card-meta"><span class="fifty-portfolio-card-name">Clarity</span><span class="fifty-portfolio-card-tag">Professional</span></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="fifty-section fifty-pricing" id="fifty-pricing">
+    <div class="fifty-pricing-inner">
+      <div class="fifty-section-label fifty-reveal">Simple Pricing</div>
+      <h2 class="fifty-section-title fifty-reveal">One plan.<br><em>One price.</em></h2>
+      <p class="fifty-pricing-sub fifty-reveal">No tiers, no upsells. Just everything you need for a flat £50/month.</p>
+      <div class="fifty-plan-card fifty-reveal">
+        <div class="fifty-plan-header">
+          <div>
+            <div class="fifty-plan-name">The Full Package</div>
+            <div class="fifty-plan-price-row"><div class="fifty-plan-price-big">£50</div><div class="fifty-plan-price-label">/ month</div></div>
+            <div class="fifty-plan-includes">Everything included · Cancel anytime</div>
+          </div>
+          <span class="fifty-plan-badge">Most Popular</span>
+        </div>
+        <ul class="fifty-plan-items">
+          <li>Custom designed website</li><li>Up to 5 pages</li>
+          <li>Fast UK-based hosting</li><li>Free SSL certificate</li>
+          <li>Mobile responsive design</li><li>SEO optimisation</li>
+          <li>Contact forms</li><li>Google Maps embed</li>
+          <li>Social media links</li><li>Unlimited text updates</li>
+          <li>Monthly backups</li><li>Priority email support</li>
+        </ul>
+        <button class="fifty-plan-cta" onclick="fiftyOpenModal()">Get Started Today</button>
+      </div>
+      <p style="color: var(--muted); font-size: 0.78rem; margin-top: 1.5rem;">Domain name not included but we can help you choose and register one. Typically £10–15/yr.</p>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="fifty-section fifty-process" id="fifty-process">
+    <div class="fifty-process-inner">
+      <div class="fifty-section-label fifty-reveal">How It Works</div>
+      <h2 class="fifty-section-title fifty-reveal">Live in <em>days,<br></em>not months.</h2>
+      <div class="fifty-process-grid">
+        <div class="fifty-process-step fifty-reveal"><div class="fifty-step-num">01</div><div class="fifty-step-title">You Tell Us About Your Business</div><p class="fifty-step-desc">Fill in a short form — your business name, what you do, and any content or photos you have. That's it.</p></div>
+        <div class="fifty-process-step fifty-reveal"><div class="fifty-step-num">02</div><div class="fifty-step-title">We Design Your Site</div><p class="fifty-step-desc">We get to work building a custom site. You'll see a draft within 5–7 business days to review and approve.</p></div>
+        <div class="fifty-process-step fifty-reveal"><div class="fifty-step-num">03</div><div class="fifty-step-title">You Review &amp; Approve</div><p class="fifty-step-desc">We'll refine the design based on your feedback until you're happy. No limits on revision rounds.</p></div>
+        <div class="fifty-process-step fifty-reveal"><div class="fifty-step-num">04</div><div class="fifty-step-title">We Go Live</div><p class="fifty-step-desc">Once you're happy, we launch. Your website is live and your subscription begins. We handle everything from here.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="fifty-section fifty-faq" id="fifty-faq">
+    <div class="fifty-faq-inner">
+      <div class="fifty-section-label fifty-reveal">FAQ</div>
+      <h2 class="fifty-section-title fifty-reveal">Common<br><em>questions.</em></h2>
+      <div class="fifty-faq-item"><button class="fifty-faq-q" onclick="fiftyToggleFaq(this)">Is there a setup fee or contract?<span class="fifty-faq-icon">+</span></button><div class="fifty-faq-a">No setup fee, no long-term contract. You pay £50/month and can cancel with 30 days' notice at any time.</div></div>
+      <div class="fifty-faq-item"><button class="fifty-faq-q" onclick="fiftyToggleFaq(this)">What if I want more than 5 pages?<span class="fifty-faq-icon">+</span></button><div class="fifty-faq-a">Each additional page beyond 5 is available for a small add-on of £5/month. Most small businesses find 5 pages covers everything they need.</div></div>
+      <div class="fifty-faq-item"><button class="fifty-faq-q" onclick="fiftyToggleFaq(this)">What happens to my website if I cancel?<span class="fifty-faq-icon">+</span></button><div class="fifty-faq-a">We'll hand over all your files and assets so you can take your website elsewhere. You own your content.</div></div>
+      <div class="fifty-faq-item"><button class="fifty-faq-q" onclick="fiftyToggleFaq(this)">Do I need to provide content?<span class="fifty-faq-icon">+</span></button><div class="fifty-faq-a">Ideally you'll provide some basics — a brief description, any photos, and your contact details. If you're stuck, we can help.</div></div>
+      <div class="fifty-faq-item"><button class="fifty-faq-q" onclick="fiftyToggleFaq(this)">How long does it take to build my website?<span class="fifty-faq-icon">+</span></button><div class="fifty-faq-a">You'll see a first draft within 5–7 business days. Most clients are fully live within 2 weeks from first contact.</div></div>
+      <div class="fifty-faq-item"><button class="fifty-faq-q" onclick="fiftyToggleFaq(this)">Can I have an online shop?<span class="fifty-faq-icon">+</span></button><div class="fifty-faq-a">E-commerce websites are quoted separately. Get in touch and we'll discuss your needs.</div></div>
+    </div>
+  </section>
+
+  <!-- CTA BAND -->
+  <div class="fifty-cta-band">
+    <h2>Ready to get online?</h2>
+    <p>Join local businesses already getting customers from their website.</p>
+    <button class="fifty-btn-white" onclick="fiftyOpenModal()">Start for £50/month</button>
+  </div>
+
+</div>
+
+<!-- CINEMA PLAYER -->
+<div class="fifty-cinema-player" id="fiftyCinemaPlayer">
+  <div class="fifty-cinema-stage">
+    <div class="fifty-letterbox top"></div>
+    <div class="fifty-letterbox bottom"></div>
+    <button class="fifty-cinema-close" onclick="fiftyCloseCinema()">✕ Close</button>
+    <div class="fifty-scene fifty-scene-1" data-scene="0">
+      <div class="fifty-scene-bg"></div>
+      <div class="fifty-light-flicker"></div>
+      <div class="fifty-door"></div>
+      <div class="fifty-caption">Every day, somewhere on the high street…<br>a business is invisible.</div>
+    </div>
+    <div class="fifty-scene fifty-scene-2" data-scene="1">
+      <div class="fifty-scene-content">
+        <div class="fifty-browser">
+          <div class="fifty-browser-bar">
+            <div class="fifty-browser-dot"></div><div class="fifty-browser-dot"></div><div class="fifty-browser-dot"></div>
+            <div class="fifty-browser-search" id="fiftySearchBar"><span class="fifty-cursor"></span></div>
+          </div>
+          <div class="fifty-browser-body">
+            <div class="fifty-result-item" id="fiftyR1"><div class="fifty-url">aplumbing.co.uk</div>A-Plumbing — 24/7 Emergency Service</div>
+            <div class="fifty-result-item" id="fiftyR2"><div class="fifty-url">fifeplumbers.co.uk</div>Fife Plumbers Ltd — Gas Safe Registered</div>
+            <div class="fifty-result-item" id="fiftyR3"><div class="fifty-url">swiftheating.com</div>Swift Heating &amp; Plumbing — 5★ Rated</div>
+          </div>
+        </div>
+        <div class="fifty-caption">81% of customers research online before buying.<br>If you're not there, you don't exist.</div>
+      </div>
+    </div>
+    <div class="fifty-scene fifty-scene-3" data-scene="2">
+      <div class="fifty-scene-content">
+        <div class="fifty-big-stat">75%</div>
+        <div class="fifty-stat-context">of consumers judge a business's credibility based on its <strong>website.</strong></div>
+        <div class="fifty-source">— Stanford Web Credibility Research</div>
+      </div>
+    </div>
+    <div class="fifty-scene fifty-scene-4" data-scene="3">
+      <div class="fifty-split">
+        <div class="fifty-panel fifty-panel-left">
+          <div class="fifty-panel-label">— Without a website</div>
+          <div class="fifty-panel-content">
+            <h3>"Sorry, can you<br>text me your address?"</h3>
+            <p>Customers call for basics. You answer the same questions all day. You lose them when you don't pick up.</p>
+          </div>
+        </div>
+        <div class="fifty-panel fifty-panel-right">
+          <div class="fifty-panel-label">— With a website</div>
+          <div class="fifty-panel-content">
+            <h3>"I already booked<br>through your site."</h3>
+            <p>Customers find you, see your prices, and book — at 11pm, on Sunday, while you sleep.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="fifty-scene fifty-scene-5" data-scene="4">
+      <div class="fifty-scene-content">
+        <div class="fifty-tagline">
+          <span>Your business.</span>
+          <span><em>Online.</em></span>
+          <span>For fifty pounds a month.</span>
+        </div>
+      </div>
+    </div>
+    <div class="fifty-scene fifty-scene-6" data-scene="5">
+      <div class="fifty-scene-content">
+        <div class="fifty-end-logo">Fifty<span>.</span></div>
+        <div class="fifty-end-price">£50 / month · No setup fees · Cancel anytime</div>
+        <button class="fifty-end-cta" onclick="fiftyCloseCinema(); fiftyOpenModal();">Get Started →</button>
+      </div>
+    </div>
+    <div class="fifty-cinema-progress"><div class="fifty-cinema-progress-fill" id="fiftyCinemaProgress"></div></div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="fifty-lightbox" id="fiftyLightbox">
+  <button class="fifty-lightbox-nav fifty-lightbox-prev" onclick="fiftyNavLightbox(-1)">‹</button>
+  <button class="fifty-lightbox-nav fifty-lightbox-next" onclick="fiftyNavLightbox(1)">›</button>
+  <div class="fifty-lightbox-content">
+    <button class="fifty-lightbox-close" onclick="fiftyCloseLightbox()">✕</button>
+    <div class="fifty-lightbox-mockup" id="fiftyLightboxMockup"></div>
+    <div class="fifty-lightbox-info" id="fiftyLightboxInfo"></div>
+  </div>
+</div>
+
+<!-- MODAL -->
+<div class="fifty-modal-overlay" id="fiftyModal" onclick="fiftyCloseModalOutside(event)">
+  <div class="fifty-modal" id="fiftyModalInner">
+    <button class="fifty-modal-close" onclick="fiftyCloseModal()">✕</button>
+    <h3>Let's get started</h3>
+    <p>Tell us about your business and we'll be in touch within 24 hours.</p>
+    <div class="fifty-form-group"><label>Your Name</label><input type="text" placeholder="Jane Smith"></div>
+    <div class="fifty-form-group"><label>Business Name</label><input type="text" placeholder="Smith's Plumbing"></div>
+    <div class="fifty-form-group"><label>Email Address</label><input type="email" placeholder="jane@example.co.uk"></div>
+    <div class="fifty-form-group"><label>What does your business do?</label><textarea placeholder="We're a family-run plumbing company..."></textarea></div>
+    <button class="fifty-form-submit" onclick="fiftySubmitForm()">Send Enquiry</button>
+  </div>
+</div>
+
+<script>
+  function fiftyOpenModal() { document.getElementById('fiftyModal').classList.add('active'); }
+  function fiftyCloseModal() { document.getElementById('fiftyModal').classList.remove('active'); }
+  function fiftyCloseModalOutside(e) { if (e.target === document.getElementById('fiftyModal')) fiftyCloseModal(); }
+  function fiftySubmitForm() {
+    document.getElementById('fiftyModalInner').innerHTML = '<div style="text-align:center;padding:2rem 0"><div style="font-size:3rem;margin-bottom:1rem">✓</div><h3 style="font-family:\'Playfair Display\',serif;font-size:1.8rem;margin-bottom:0.5rem;color:var(--ink)">Enquiry sent!</h3><p style="color:var(--muted);font-size:0.85rem;margin-bottom:1.5rem">We\'ll be in touch within 24 hours.</p><button onclick="fiftyCloseModal()" style="background:var(--ink);color:var(--paper);border:none;padding:0.75rem 2rem;font-family:\'DM Mono\',monospace;font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;border-radius:2px;cursor:pointer">Close</button></div>';
+  }
+  function fiftyToggleFaq(btn) {
+    const item = btn.closest('.fifty-faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.fifty-faq-item').forEach(i => i.classList.remove('open'));
+    if (!isOpen) item.classList.add('open');
+  }
+  const fiftyObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) { setTimeout(() => entry.target.classList.add('visible'), i * 80); fiftyObserver.unobserve(entry.target); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fifty-reveal').forEach(el => fiftyObserver.observe(el));
+
+  const fiftyCards = document.querySelectorAll('.fifty-portfolio-card');
+  const fiftyPortfolioData = [
+    { name: 'The Anchor', tag: 'Restaurant · Edinburgh' },
+    { name: 'Bloom', tag: 'Hair & Beauty · Glasgow' },
+    { name: 'Swift Plumbing', tag: 'Trades · Fife' },
+    { name: 'Iron & Willow', tag: 'Fitness · Dundee' },
+    { name: 'The Morning Press', tag: 'Café · Stirling' },
+    { name: 'Clarity Accountants', tag: 'Professional Services · Aberdeen' }
+  ];
+  let fiftyCurrentLightbox = 0;
+  function fiftyOpenLightbox(i) {
+    fiftyCurrentLightbox = i;
+    const svg = fiftyCards[i].querySelector('svg').cloneNode(true);
+    const mount = document.getElementById('fiftyLightboxMockup');
+    mount.innerHTML = ''; mount.appendChild(svg);
+    document.getElementById('fiftyLightboxInfo').innerHTML = '<strong>' + fiftyPortfolioData[i].name + '</strong> ' + fiftyPortfolioData[i].tag;
+    document.getElementById('fiftyLightbox').classList.add('active');
+  }
+  function fiftyCloseLightbox() { document.getElementById('fiftyLightbox').classList.remove('active'); }
+  function fiftyNavLightbox(dir) { fiftyCurrentLightbox = (fiftyCurrentLightbox + dir + fiftyCards.length) % fiftyCards.length; fiftyOpenLightbox(fiftyCurrentLightbox); }
+  document.getElementById('fiftyLightbox').addEventListener('click', (e) => { if (e.target.id === 'fiftyLightbox') fiftyCloseLightbox(); });
+
+  const fiftySceneDurations = [4500, 6500, 5500, 6500, 6000, 5500];
+  let fiftyCinemaTimer = null, fiftyProgressInterval = null, fiftyCinemaStart = 0;
+  function fiftyPlayCinema() {
+    document.getElementById('fiftyCinemaPlayer').classList.add('active');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => fiftyRunScene(0), 700);
+    const total = fiftySceneDurations.reduce((a,b)=>a+b,0) + 700;
+    fiftyCinemaStart = Date.now();
+    if (fiftyProgressInterval) clearInterval(fiftyProgressInterval);
+    fiftyProgressInterval = setInterval(() => {
+      document.getElementById('fiftyCinemaProgress').style.width = Math.min(100, ((Date.now()-fiftyCinemaStart)/total)*100) + '%';
+    }, 50);
+  }
+  function fiftyRunScene(idx) {
+    document.querySelectorAll('.fifty-scene').forEach(s => s.classList.remove('active'));
+    const scene = document.querySelector('.fifty-scene[data-scene="'+idx+'"]');
+    if (!scene) return;
+    scene.classList.add('active');
+    if (idx === 1) {
+      const text = 'plumber near me', bar = document.getElementById('fiftySearchBar');
+      bar.innerHTML = '<span class="fifty-cursor"></span>';
+      let i = 0;
+      const typer = setInterval(() => {
+        if (i >= text.length) { clearInterval(typer); fiftyRevealResults(); return; }
+        bar.innerHTML = text.substring(0,i+1)+'<span class="fifty-cursor"></span>'; i++;
+      }, 120);
+    }
+    if (idx < fiftySceneDurations.length-1) fiftyCinemaTimer = setTimeout(() => fiftyRunScene(idx+1), fiftySceneDurations[idx]);
+  }
+  function fiftyRevealResults() {
+    setTimeout(() => document.getElementById('fiftyR1').classList.add('highlight'), 400);
+    setTimeout(() => { document.getElementById('fiftyR1').classList.remove('highlight'); document.getElementById('fiftyR2').classList.add('highlight'); }, 1300);
+    setTimeout(() => { document.getElementById('fiftyR2').classList.remove('highlight'); document.getElementById('fiftyR3').classList.add('highlight'); }, 2200);
+  }
+  function fiftyCloseCinema() {
+    document.getElementById('fiftyCinemaPlayer').classList.remove('active');
+    document.body.style.overflow = '';
+    if (fiftyCinemaTimer) clearTimeout(fiftyCinemaTimer);
+    if (fiftyProgressInterval) clearInterval(fiftyProgressInterval);
+    setTimeout(() => {
+      document.querySelectorAll('.fifty-scene').forEach(s => s.classList.remove('active'));
+      document.getElementById('fiftyCinemaProgress').style.width = '0%';
+      document.querySelectorAll('.fifty-result-item').forEach(r => r.classList.remove('highlight'));
+    }, 500);
+  }
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      if (document.getElementById('fiftyCinemaPlayer').classList.contains('active')) fiftyCloseCinema();
+      if (document.getElementById('fiftyLightbox').classList.contains('active')) fiftyCloseLightbox();
+      if (document.getElementById('fiftyModal').classList.contains('active')) fiftyCloseModal();
+    }
+    if (document.getElementById('fiftyLightbox').classList.contains('active')) {
+      if (e.key === 'ArrowLeft') fiftyNavLightbox(-1);
+      if (e.key === 'ArrowRight') fiftyNavLightbox(1);
+    }
+  });
+</script>
+
 {% schema %}
 {
   "name": "Fifty Landing Page",
@@ -9,111 +780,3 @@
   ]
 }
 {% endschema %}
-
-{% style %}
-:root {
-  --ink: #0d0d0d;
-  --paper: #f5f0e8;
-  --accent: #c8401a;
-  --muted: #8a8070;
-  --border: #d4cfc4;
-  --white: #fefdfb;
-}
-
-body {
-  background: var(--paper);
-  color: var(--ink);
-  font-family: 'DM Mono', monospace;
-}
-
-.fifty-hero {
-  min-height: 100vh;
-  display: grid;
-  place-items: center;
-  padding: 8rem 2rem;
-  text-align: center;
-}
-
-.fifty-hero h1 {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(3rem, 8vw, 6rem);
-}
-
-.fifty-price {
-  font-size: 4rem;
-  font-weight: bold;
-  color: var(--accent);
-}
-
-.fifty-btn {
-  background: var(--ink);
-  color: white;
-  padding: 1rem 2rem;
-  text-decoration: none;
-  display: inline-block;
-  margin-top: 1.5rem;
-}
-
-.features {
-  padding: 5rem 2rem;
-}
-
-.feature {
-  margin-bottom: 2rem;
-}
-{% endstyle %}
-
-<div class="fifty-wrapper">
-
-  <!-- HERO -->
-  <section class="fifty-hero">
-    <div>
-      <p>Professional Websites · No Hidden Costs</p>
-
-      <h1>Your business online, for <em>fifty.</em></h1>
-
-      <p>
-        A professionally designed, fully hosted website for your small business —
-        one flat monthly fee.
-      </p>
-
-      <div class="fifty-price">£50/month</div>
-
-      <a href="/pages/contact" class="fifty-btn">
-        Get Your Website
-      </a>
-    </div>
-  </section>
-
-  <!-- FEATURES -->
-  <section class="features">
-    <h2>Everything you need</h2>
-
-    <div class="feature">
-      <h3>Custom Design</h3>
-      <p>Designed specifically for your brand.</p>
-    </div>
-
-    <div class="feature">
-      <h3>Hosting & SSL</h3>
-      <p>Fast hosting with security included.</p>
-    </div>
-
-    <div class="feature">
-      <h3>Mobile First</h3>
-      <p>Optimised for all devices.</p>
-    </div>
-
-    <div class="feature">
-      <h3>SEO Ready</h3>
-      <p>Built to rank on Google.</p>
-    </div>
-
-    <div class="feature">
-      <h3>Unlimited Updates</h3>
-      <p>We handle changes for you.</p>
-    </div>
-
-  </section>
-
-</div>
