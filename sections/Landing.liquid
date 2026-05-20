@@ -17,6 +17,31 @@
   .fifty-nav-btn { background: none; border: none; cursor: pointer; font-family: 'DM Mono', monospace; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); transition: color 0.2s; padding: 0; }
   .fifty-nav-btn:hover { color: var(--ink); }
 
+  /* T&C MODAL */
+  .fifty-tc-overlay { position: fixed; inset: 0; background: rgba(13,13,13,0.88); z-index: 3000; display: flex; align-items: center; justify-content: center; padding: 2rem; opacity: 0; pointer-events: none; transition: opacity 0.35s; }
+  .fifty-tc-overlay.active { opacity: 1; pointer-events: all; }
+  .fifty-tc-modal { background: var(--white); color: var(--ink); border-radius: 4px; max-width: 780px; width: 100%; max-height: 88vh; display: flex; flex-direction: column; transform: translateY(2rem); transition: transform 0.35s; }
+  .fifty-tc-overlay.active .fifty-tc-modal { transform: translateY(0); }
+  .fifty-tc-modal-header { padding: 2rem 2.8rem; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: flex-start; flex-shrink: 0; background: var(--white); border-radius: 4px 4px 0 0; }
+  .fifty-tc-modal-header-text .fifty-tc-eyebrow { font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.5rem; }
+  .fifty-tc-modal-header-text h2 { font-family: 'Playfair Display', serif; font-size: 1.6rem; font-weight: 900; letter-spacing: -0.02em; color: var(--ink); line-height: 1.1; }
+  .fifty-tc-modal-header-text p { font-size: 0.75rem; color: var(--muted); margin-top: 0.3rem; }
+  .fifty-tc-close { background: rgba(0,0,0,0.06); border: 1px solid var(--border); color: var(--muted); width: 36px; height: 36px; border-radius: 50%; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.2s; margin-left: 1.5rem; }
+  .fifty-tc-close:hover { background: rgba(0,0,0,0.1); color: var(--ink); }
+  .fifty-tc-body { padding: 2rem 2.8rem; overflow-y: auto; flex: 1; }
+  .fifty-tc-body h3 { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 700; color: var(--ink); margin: 2rem 0 0.6rem; }
+  .fifty-tc-body h3:first-child { margin-top: 0; }
+  .fifty-tc-body p { font-size: 0.82rem; color: #444; line-height: 1.8; margin-bottom: 0.8rem; }
+  .fifty-tc-body ul { padding-left: 1.2rem; margin-bottom: 0.8rem; }
+  .fifty-tc-body ul li { font-size: 0.82rem; color: #444; line-height: 1.8; margin-bottom: 0.3rem; }
+  .fifty-tc-body strong { color: var(--ink); font-weight: 600; }
+  .fifty-tc-divider { border: none; border-top: 1px solid var(--border); margin: 1.5rem 0; }
+  .fifty-tc-footer { padding: 1.4rem 2.8rem; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; flex-shrink: 0; background: var(--paper); border-radius: 0 0 4px 4px; flex-wrap: wrap; gap: 1rem; }
+  .fifty-tc-footer p { font-size: 0.72rem; color: var(--muted); }
+  .fifty-tc-footer-cta { background: var(--ink); color: var(--paper); border: none; padding: 0.7rem 1.8rem; border-radius: 2px; font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; transition: background 0.2s; }
+  .fifty-tc-footer-cta:hover { background: var(--accent); }
+  @media (max-width: 640px) { .fifty-tc-modal-header, .fifty-tc-body, .fifty-tc-footer { padding-left: 1.4rem; padding-right: 1.4rem; } }
+
   /* PRICING MODAL */
   .fifty-pricing-overlay { position: fixed; inset: 0; background: rgba(13,13,13,0.85); z-index: 3000; display: flex; align-items: center; justify-content: center; padding: 2rem; opacity: 0; pointer-events: none; transition: opacity 0.35s; }
   .fifty-pricing-overlay.active { opacity: 1; pointer-events: all; }
@@ -351,6 +376,7 @@
     <li><button class="fifty-nav-btn" onclick="fiftyOpenIncluded()">What's Included</button></li>
     <li><button class="fifty-nav-btn" onclick="fiftyOpenPricing()">Pricing</button></li>
     <li><a href="#fifty-faq">FAQ</a></li>
+    <li><button class="fifty-nav-btn" onclick="fiftyOpenTC()">T&amp;Cs</button></li>
     <li><button class="fifty-nav-btn fifty-nav-cta" onclick="fiftyOpenModal()">Get Started</button></li>
   </ul>
 </nav>
@@ -762,6 +788,122 @@
   </div>
 </div>
 
+<!-- T&C MODAL -->
+<div class="fifty-tc-overlay" id="fiftyTCOverlay" onclick="fiftyCloseTCOutside(event)">
+  <div class="fifty-tc-modal">
+    <div class="fifty-tc-modal-header">
+      <div class="fifty-tc-modal-header-text">
+        <div class="fifty-tc-eyebrow">Legal Agreement</div>
+        <h2>Terms &amp; Conditions</h2>
+        <p>Last updated: May 2025 &nbsp;·&nbsp; Fifty Web Services</p>
+      </div>
+      <button class="fifty-tc-close" onclick="fiftyCloseTC()">✕</button>
+    </div>
+    <div class="fifty-tc-body">
+
+      <h3>1. Who We Are</h3>
+      <p>These Terms and Conditions govern the website design, hosting, and related services ("the Service") provided by Fifty Web Services ("we", "us", "our"), a business operating in Scotland, United Kingdom. By engaging our services or making a payment, you ("the Client", "you") agree to be bound by these terms in full.</p>
+      <p>If you have any questions before signing up, please contact us at <strong>hello@fiftysites.co.uk</strong> before proceeding.</p>
+
+      <hr class="fifty-tc-divider">
+
+      <h3>2. The Service</h3>
+      <p>We provide the following as part of your subscription:</p>
+      <ul>
+        <li>A custom-designed website of up to 5 pages, built to your brief</li>
+        <li>Website hosting on UK-based servers, included in the monthly fee</li>
+        <li>An SSL certificate (the padlock icon that makes your site secure)</li>
+        <li>A contact form routed to your nominated email address</li>
+        <li>Google Maps integration showing your business location</li>
+        <li>Links to your social media profiles</li>
+        <li>Unlimited text content updates (processed within 48 business hours)</li>
+        <li>Monthly backups of your website files</li>
+        <li>Priority email support during UK business hours</li>
+      </ul>
+      <p>The Service does not include the purchase or registration of a domain name (your web address), image photography, copywriting, or e-commerce functionality unless explicitly agreed in writing.</p>
+
+      <hr class="fifty-tc-divider">
+
+      <h3>3. Fees &amp; Payment</h3>
+      <p><strong>Setup Fee:</strong> A one-time fee of <strong>£50</strong> is payable before work begins. This covers the design and build of your website. Work will not commence until this fee has been received and cleared.</p>
+      <p><strong>Monthly Subscription:</strong> Following launch, a recurring fee of <strong>£50 per month</strong> is charged in advance. Payment is due on the same date each month from the date your website goes live.</p>
+      <p><strong>Logo Design (Optional):</strong> If requested, a logo design service is available for a one-time fee of <strong>£19.99</strong>, payable before design work begins.</p>
+      <p><strong>Additional Pages:</strong> Each page beyond the included 5 is available at <strong>£5 per month</strong>, added to your recurring subscription.</p>
+      <p>All prices are inclusive of VAT where applicable. Payments are accepted by bank transfer or card. Invoices are issued by email. Late payments may result in your website being temporarily suspended until the outstanding balance is cleared.</p>
+
+      <hr class="fifty-tc-divider">
+
+      <h3>4. Getting Your Website Live</h3>
+      <p>Once your setup fee has been received, we will contact you within 2 business days to begin gathering the information we need (your business details, content, photos, preferences). You agree to provide this in a timely manner.</p>
+      <p>We aim to deliver a first draft of your website within <strong>5–7 business days</strong> of receiving all required content from you. Delays caused by late or incomplete content from you will not be our responsibility.</p>
+      <p>You will have the opportunity to review the draft and request reasonable revisions. We will make changes until you are satisfied before going live.</p>
+
+      <hr class="fifty-tc-divider">
+
+      <h3>5. Your Responsibilities</h3>
+      <p>You agree to:</p>
+      <ul>
+        <li>Provide accurate information about your business and its activities</li>
+        <li>Ensure that any content, images, or logos you supply to us are legally owned by you or that you have the right to use them</li>
+        <li>Not use your website to promote illegal activities, misleading claims, or content that infringes any third-party rights</li>
+        <li>Keep your contact and payment details up to date</li>
+        <li>Notify us promptly if your business details change</li>
+      </ul>
+      <p>We reserve the right to suspend or terminate your website immediately if we reasonably believe these obligations are being breached, without liability to you.</p>
+
+      <hr class="fifty-tc-divider">
+
+      <h3>6. Ownership &amp; Intellectual Property</h3>
+      <p><strong>Your content:</strong> Any content, images, logos, or text you provide to us remain your property at all times.</p>
+      <p><strong>Your website:</strong> Upon receipt of all fees owed and subject to these terms, you own the content and layout of your website. On cancellation, we will provide you with all website files so you can host it elsewhere.</p>
+      <p><strong>Our design work:</strong> Design elements, code structure, and templates created by us remain our intellectual property. You are licensed to use them as part of your website but may not resell, redistribute, or sub-license them to any third party.</p>
+
+      <hr class="fifty-tc-divider">
+
+      <h3>7. Cancellation</h3>
+      <p>You may cancel your subscription at any time by giving us <strong>30 days' written notice</strong> by email to hello@fiftysites.co.uk. Your website will remain live until the end of your notice period, after which hosting will cease.</p>
+      <p>On cancellation, we will supply you with all your website files within 5 business days so you can take them elsewhere if you wish.</p>
+      <p>We reserve the right to cancel the Service by giving you 30 days' written notice. In this event, we will issue a pro-rata refund for any unused subscription period paid in advance.</p>
+
+      <hr class="fifty-tc-divider">
+
+      <h3>8. Refunds</h3>
+      <p>The £50 setup fee is non-refundable once design work has commenced. If you cancel before any work has begun, a full refund will be issued within 5 business days.</p>
+      <p>Monthly subscription fees are non-refundable for the current billing period. Cancellations take effect at the end of the 30-day notice period.</p>
+      <p>Logo design fees are non-refundable once initial concepts have been delivered to you.</p>
+
+      <hr class="fifty-tc-divider">
+
+      <h3>9. Limitation of Liability</h3>
+      <p>We take reasonable care to ensure your website is live, secure, and functioning at all times. However, we cannot guarantee 100% uptime and shall not be liable for losses arising from temporary outages, server issues, or circumstances beyond our reasonable control (including but not limited to force majeure events, third-party service failures, or internet disruptions).</p>
+      <p>Our total liability to you in connection with the Service shall not exceed the total fees paid by you in the 3 months preceding the event giving rise to the claim.</p>
+      <p>We are not liable for any indirect, consequential, or economic loss, including loss of business, profits, or revenue, however caused.</p>
+
+      <hr class="fifty-tc-divider">
+
+      <h3>10. Privacy &amp; Data</h3>
+      <p>Any personal data you provide to us (including your name, email address, and business details) will be used solely for the purpose of providing the Service. We will not sell or share your data with third parties except as necessary to deliver the Service (e.g. our hosting provider).</p>
+      <p>Your website may collect data from your visitors through contact forms. You are responsible for ensuring your website complies with applicable data protection laws, including the UK GDPR. We can advise on adding a Privacy Policy to your site on request.</p>
+
+      <hr class="fifty-tc-divider">
+
+      <h3>11. Changes to These Terms</h3>
+      <p>We may update these Terms and Conditions from time to time. We will notify you by email at least 14 days before any material changes take effect. Continued use of the Service after that date constitutes your acceptance of the revised terms.</p>
+
+      <hr class="fifty-tc-divider">
+
+      <h3>12. Governing Law</h3>
+      <p>These Terms and Conditions are governed by and construed in accordance with the laws of <strong>Scotland</strong>. Any disputes arising from these terms shall be subject to the exclusive jurisdiction of the Scottish courts.</p>
+      <p>If you are a consumer, you also have rights under applicable UK consumer protection legislation which these terms do not affect.</p>
+
+    </div>
+    <div class="fifty-tc-footer">
+      <p>By engaging our services you confirm you have read and agree to these terms.</p>
+      <button class="fifty-tc-footer-cta" onclick="fiftyCloseTC()">I've Read These</button>
+    </div>
+  </div>
+</div>
+
 <!-- PRICING MODAL -->
 <div class="fifty-pricing-overlay" id="fiftyPricingOverlay" onclick="fiftyClosePricingOutside(event)">
   <div class="fifty-pricing-modal">
@@ -924,6 +1066,10 @@
 </div>
 
 <script>
+  function fiftyOpenTC() { document.getElementById('fiftyTCOverlay').classList.add('active'); }
+  function fiftyCloseTC() { document.getElementById('fiftyTCOverlay').classList.remove('active'); }
+  function fiftyCloseTCOutside(e) { if (e.target === document.getElementById('fiftyTCOverlay')) fiftyCloseTC(); }
+
   function fiftyOpenPricing() { document.getElementById('fiftyPricingOverlay').classList.add('active'); }
   function fiftyClosePricing() { document.getElementById('fiftyPricingOverlay').classList.remove('active'); }
   function fiftyClosePricingOutside(e) { if (e.target === document.getElementById('fiftyPricingOverlay')) fiftyClosePricing(); }
@@ -1025,6 +1171,7 @@
       if (document.getElementById('fiftyModal').classList.contains('active')) fiftyCloseModal();
       if (document.getElementById('fiftyIncludedOverlay').classList.contains('active')) fiftyCloseIncluded();
       if (document.getElementById('fiftyPricingOverlay').classList.contains('active')) fiftyClosePricing();
+      if (document.getElementById('fiftyTCOverlay').classList.contains('active')) fiftyCloseTC();
     }
     if (document.getElementById('fiftyLightbox').classList.contains('active')) {
       if (e.key === 'ArrowLeft') fiftyNavLightbox(-1);
