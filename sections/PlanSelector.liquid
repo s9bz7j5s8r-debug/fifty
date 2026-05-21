@@ -91,6 +91,36 @@
   /* ── DIVIDER ── */
   .fp-divider { height: 1px; background: rgba(255,255,255,0.06); margin: 1.2rem 0; }
 
+  /* ── T&C CHECKBOX ── */
+  .fp-tc-row { display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 1rem; padding: 1rem 1.2rem; border: 1px solid rgba(255,255,255,0.07); border-radius: 3px; background: rgba(255,255,255,0.02); }
+  .fp-tc-checkbox { width: 20px; height: 20px; border: 1.5px solid rgba(255,255,255,0.2); border-radius: 3px; flex-shrink: 0; display: grid; place-items: center; cursor: pointer; transition: border-color 0.2s, background 0.2s; margin-top: 0.05rem; }
+  .fp-tc-checkbox.checked { background: #c8401a; border-color: #c8401a; }
+  .fp-tc-checkbox .fp-tc-tick { display: none; color: white; font-size: 0.7rem; }
+  .fp-tc-checkbox.checked .fp-tc-tick { display: block; }
+  .fp-tc-text { font-size: 0.72rem; color: rgba(255,255,255,0.4); line-height: 1.65; }
+  .fp-tc-text a { color: rgba(200,64,26,0.9); text-decoration: underline; cursor: pointer; }
+  .fp-tc-text a:hover { color: #c8401a; }
+
+  /* ── CTA DISABLED STATE ── */
+  .fp-cta.fp-cta-disabled { opacity: 0.28; pointer-events: none; cursor: not-allowed; }
+
+  /* ── T&C MODAL ── */
+  .fp-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.82); z-index: 9000; align-items: center; justify-content: center; padding: 1.5rem; }
+  .fp-modal-overlay.open { display: flex; }
+  .fp-modal { background: #1a1a1a; border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; max-width: 640px; width: 100%; max-height: 85vh; display: flex; flex-direction: column; }
+  .fp-modal-head { padding: 1.4rem 1.8rem 1rem; border-bottom: 1px solid rgba(255,255,255,0.07); display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-shrink: 0; }
+  .fp-modal-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 900; color: white; letter-spacing: -0.02em; }
+  .fp-modal-close { background: none; border: none; color: rgba(255,255,255,0.3); font-size: 1.3rem; cursor: pointer; padding: 0; line-height: 1; flex-shrink: 0; transition: color 0.2s; }
+  .fp-modal-close:hover { color: rgba(255,255,255,0.7); }
+  .fp-modal-body { padding: 1.4rem 1.8rem 1.8rem; overflow-y: auto; font-size: 0.73rem; color: rgba(255,255,255,0.45); line-height: 1.9; }
+  .fp-modal-body h3 { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: rgba(255,255,255,0.6); margin: 1.4rem 0 0.4rem; }
+  .fp-modal-body h3:first-child { margin-top: 0; }
+  .fp-modal-body p { margin-bottom: 0.6rem; }
+  .fp-modal-body strong { color: rgba(255,255,255,0.75); font-weight: 500; }
+  .fp-modal-foot { padding: 1rem 1.8rem; border-top: 1px solid rgba(255,255,255,0.07); display: flex; justify-content: flex-end; flex-shrink: 0; }
+  .fp-modal-accept { background: #c8401a; color: white; border: none; padding: 0.7rem 1.6rem; font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; border-radius: 3px; transition: background 0.2s; }
+  .fp-modal-accept:hover { background: #a8341a; }
+
   /* ── MOBILE ── */
   @media (max-width: 520px) {
     .fp-plan-features { grid-template-columns: 1fr; }
@@ -191,8 +221,18 @@
       </div>
     </div>
 
+    <!-- T&C CHECKBOX -->
+    <div class="fp-tc-row">
+      <div class="fp-tc-checkbox" id="fpTcBox" onclick="fpToggleTc()" role="checkbox" aria-checked="false">
+        <span class="fp-tc-tick">✓</span>
+      </div>
+      <div class="fp-tc-text">
+        I agree to the <a onclick="fpOpenTc(); return false;">Terms &amp; Conditions</a>, including the <strong>£50/month recurring subscription</strong> and a <strong>30-day cancellation notice</strong>. I understand the one-time setup fee of <strong>£50</strong> is non-refundable once work has commenced.
+      </div>
+    </div>
+
     <!-- CTA -->
-    <a href="/cart/53809850089811:1,53809949933907:1" class="fp-cta" id="fpCta">
+    <a href="/cart/53809850089811:1,53809949933907:1" class="fp-cta fp-cta-disabled" id="fpCta">
       Continue to Checkout &nbsp;→
     </a>
 
@@ -218,12 +258,108 @@
   </div>
 </div>
 
+<!-- T&C MODAL -->
+<div class="fp-modal-overlay" id="fpTcModal" onclick="fpCloseTcIfOutside(event)">
+  <div class="fp-modal" role="dialog" aria-modal="true" aria-labelledby="fpModalTitle">
+    <div class="fp-modal-head">
+      <div class="fp-modal-title" id="fpModalTitle">Terms &amp; Conditions</div>
+      <button class="fp-modal-close" onclick="fpCloseTc()" aria-label="Close">&times;</button>
+    </div>
+    <div class="fp-modal-body">
+
+      <h3>1. Parties</h3>
+      <p>These Terms &amp; Conditions ("Agreement") are between <strong>Fifty</strong> ("we", "us", "our") and you, the customer ("you", "your"). By proceeding to checkout you confirm you have read, understood, and agree to be bound by this Agreement.</p>
+
+      <h3>2. Services</h3>
+      <p>We will design, build, and host a custom website for your business. The website will be delivered within the timescales outlined in our onboarding confirmation. Ongoing hosting, SSL, and unlimited minor updates are included in the monthly subscription.</p>
+
+      <h3>3. Subscription &amp; Billing</h3>
+      <p>The monthly subscription fee is <strong>£50.00 per month</strong>, billed on a recurring basis from the date of your first payment. Your first payment also includes a <strong>one-time setup fee of £50.00</strong>. If you add the Professional Logo Design add-on, the additional <strong>£19.99 one-time fee</strong> is charged on your first payment.</p>
+      <p>Payments are processed securely via Shopify Payments. By subscribing you authorise us to charge your payment method on a recurring monthly basis until you cancel.</p>
+
+      <h3>4. Cancellation</h3>
+      <p>You may cancel your subscription at any time by giving us <strong>30 days' written notice</strong> by email. Notice must be sent to our support email address. You will continue to have access to your website until the end of the notice period. No refunds are issued for any part of a monthly subscription period already paid.</p>
+      <p>Upon cancellation, we will provide you with a full export of your website files within 14 days. We reserve the right to take the website offline after the final subscription period ends.</p>
+
+      <h3>5. Setup Fee &amp; Refunds</h3>
+      <p>The one-time setup fee of £50.00 covers the initial design and build work. <strong>This fee is non-refundable once we have commenced work on your website</strong>, typically within 48 hours of receiving your completed onboarding form. If you cancel before we have begun work, the setup fee will be refunded in full within 14 days.</p>
+      <p>Under the Consumer Contracts (Information, Cancellation and Additional Charges) Regulations 2013, you have a 14-day right to cancel from the date of purchase, unless you have expressly requested that we begin work before that period ends. By completing checkout you acknowledge and agree that we may begin work immediately, and you understand this may affect your right to a full refund of the setup fee.</p>
+
+      <h3>6. Website Ownership &amp; Access</h3>
+      <p>While your subscription is active you have full access to and use of your website. The website is hosted on our infrastructure. If your subscription lapses or is cancelled, we reserve the right to take the website offline. All original design assets remain the intellectual property of Fifty unless otherwise agreed in writing.</p>
+
+      <h3>7. Content &amp; Acceptable Use</h3>
+      <p>You are responsible for ensuring all content you provide (text, images, logos) is lawful and does not infringe any third-party rights. We reserve the right to refuse to publish content that is unlawful, defamatory, or otherwise inappropriate. We may update your website content on request but are not liable for any inaccuracies in content you supply.</p>
+
+      <h3>8. Limitation of Liability</h3>
+      <p>To the maximum extent permitted by law, our total liability to you under this Agreement shall not exceed the total amount paid by you in the 12 months preceding any claim. We are not liable for any indirect, special, or consequential loss, including but not limited to loss of revenue, profits, or business opportunity.</p>
+
+      <h3>9. Governing Law</h3>
+      <p>This Agreement is governed by and construed in accordance with the law of <strong>England and Wales</strong>. Any disputes shall be subject to the exclusive jurisdiction of the courts of England and Wales.</p>
+
+      <h3>10. Changes to These Terms</h3>
+      <p>We may update these Terms from time to time. We will notify you by email at least 30 days before any material changes take effect. Continued use of the service after that date constitutes acceptance of the updated Terms.</p>
+
+      <h3>11. Contact</h3>
+      <p>If you have any questions about these Terms, please contact us at <strong>hello@fifty.design</strong>.</p>
+      <p style="margin-top:1rem; font-size: 0.66rem; color: rgba(255,255,255,0.2);">Last updated: May 2025</p>
+
+    </div>
+    <div class="fp-modal-foot">
+      <button class="fp-modal-accept" onclick="fpAcceptTc()">I Accept &nbsp;→</button>
+    </div>
+  </div>
+</div>
+
 <script>
   var FP_SUBSCRIPTION = 53809850089811;
   var FP_SETUP       = 53809949933907;
   var FP_LOGO        = 53809996759379;
 
   var fpLogoSelected = false;
+  var fpTcAccepted = false;
+
+  /* ── T&C MODAL ── */
+  function fpOpenTc() {
+    document.getElementById('fpTcModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function fpCloseTc() {
+    document.getElementById('fpTcModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  function fpCloseTcIfOutside(e) {
+    if (e.target === document.getElementById('fpTcModal')) fpCloseTc();
+  }
+  function fpAcceptTc() {
+    fpCloseTc();
+    if (!fpTcAccepted) {
+      fpTcAccepted = true;
+      var box = document.getElementById('fpTcBox');
+      box.classList.add('checked');
+      box.setAttribute('aria-checked', 'true');
+      document.getElementById('fpCta').classList.remove('fp-cta-disabled');
+    }
+  }
+
+  /* ── T&C CHECKBOX ── */
+  function fpToggleTc() {
+    fpTcAccepted = !fpTcAccepted;
+    var box = document.getElementById('fpTcBox');
+    box.classList.toggle('checked', fpTcAccepted);
+    box.setAttribute('aria-checked', fpTcAccepted.toString());
+    var cta = document.getElementById('fpCta');
+    if (fpTcAccepted) {
+      cta.classList.remove('fp-cta-disabled');
+    } else {
+      cta.classList.add('fp-cta-disabled');
+    }
+  }
+
+  /* ── ESCAPE KEY TO CLOSE MODAL ── */
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') fpCloseTc();
+  });
 
   function fpToggleAddon() {
     fpLogoSelected = !fpLogoSelected;
@@ -250,7 +386,12 @@
 
     var cartUrl = '/cart/' + FP_SUBSCRIPTION + ':1,' + FP_SETUP + ':1';
     if (fpLogoSelected) cartUrl += ',' + FP_LOGO + ':1';
-    document.getElementById('fpCta').href = cartUrl;
+    var cta = document.getElementById('fpCta');
+    cta.href = cartUrl;
+    // preserve disabled state
+    if (!fpTcAccepted) {
+      cta.classList.add('fp-cta-disabled');
+    }
   }
 </script>
 
