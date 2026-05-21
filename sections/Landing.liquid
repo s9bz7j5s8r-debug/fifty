@@ -402,6 +402,21 @@
   .fifty-reveal { opacity: 0; transform: translateY(2rem); transition: opacity 0.7s ease, transform 0.7s ease; }
   .fifty-reveal.visible { opacity: 1; transform: none; }
 
+  /* NAV MOBILE MENU */
+  .fifty-nav-hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; background: none; border: none; cursor: pointer; padding: 0.3rem; z-index: 210; }
+  .fifty-nav-hamburger span { display: block; width: 22px; height: 2px; background: var(--ink); border-radius: 2px; transition: transform 0.25s, opacity 0.25s; }
+  .fifty-nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .fifty-nav-hamburger.open span:nth-child(2) { opacity: 0; }
+  .fifty-nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+  .fifty-nav-mobile { display: none; position: fixed; top: 61px; left: 0; right: 0; background: var(--paper); border-bottom: 1px solid var(--border); z-index: 199; padding: 1rem 0; box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+  .fifty-nav-mobile.open { display: block; }
+  .fifty-nav-mobile ul { list-style: none; display: flex; flex-direction: column; }
+  .fifty-nav-mobile li { border-bottom: 1px solid var(--border); }
+  .fifty-nav-mobile li:last-child { border-bottom: none; }
+  .fifty-nav-mobile button, .fifty-nav-mobile a { display: block; width: 100%; text-align: left; padding: 1rem 2rem; background: none; border: none; cursor: pointer; font-family: 'DM Mono', monospace; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+  .fifty-nav-mobile button:hover, .fifty-nav-mobile a:hover { color: var(--ink); }
+  .fifty-nav-mobile .fifty-nav-mobile-cta { background: var(--ink); color: var(--paper) !important; text-align: center; margin: 1rem 1.5rem 0.5rem; border-radius: 2px; }
+
   /* RESPONSIVE */
   @media (max-width: 900px) { .fifty-portfolio-grid { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 768px) {
@@ -412,7 +427,34 @@
     .fifty-portfolio-grid { grid-template-columns: 1fr; }
     .fifty-scene-4 .fifty-split { grid-template-columns: 1fr; grid-template-rows: 1fr 1fr; }
   }
-  @media (max-width: 480px) { .fifty-section { padding: 4rem 1.5rem; } .fifty-process-grid { grid-template-columns: 1fr; } }
+  @media (max-width: 640px) {
+    /* Nav */
+    .fifty-nav-links { display: none; }
+    .fifty-nav-hamburger { display: flex; }
+    .fifty-nav { padding: 1rem 1.5rem; }
+    /* Hero */
+    .fifty-hero { padding: 6rem 1.5rem 3rem; }
+    .fifty-hero-bg-text { display: none; }
+    .fifty-hero-ctas { flex-direction: column; align-items: center; }
+    .fifty-hero-ctas .fifty-btn-primary, .fifty-hero-ctas .fifty-btn-ghost { width: 100%; max-width: 320px; text-align: center; justify-content: center; display: block; }
+    /* Cinema */
+    .fifty-cinema-inner { padding: 3rem 1.5rem; }
+    .fifty-cinema-title { font-size: clamp(1.9rem, 7vw, 2.8rem); }
+    .fifty-play-btn { padding: 0.75rem 1.5rem 0.75rem 0.75rem; font-size: 0.72rem; }
+    .fifty-play-icon { width: 42px; height: 42px; }
+    /* Marquee */
+    .fifty-marquee-bar { font-size: 0.72rem; }
+    /* Why Us */
+    .fifty-why { padding: 4rem 1.5rem; }
+    .fifty-why-table-wrap { margin: 0 -1.5rem; padding: 0 1.5rem; width: calc(100% + 3rem); }
+    /* Sections */
+    .fifty-section { padding: 4rem 1.5rem; }
+    /* FAQ */
+    .fifty-faq-q { font-size: 0.9rem; }
+    /* CTA band */
+    .fifty-cta-band { padding: 4rem 1.5rem; }
+  }
+  @media (max-width: 480px) { .fifty-process-grid { grid-template-columns: 1fr; } }
 {% endstyle %}
 
 <nav class="fifty-nav">
@@ -424,7 +466,19 @@
     <li><button class="fifty-nav-btn" onclick="fiftyOpenTC()">T&amp;Cs</button></li>
     <li><button class="fifty-nav-btn fifty-nav-cta" onclick="fiftyOpenModal()">Get Started</button></li>
   </ul>
+  <button class="fifty-nav-hamburger" id="fiftyHamburger" onclick="fiftyToggleNav()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
+<div class="fifty-nav-mobile" id="fiftyMobileNav">
+  <ul>
+    <li><button onclick="fiftyOpenIncluded(); fiftyToggleNav();">What's Included</button></li>
+    <li><button onclick="fiftyOpenPricing(); fiftyToggleNav();">Pricing</button></li>
+    <li><a href="#fifty-faq" onclick="fiftyToggleNav()">FAQ</a></li>
+    <li><button onclick="fiftyOpenTC(); fiftyToggleNav();">T&amp;Cs</button></li>
+    <li><button class="fifty-nav-mobile-cta" onclick="fiftyOpenModal(); fiftyToggleNav();">Get Started</button></li>
+  </ul>
+</div>
 
 <div class="fifty-wrapper">
 
@@ -1227,6 +1281,13 @@
 </div>
 
 <script>
+  function fiftyToggleNav() {
+    var btn = document.getElementById('fiftyHamburger');
+    var menu = document.getElementById('fiftyMobileNav');
+    btn.classList.toggle('open');
+    menu.classList.toggle('open');
+  }
+
   function fiftyOpenTC() { document.getElementById('fiftyTCOverlay').classList.add('active'); }
   function fiftyCloseTC() { document.getElementById('fiftyTCOverlay').classList.remove('active'); }
   function fiftyCloseTCOutside(e) { if (e.target === document.getElementById('fiftyTCOverlay')) fiftyCloseTC(); }
