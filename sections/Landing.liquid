@@ -2,8 +2,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Mono:wght@300;400;500&family=Bebas+Neue&display=swap" rel="stylesheet">
 
 {% style %}
-  /* Hide the default Shopify header nav on this page */
-  #header-group { display: none !important; }
+  /* Hide the default Shopify header + footer on this page */
+  #header-group, footer { display: none !important; }
+
+  html { scroll-behavior: smooth; scroll-padding-top: 80px; }
 
   /* Custom fixed nav */
   .fifty-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 200; display: flex; align-items: center; justify-content: space-between; padding: 1.2rem 2.5rem; background: var(--paper); border-bottom: 1px solid var(--border); }
@@ -258,7 +260,7 @@
   .fifty-why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.07); border-radius: 4px; overflow: hidden; margin-bottom: 4rem; }
   .fifty-why-card { background: var(--ink); padding: 2.4rem 2rem; transition: background 0.3s; position: relative; }
   .fifty-why-card:hover { background: rgba(255,255,255,0.04); }
-  .fifty-why-card-num { font-family: 'Playfair Display', serif; font-size: 0.8rem; font-style: italic; color: var(--accent); margin-bottom: 1.2rem; letter-spacing: 0.05em; }
+  .fifty-why-card-num { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-style: italic; color: var(--accent); margin-bottom: 1.2rem; letter-spacing: 0.05em; line-height: 1; }
   .fifty-why-card-title { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 900; color: white; line-height: 1.2; margin-bottom: 0.8rem; letter-spacing: -0.01em; }
   .fifty-why-card-body { font-size: 0.8rem; color: rgba(255,255,255,0.48); line-height: 1.75; }
   .fifty-why-card-body strong { color: rgba(255,255,255,0.8); font-weight: 500; }
@@ -372,14 +374,14 @@
   .fifty-faq-icon { width: 24px; height: 24px; border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; transition: transform 0.3s, background 0.2s; color: var(--muted); flex-shrink: 0; }
   .fifty-faq-item.open .fifty-faq-icon { transform: rotate(45deg); background: var(--accent); border-color: var(--accent); color: white; }
   .fifty-faq-a { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s; font-size: 0.85rem; color: var(--muted); line-height: 1.75; }
-  .fifty-faq-item.open .fifty-faq-a { max-height: 300px; padding-bottom: 1.4rem; }
+  .fifty-faq-item.open .fifty-faq-a { max-height: 600px; padding-bottom: 1.4rem; }
 
   /* CTA BAND */
   .fifty-cta-band { background: var(--accent); padding: 5rem 2.5rem; text-align: center; }
   .fifty-cta-band h2 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; color: white; letter-spacing: -0.02em; margin-bottom: 1rem; }
   .fifty-cta-band p { color: rgba(255,255,255,0.75); margin-bottom: 2rem; font-size: 0.9rem; }
-  .fifty-btn-white { background: white; color: var(--accent); padding: 0.9rem 2.5rem; border: none; border-radius: 2px; font-family: 'DM Mono', monospace; font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; cursor: pointer; transition: transform 0.2s; display: inline-block; }
-  .fifty-btn-white:hover { transform: translateY(-3px); }
+  .fifty-btn-white { background: white; color: var(--accent); padding: 0.9rem 2.5rem; border: none; border-radius: 2px; font-family: 'DM Mono', monospace; font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; text-decoration: none; cursor: pointer; transition: transform 0.2s, background 0.2s; display: inline-block; }
+  .fifty-btn-white:hover { transform: translateY(-3px); background: #f5f0e8; }
 
   /* MODAL */
   .fifty-modal-overlay { position: fixed; inset: 0; background: rgba(13,13,13,0.8); z-index: 3000; display: flex; align-items: center; justify-content: center; padding: 2rem; opacity: 0; pointer-events: none; transition: opacity 0.3s; }
@@ -530,37 +532,37 @@
       <div class="fifty-why-grid fifty-reveal">
 
         <div class="fifty-why-card">
-          <div class="fifty-why-card-num" style="font-size:2.2rem;">01</div>
+          <div class="fifty-why-card-num">01</div>
           <div class="fifty-why-card-title">One flat price. No surprises.</div>
           <p class="fifty-why-card-body">£50 a month. That's it. Hosting, updates, support — all included. No invoices appearing out of nowhere, no renewal shocks, no extras to bolt on. You know exactly what you're paying, every single month.</p>
         </div>
 
         <div class="fifty-why-card">
-          <div class="fifty-why-card-num" style="font-size:2.2rem;">02</div>
+          <div class="fifty-why-card-num">02</div>
           <div class="fifty-why-card-title">Live in days, not months.</div>
           <p class="fifty-why-card-body">Traditional agencies take 6–12 weeks to launch a website. We work fast. Most sites are live within a few days of your first conversation. Your business shouldn't have to wait to look professional.</p>
         </div>
 
         <div class="fifty-why-card">
-          <div class="fifty-why-card-num" style="font-size:2.2rem;">03</div>
+          <div class="fifty-why-card-num">03</div>
           <div class="fifty-why-card-title">No contracts. Leave any time.</div>
           <p class="fifty-why-card-body">We don't trap you in 12-month contracts or charge exit fees. Stay because it works for you — not because you're locked in. Cancel with a month's notice, no questions asked.</p>
         </div>
 
         <div class="fifty-why-card">
-          <div class="fifty-why-card-num" style="font-size:2.2rem;">04</div>
+          <div class="fifty-why-card-num">04</div>
           <div class="fifty-why-card-title">Real humans, based in the UK.</div>
           <p class="fifty-why-card-body">You're not talking to a chatbot or waiting days for a ticket response. We're a real team, based right here in the UK, who actually care about your business doing well. Changes? Just ask.</p>
         </div>
 
         <div class="fifty-why-card">
-          <div class="fifty-why-card-num" style="font-size:2.2rem;">05</div>
+          <div class="fifty-why-card-num">05</div>
           <div class="fifty-why-card-title">It's your website. You own it.</div>
           <p class="fifty-why-card-body">Some services hold your website hostage — leave and it's gone. Not with us. Everything we build belongs to you. Your content, your domain, your site. We're here to help, not to own you.</p>
         </div>
 
         <div class="fifty-why-card">
-          <div class="fifty-why-card-num" style="font-size:2.2rem;">06</div>
+          <div class="fifty-why-card-num">06</div>
           <div class="fifty-why-card-title">Built to actually get found.</div>
           <p class="fifty-why-card-body">Every site we build is optimised for Google from day one — fast loading, mobile-friendly, and structured so search engines can find you. You don't need to understand SEO. We handle it.</p>
         </div>
@@ -732,7 +734,7 @@
           <text x="30" y="52" font-family="Bebas Neue, sans-serif" font-size="18" fill="#fff" letter-spacing="2">SWIFT PLUMBING</text>
           <rect x="465" y="36" width="115" height="22" fill="#ff7a3a"/>
           <text x="475" y="51" font-family="monospace" font-size="8" letter-spacing="1" fill="#000">24/7 EMERGENCY ☎</text>
-          <text x="30" y="120" font-family="Bebas Neue, sans-serif" font-size="36" fill="#fff" letter-spacing="1">FIFE'S MOST TRUSTED</text>
+          <text x="30" y="120" font-family="Bebas Neue, sans-serif" font-size="36" fill="#fff" letter-spacing="1">YOUR AREA'S MOST TRUSTED</text>
           <text x="30" y="156" font-family="Bebas Neue, sans-serif" font-size="36" fill="#ff7a3a" letter-spacing="1">PLUMBERS.</text>
           <text x="30" y="184" font-family="monospace" font-size="9" fill="#8a9eb0">Boiler repairs · Emergency callouts · Bathroom installs · Gas Safe</text>
           <rect x="30" y="200" width="130" height="34" fill="#ff7a3a"/>
@@ -747,7 +749,7 @@
           <text x="385" y="170" font-family="monospace" font-size="8" fill="#8a9eb0">"Came out in an hour on</text>
           <text x="385" y="184" font-family="monospace" font-size="8" fill="#8a9eb0">a Sunday, fixed it for half</text>
           <text x="385" y="198" font-family="monospace" font-size="8" fill="#8a9eb0">what the last guy quoted."</text>
-          <text x="385" y="225" font-family="monospace" font-size="8" fill="#ff7a3a">— Margaret, Dunfermline</text>
+          <text x="385" y="225" font-family="monospace" font-size="8" fill="#ff7a3a">— Margaret, Harrogate</text>
           <rect x="30" y="280" width="170" height="80" fill="#1a2530"/>
           <rect x="215" y="280" width="170" height="80" fill="#1a2530"/>
           <rect x="400" y="280" width="170" height="80" fill="#1a2530"/>

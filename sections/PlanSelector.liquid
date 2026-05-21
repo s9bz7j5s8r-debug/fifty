@@ -76,7 +76,7 @@
   .fp-summary-row.fp-total span:last-child { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: white; }
 
   /* ── CTA ── */
-  .fp-cta { width: 100%; background: white; color: #111; border: none; padding: 1.1rem 2rem; font-family: 'DM Mono', monospace; font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; border-radius: 3px; transition: background 0.2s, transform 0.15s; display: flex; align-items: center; justify-content: center; gap: 0.75rem; text-decoration: none; font-weight: 500; }
+  .fp-cta { width: 100%; background: white; color: #111; border: none; padding: 1.1rem 2rem; font-family: 'DM Mono', monospace; font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; border-radius: 3px; display: flex; align-items: center; justify-content: center; gap: 0.75rem; text-decoration: none; font-weight: 500; }
   .fp-cta:hover { background: #f0ebe3; transform: translateY(-1px); }
 
   /* ── PAYMENT NOTE ── */
@@ -92,17 +92,19 @@
   .fp-divider { height: 1px; background: rgba(255,255,255,0.06); margin: 1.2rem 0; }
 
   /* ── T&C CHECKBOX ── */
-  .fp-tc-row { display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 1rem; padding: 1rem 1.2rem; border: 1px solid rgba(255,255,255,0.07); border-radius: 3px; background: rgba(255,255,255,0.02); }
-  .fp-tc-checkbox { width: 20px; height: 20px; border: 1.5px solid rgba(255,255,255,0.2); border-radius: 3px; flex-shrink: 0; display: grid; place-items: center; cursor: pointer; transition: border-color 0.2s, background 0.2s; margin-top: 0.05rem; }
+  .fp-tc-row { display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 1rem; padding: 1rem 1.2rem; border: 1px solid rgba(255,255,255,0.07); border-radius: 3px; background: rgba(255,255,255,0.02); cursor: pointer; transition: border-color 0.2s, background 0.2s; }
+  .fp-tc-row:hover { border-color: rgba(255,255,255,0.15); background: rgba(255,255,255,0.035); }
+  .fp-tc-checkbox { width: 20px; height: 20px; border: 1.5px solid rgba(255,255,255,0.25); border-radius: 3px; flex-shrink: 0; display: grid; place-items: center; transition: border-color 0.2s, background 0.2s; margin-top: 0.05rem; }
   .fp-tc-checkbox.checked { background: #c8401a; border-color: #c8401a; }
   .fp-tc-checkbox .fp-tc-tick { display: none; color: white; font-size: 0.7rem; }
   .fp-tc-checkbox.checked .fp-tc-tick { display: block; }
-  .fp-tc-text { font-size: 0.72rem; color: rgba(255,255,255,0.4); line-height: 1.65; }
-  .fp-tc-text a { color: rgba(200,64,26,0.9); text-decoration: underline; cursor: pointer; }
-  .fp-tc-text a:hover { color: #c8401a; }
+  .fp-tc-text { font-size: 0.72rem; color: rgba(255,255,255,0.55); line-height: 1.65; }
+  .fp-tc-text a { color: #c8401a; text-decoration: underline; cursor: pointer; }
+  .fp-tc-text a:hover { color: #e04d20; }
 
   /* ── CTA DISABLED STATE ── */
-  .fp-cta.fp-cta-disabled { opacity: 0.28; pointer-events: none; cursor: not-allowed; }
+  .fp-cta { transition: background 0.2s, transform 0.15s, opacity 0.3s; }
+  .fp-cta.fp-cta-disabled { opacity: 0.25; pointer-events: none; }
 
   /* ── T&C MODAL ── */
   .fp-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.82); z-index: 9000; align-items: center; justify-content: center; padding: 1.5rem; }
@@ -222,17 +224,17 @@
     </div>
 
     <!-- T&C CHECKBOX -->
-    <div class="fp-tc-row">
-      <div class="fp-tc-checkbox" id="fpTcBox" onclick="fpToggleTc()" role="checkbox" aria-checked="false">
+    <div class="fp-tc-row" onclick="fpToggleTc()" role="checkbox" aria-checked="false" id="fpTcRow">
+      <div class="fp-tc-checkbox" id="fpTcBox">
         <span class="fp-tc-tick">✓</span>
       </div>
-      <div class="fp-tc-text">
+      <div class="fp-tc-text" onclick="event.stopPropagation()">
         I agree to the <a onclick="fpOpenTc(); return false;">Terms &amp; Conditions</a>, including the <strong>£50/month recurring subscription</strong> and a <strong>30-day cancellation notice</strong>. I understand the one-time setup fee of <strong>£50</strong> is non-refundable once work has commenced.
       </div>
     </div>
 
     <!-- CTA -->
-    <a href="/cart/53809850089811:1,53809949933907:1" class="fp-cta fp-cta-disabled" id="fpCta">
+    <a href="/cart/53809850089811:1,53809949933907:1" class="fp-cta fp-cta-disabled" id="fpCta" title="Please accept the Terms &amp; Conditions above to continue">
       Continue to Checkout &nbsp;→
     </a>
 
@@ -335,10 +337,11 @@
     fpCloseTc();
     if (!fpTcAccepted) {
       fpTcAccepted = true;
-      var box = document.getElementById('fpTcBox');
-      box.classList.add('checked');
-      box.setAttribute('aria-checked', 'true');
-      document.getElementById('fpCta').classList.remove('fp-cta-disabled');
+      document.getElementById('fpTcBox').classList.add('checked');
+      document.getElementById('fpTcRow').setAttribute('aria-checked', 'true');
+      var cta = document.getElementById('fpCta');
+      cta.classList.remove('fp-cta-disabled');
+      cta.removeAttribute('title');
     }
   }
 
@@ -346,13 +349,16 @@
   function fpToggleTc() {
     fpTcAccepted = !fpTcAccepted;
     var box = document.getElementById('fpTcBox');
+    var row = document.getElementById('fpTcRow');
     box.classList.toggle('checked', fpTcAccepted);
-    box.setAttribute('aria-checked', fpTcAccepted.toString());
+    row.setAttribute('aria-checked', fpTcAccepted.toString());
     var cta = document.getElementById('fpCta');
     if (fpTcAccepted) {
       cta.classList.remove('fp-cta-disabled');
+      cta.removeAttribute('title');
     } else {
       cta.classList.add('fp-cta-disabled');
+      cta.setAttribute('title', 'Please accept the Terms & Conditions above to continue');
     }
   }
 
