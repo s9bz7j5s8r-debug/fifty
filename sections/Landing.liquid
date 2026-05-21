@@ -467,6 +467,20 @@
   .fifty-cart-item-remove { background: none; border: none; color: rgba(255,255,255,0.18); cursor: pointer; font-size: 0.7rem; padding: 0.2rem; line-height: 1; transition: color 0.15s; }
   .fifty-cart-item-remove:hover { color: rgba(200,64,26,0.85); }
 
+  /* CART BUNDLE (subscription + setup fee locked together) */
+  .fifty-cart-bundle { margin: 0.8rem 1.6rem 0; border: 1px solid rgba(200,64,26,0.28); border-radius: 3px; background: rgba(200,64,26,0.06); overflow: hidden; }
+  .fifty-cart-bundle-top { padding: 0.85rem 1rem 0.6rem; display: flex; align-items: center; gap: 0.6rem; border-bottom: 1px solid rgba(200,64,26,0.14); }
+  .fifty-cart-bundle-badge { font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.12em; text-transform: uppercase; background: var(--accent); color: white; padding: 0.18rem 0.5rem; border-radius: 2px; flex-shrink: 0; }
+  .fifty-cart-bundle-name { font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 700; color: white; letter-spacing: -0.01em; }
+  .fifty-cart-bundle-lines { padding: 0.55rem 1rem 0; }
+  .fifty-cart-bundle-line { display: flex; justify-content: space-between; align-items: center; padding: 0.3rem 0; }
+  .fifty-cart-bundle-line-name { font-size: 0.7rem; color: rgba(255,255,255,0.4); }
+  .fifty-cart-bundle-line-price { font-size: 0.7rem; color: rgba(255,255,255,0.5); }
+  .fifty-cart-bundle-foot { display: flex; justify-content: space-between; align-items: center; padding: 0.6rem 1rem 0.75rem; margin-top: 0.4rem; border-top: 1px solid rgba(200,64,26,0.14); }
+  .fifty-cart-bundle-total-label { font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.28); }
+  .fifty-cart-bundle-total-right { display: flex; align-items: center; gap: 0.55rem; }
+  .fifty-cart-bundle-total { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: white; }
+
   /* CART EMPTY + LOADING */
   .fifty-cart-empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 3.5rem 2rem; text-align: center; min-height: 320px; }
   .fifty-cart-empty-bag { width: 52px; height: 52px; margin: 0 auto 1.4rem; opacity: 0.18; }
@@ -1450,36 +1464,80 @@
 
   <div class="fifty-cart-items" id="fiftyCartItems">
     {% if cart.item_count > 0 %}
+      {% comment %} Collect bundle item keys + total {% endcomment %}
+      {% assign sub_key = '' %}
+      {% assign setup_key = '' %}
+      {% assign bundle_total = 0 %}
       {% for item in cart.items %}
-        <div class="fifty-cart-item" data-key="{{ item.key }}">
-          <div class="fifty-cart-item-img">
-            {% if item.image %}
-              <img src="{{ item.image | img_url: '120x120', crop: 'center' }}" alt="{{ item.title | escape }}" loading="lazy">
-            {% else %}
-              <span class="fifty-cart-item-placeholder">F.</span>
-            {% endif %}
+        {% if item.variant_id == 53809850089811 %}
+          {% assign sub_key = item.key %}
+          {% assign bundle_total = bundle_total | plus: item.line_price %}
+        {% elsif item.variant_id == 53809949933907 %}
+          {% assign setup_key = item.key %}
+          {% assign bundle_total = bundle_total | plus: item.line_price %}
+        {% endif %}
+      {% endfor %}
+
+      {% comment %} Render bundle block if subscription or setup fee present {% endcomment %}
+      {% if sub_key != '' or setup_key != '' %}
+        <div class="fifty-cart-bundle">
+          <div class="fifty-cart-bundle-top">
+            <span class="fifty-cart-bundle-badge">Bundle</span>
+            <span class="fifty-cart-bundle-name">The Fifty Plan</span>
           </div>
-          <div class="fifty-cart-item-body">
-            <div class="fifty-cart-item-title">{{ item.product.title }}</div>
-            {% unless item.variant.title == 'Default Title' %}
-              <div class="fifty-cart-item-variant">{{ item.variant.title }}</div>
-            {% endunless %}
-            <div class="fifty-cart-item-row">
-              <div class="fifty-cart-qty">
-                <button class="fifty-cart-qty-btn" onclick="fiftyUpdateQty('{{ item.key }}', {{ item.quantity | minus: 1 }})" aria-label="Decrease">−</button>
-                <span class="fifty-cart-qty-num">{{ item.quantity }}</span>
-                <button class="fifty-cart-qty-btn" onclick="fiftyUpdateQty('{{ item.key }}', {{ item.quantity | plus: 1 }})" aria-label="Increase">+</button>
-              </div>
-              <div class="fifty-cart-item-right">
-                <span class="fifty-cart-item-price">{{ item.line_price | money }}</span>
-                <button class="fifty-cart-item-remove" onclick="fiftyUpdateQty('{{ item.key }}', 0)" title="Remove" aria-label="Remove {{ item.title | escape }}">✕</button>
-              </div>
+          <div class="fifty-cart-bundle-lines">
+            {% for item in cart.items %}
+              {% if item.variant_id == 53809850089811 or item.variant_id == 53809949933907 %}
+                <div class="fifty-cart-bundle-line">
+                  <span class="fifty-cart-bundle-line-name">{{ item.product.title }}</span>
+                  <span class="fifty-cart-bundle-line-price">{{ item.line_price | money }}</span>
+                </div>
+              {% endif %}
+            {% endfor %}
+          </div>
+          <div class="fifty-cart-bundle-foot">
+            <span class="fifty-cart-bundle-total-label">Bundle total</span>
+            <div class="fifty-cart-bundle-total-right">
+              <span class="fifty-cart-bundle-total">{{ bundle_total | money }}</span>
+              <button class="fifty-cart-item-remove" onclick="fiftyRemoveBundleKeys('{{ sub_key }}','{{ setup_key }}')" title="Remove plan" aria-label="Remove plan">✕</button>
             </div>
           </div>
         </div>
+      {% endif %}
+
+      {% comment %} Render non-bundle items (logo add-on etc) normally {% endcomment %}
+      {% for item in cart.items %}
+        {% unless item.variant_id == 53809850089811 or item.variant_id == 53809949933907 %}
+          <div class="fifty-cart-item" data-key="{{ item.key }}">
+            <div class="fifty-cart-item-img">
+              {% if item.image %}
+                <img src="{{ item.image | img_url: '120x120', crop: 'center' }}" alt="{{ item.title | escape }}" loading="lazy">
+              {% else %}
+                <span class="fifty-cart-item-placeholder">F.</span>
+              {% endif %}
+            </div>
+            <div class="fifty-cart-item-body">
+              <div class="fifty-cart-item-title">{{ item.product.title }}</div>
+              {% unless item.variant.title == 'Default Title' %}
+                <div class="fifty-cart-item-variant">{{ item.variant.title }}</div>
+              {% endunless %}
+              <div class="fifty-cart-item-row">
+                <div class="fifty-cart-qty">
+                  <button class="fifty-cart-qty-btn" onclick="fiftyUpdateQty('{{ item.key }}', {{ item.quantity | minus: 1 }})" aria-label="Decrease">−</button>
+                  <span class="fifty-cart-qty-num">{{ item.quantity }}</span>
+                  <button class="fifty-cart-qty-btn" onclick="fiftyUpdateQty('{{ item.key }}', {{ item.quantity | plus: 1 }})" aria-label="Increase">+</button>
+                </div>
+                <div class="fifty-cart-item-right">
+                  <span class="fifty-cart-item-price">{{ item.line_price | money }}</span>
+                  <button class="fifty-cart-item-remove" onclick="fiftyUpdateQty('{{ item.key }}', 0)" title="Remove" aria-label="Remove {{ item.title | escape }}">✕</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endunless %}
       {% endfor %}
     {% else %}
-      <div class="fifty-cart-empty" id="fiftyCartEmpty">
+      <div class="fifty-cart-empty">
         <div class="fifty-cart-empty-bag">
           <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
         </div>
@@ -1630,6 +1688,8 @@
   });
 
   // ── CART DRAWER ──────────────────────────────────────────────
+  // Variant IDs that form the locked bundle (subscription + setup fee)
+  var FIFTY_BUNDLE_VIDS = [53809850089811, 53809949933907];
   var fiftyCartIsOpen = false;
 
   function fiftyOpenCart() {
@@ -1690,15 +1750,50 @@
       return;
     }
 
-    var html = '';
+    // Split items: bundle (subscription + setup fee) vs standalone (logo etc)
+    var bundleItems = [], otherItems = [];
     cart.items.forEach(function(item) {
+      if (FIFTY_BUNDLE_VIDS.indexOf(item.variant_id) !== -1) bundleItems.push(item);
+      else otherItems.push(item);
+    });
+
+    var html = '';
+
+    // ── Bundle block ──
+    if (bundleItems.length > 0) {
+      var bundleTotal = bundleItems.reduce(function(s, i) { return s + i.line_price; }, 0);
+      var bundleArgKeys = bundleItems.map(function(i) { return "'" + i.key + "'"; }).join(',');
+
+      html += '<div class="fifty-cart-bundle">';
+      html +=   '<div class="fifty-cart-bundle-top">';
+      html +=     '<span class="fifty-cart-bundle-badge">Bundle</span>';
+      html +=     '<span class="fifty-cart-bundle-name">The Fifty Plan</span>';
+      html +=   '</div>';
+      html +=   '<div class="fifty-cart-bundle-lines">';
+      bundleItems.forEach(function(item) {
+        html += '<div class="fifty-cart-bundle-line">';
+        html +=   '<span class="fifty-cart-bundle-line-name">' + (item.product_title || item.title) + '</span>';
+        html +=   '<span class="fifty-cart-bundle-line-price">' + fiftyFmt(item.line_price) + '</span>';
+        html += '</div>';
+      });
+      html +=   '</div>';
+      html +=   '<div class="fifty-cart-bundle-foot">';
+      html +=     '<span class="fifty-cart-bundle-total-label">Bundle total</span>';
+      html +=     '<div class="fifty-cart-bundle-total-right">';
+      html +=       '<span class="fifty-cart-bundle-total">' + fiftyFmt(bundleTotal) + '</span>';
+      html +=       '<button class="fifty-cart-item-remove" onclick="fiftyRemoveBundleKeys(' + bundleArgKeys + ')" title="Remove plan" aria-label="Remove plan">✕</button>';
+      html +=     '</div>';
+      html +=   '</div>';
+      html += '</div>';
+    }
+
+    // ── Standalone items (logo add-on, etc) ──
+    otherItems.forEach(function(item) {
       var imgHtml = item.image
         ? '<img src="' + item.image + '" alt="' + (item.title || '').replace(/"/g, '&quot;') + '" loading="lazy">'
         : '<span class="fifty-cart-item-placeholder">F.</span>';
-
       var varHtml = (item.variant_title && item.variant_title !== 'Default Title')
-        ? '<div class="fifty-cart-item-variant">' + item.variant_title + '</div>'
-        : '';
+        ? '<div class="fifty-cart-item-variant">' + item.variant_title + '</div>' : '';
 
       html +=
         '<div class="fifty-cart-item" data-key="' + item.key + '">' +
@@ -1708,18 +1803,19 @@
             varHtml +
             '<div class="fifty-cart-item-row">' +
               '<div class="fifty-cart-qty">' +
-                '<button class="fifty-cart-qty-btn" onclick="fiftyUpdateQty(\'' + item.key + '\',' + (item.quantity - 1) + ')" aria-label="Decrease quantity">−</button>' +
+                '<button class="fifty-cart-qty-btn" onclick="fiftyUpdateQty(\'' + item.key + '\',' + (item.quantity - 1) + ')" aria-label="Decrease">−</button>' +
                 '<span class="fifty-cart-qty-num">' + item.quantity + '</span>' +
-                '<button class="fifty-cart-qty-btn" onclick="fiftyUpdateQty(\'' + item.key + '\',' + (item.quantity + 1) + ')" aria-label="Increase quantity">+</button>' +
+                '<button class="fifty-cart-qty-btn" onclick="fiftyUpdateQty(\'' + item.key + '\',' + (item.quantity + 1) + ')" aria-label="Increase">+</button>' +
               '</div>' +
               '<div class="fifty-cart-item-right">' +
                 '<span class="fifty-cart-item-price">' + fiftyFmt(item.line_price) + '</span>' +
-                '<button class="fifty-cart-item-remove" onclick="fiftyUpdateQty(\'' + item.key + '\',0)" title="Remove item" aria-label="Remove">✕</button>' +
+                '<button class="fifty-cart-item-remove" onclick="fiftyUpdateQty(\'' + item.key + '\',0)" title="Remove" aria-label="Remove">✕</button>' +
               '</div>' +
             '</div>' +
           '</div>' +
         '</div>';
     });
+
     itemsEl.innerHTML = html;
 
     // Update footer
@@ -1735,14 +1831,31 @@
   }
 
   function fiftyUpdateQty(key, qty) {
-    // Optimistic fade on the item
     var itemEl = document.querySelector('.fifty-cart-item[data-key="' + key + '"]');
     if (itemEl) itemEl.style.opacity = '0.4';
-
     fetch('/cart/change.js', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id: key, quantity: qty })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(cart) { fiftyRenderCart(cart); })
+    .catch(function() { fiftyLoadCart(); });
+  }
+
+  // Remove all bundle items atomically — subscription + setup fee go together
+  function fiftyRemoveBundleKeys() {
+    var keys = Array.prototype.slice.call(arguments).filter(function(k) { return k && k.length > 0; });
+    if (!keys.length) return;
+    // Optimistic fade
+    var bundle = document.querySelector('.fifty-cart-bundle');
+    if (bundle) bundle.style.opacity = '0.4';
+    var updates = {};
+    keys.forEach(function(k) { updates[k] = 0; });
+    fetch('/cart/update.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ updates: updates })
     })
     .then(function(r) { return r.json(); })
     .then(function(cart) { fiftyRenderCart(cart); })
