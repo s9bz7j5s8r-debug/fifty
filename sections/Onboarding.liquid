@@ -1,0 +1,699 @@
+{% comment %}
+  Onboarding.liquid — Fifty post-purchase website brief form
+  4 steps: Business → Contact → Website preferences → Content & socials
+  Ends with a confirmation screen showing the client what happens next
+{% endcomment %}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+{% style %}
+  #header-group, footer { display: none !important; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #111111; }
+
+  /* ── SHELL ── */
+  .fo { font-family: 'DM Mono', monospace; background: #111111; min-height: 100vh; color: #f5f0e8; }
+
+  /* ── NAV ── */
+  .fo-nav { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 2.5rem; border-bottom: 1px solid rgba(255,255,255,0.07); }
+  .fo-logo { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 900; letter-spacing: -0.03em; color: #f5f0e8; text-decoration: none; }
+  .fo-logo span { color: #c8401a; }
+  .fo-nav-label { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.25); }
+
+  /* ── PROGRESS BAR ── */
+  .fo-progress { padding: 2rem 2.5rem 0; max-width: 640px; margin: 0 auto; }
+  .fo-progress-track { height: 2px; background: rgba(255,255,255,0.07); border-radius: 2px; position: relative; margin-bottom: 1rem; }
+  .fo-progress-fill { height: 100%; background: #c8401a; border-radius: 2px; transition: width 0.5s cubic-bezier(0.4,0,0.2,1); }
+  .fo-progress-meta { display: flex; justify-content: space-between; align-items: center; }
+  .fo-step-label { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.3); }
+  .fo-step-count { font-family: 'Playfair Display', serif; font-size: 0.85rem; font-style: italic; color: rgba(255,255,255,0.25); }
+
+  /* ── FORM WRAP ── */
+  .fo-wrap { max-width: 640px; margin: 0 auto; padding: 0 2.5rem 5rem; }
+
+  /* ── STEP ── */
+  .fo-step { display: none; animation: foSlideIn 0.4s cubic-bezier(0.4,0,0.2,1) both; }
+  .fo-step.active { display: block; }
+  @keyframes foSlideIn { from { opacity: 0; transform: translateY(1.5rem); } to { opacity: 1; transform: none; } }
+
+  .fo-step-head { padding: 2.5rem 0 2rem; border-bottom: 1px solid rgba(255,255,255,0.06); margin-bottom: 2rem; }
+  .fo-step-num { font-size: 0.62rem; letter-spacing: 0.25em; text-transform: uppercase; color: #c8401a; margin-bottom: 0.7rem; }
+  .fo-step-title { font-family: 'Playfair Display', serif; font-size: clamp(1.7rem, 4vw, 2.4rem); font-weight: 900; line-height: 1.05; letter-spacing: -0.03em; color: white; }
+  .fo-step-title em { font-style: italic; color: #c8401a; }
+  .fo-step-sub { font-size: 0.78rem; color: rgba(255,255,255,0.38); line-height: 1.8; margin-top: 0.6rem; }
+
+  /* ── FIELDS ── */
+  .fo-field { margin-bottom: 1.5rem; }
+  .fo-field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .fo-label { display: block; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 0.55rem; }
+  .fo-label span { color: #c8401a; margin-left: 2px; }
+  .fo-input, .fo-textarea, .fo-select { width: 100%; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1); border-radius: 2px; padding: 0.85rem 1rem; font-family: 'DM Mono', monospace; font-size: 0.8rem; color: #f5f0e8; transition: border-color 0.2s, background 0.2s; outline: none; -webkit-appearance: none; }
+  .fo-input::placeholder, .fo-textarea::placeholder { color: rgba(255,255,255,0.2); }
+  .fo-input:focus, .fo-textarea:focus, .fo-select:focus { border-color: #c8401a; background: rgba(200,64,26,0.05); }
+  .fo-input.error, .fo-textarea.error { border-color: rgba(220,80,60,0.7); }
+  .fo-textarea { min-height: 100px; resize: vertical; line-height: 1.6; }
+  .fo-select { cursor: pointer; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(255,255,255,0.3)' stroke-width='1.5' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.5rem; }
+  .fo-select option { background: #1a1a1a; }
+  .fo-hint { font-size: 0.65rem; color: rgba(255,255,255,0.22); margin-top: 0.4rem; line-height: 1.5; }
+  .fo-error-msg { font-size: 0.65rem; color: #e05040; margin-top: 0.35rem; display: none; }
+  .fo-error-msg.visible { display: block; }
+
+  /* ── CHECKBOX CARDS (pages) ── */
+  .fo-check-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6rem; }
+  .fo-check-card { border: 1px solid rgba(255,255,255,0.09); border-radius: 2px; padding: 0.75rem 1rem; cursor: pointer; transition: border-color 0.2s, background 0.2s; user-select: none; display: flex; align-items: center; gap: 0.6rem; }
+  .fo-check-card:hover { border-color: rgba(255,255,255,0.2); }
+  .fo-check-card.selected { border-color: #c8401a; background: rgba(200,64,26,0.08); }
+  .fo-check-card input { display: none; }
+  .fo-check-box { width: 14px; height: 14px; border: 1.5px solid rgba(255,255,255,0.2); border-radius: 2px; flex-shrink: 0; transition: all 0.15s; display: grid; place-items: center; }
+  .fo-check-card.selected .fo-check-box { background: #c8401a; border-color: #c8401a; }
+  .fo-check-box::after { content: '✓'; font-size: 0.55rem; color: white; display: none; line-height: 1; }
+  .fo-check-card.selected .fo-check-box::after { display: block; }
+  .fo-check-text { font-size: 0.73rem; color: rgba(255,255,255,0.55); line-height: 1.3; }
+  .fo-check-card.selected .fo-check-text { color: rgba(255,255,255,0.85); }
+
+  /* ── TONE CARDS ── */
+  .fo-tone-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.6rem; }
+  .fo-tone-card { border: 1px solid rgba(255,255,255,0.09); border-radius: 2px; padding: 1rem 1.2rem; cursor: pointer; transition: border-color 0.2s, background 0.2s; user-select: none; }
+  .fo-tone-card:hover { border-color: rgba(255,255,255,0.2); }
+  .fo-tone-card.selected { border-color: #c8401a; background: rgba(200,64,26,0.08); }
+  .fo-tone-title { font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 700; color: white; margin-bottom: 0.2rem; }
+  .fo-tone-desc { font-size: 0.68rem; color: rgba(255,255,255,0.35); line-height: 1.4; }
+  .fo-tone-card.selected .fo-tone-desc { color: rgba(255,255,255,0.55); }
+
+  /* ── LOGO RADIO ── */
+  .fo-radio-group { display: flex; flex-direction: column; gap: 0.5rem; }
+  .fo-radio-card { border: 1px solid rgba(255,255,255,0.09); border-radius: 2px; padding: 0.8rem 1.1rem; cursor: pointer; transition: border-color 0.2s, background 0.2s; user-select: none; display: flex; align-items: center; gap: 0.75rem; }
+  .fo-radio-card:hover { border-color: rgba(255,255,255,0.2); }
+  .fo-radio-card.selected { border-color: #c8401a; background: rgba(200,64,26,0.08); }
+  .fo-radio-dot { width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,0.2); flex-shrink: 0; transition: all 0.15s; display: grid; place-items: center; }
+  .fo-radio-card.selected .fo-radio-dot { border-color: #c8401a; }
+  .fo-radio-dot::after { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #c8401a; display: none; }
+  .fo-radio-card.selected .fo-radio-dot::after { display: block; }
+  .fo-radio-label { font-size: 0.78rem; color: rgba(255,255,255,0.55); }
+  .fo-radio-card.selected .fo-radio-label { color: rgba(255,255,255,0.85); }
+
+  /* ── SOCIALS ── */
+  .fo-social-row { display: grid; grid-template-columns: 120px 1fr; gap: 0.6rem; align-items: center; margin-bottom: 0.6rem; }
+  .fo-social-label-fixed { font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.3); }
+
+  /* ── DIVIDER ── */
+  .fo-divider { height: 1px; background: rgba(255,255,255,0.06); margin: 1.8rem 0; }
+
+  /* ── BUTTONS ── */
+  .fo-btn-row { display: flex; gap: 1rem; align-items: center; margin-top: 2.5rem; }
+  .fo-btn-next { background: white; color: #111; border: none; padding: 0.95rem 2.2rem; font-family: 'DM Mono', monospace; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; border-radius: 2px; transition: background 0.2s, transform 0.15s; display: flex; align-items: center; gap: 0.6rem; }
+  .fo-btn-next:hover { background: #f0ebe3; transform: translateY(-1px); }
+  .fo-btn-back { background: none; border: 1px solid rgba(255,255,255,0.12); color: rgba(255,255,255,0.4); padding: 0.95rem 1.6rem; font-family: 'DM Mono', monospace; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; border-radius: 2px; transition: border-color 0.2s, color 0.2s; }
+  .fo-btn-back:hover { border-color: rgba(255,255,255,0.3); color: rgba(255,255,255,0.65); }
+  .fo-btn-submit { background: #c8401a; color: white; border: none; padding: 0.95rem 2.5rem; font-family: 'DM Mono', monospace; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; border-radius: 2px; transition: background 0.2s, transform 0.15s; display: flex; align-items: center; gap: 0.6rem; }
+  .fo-btn-submit:hover { background: #b03516; transform: translateY(-1px); }
+
+  /* ── CONFIRMATION SCREEN ── */
+  .fo-confirm { display: none; animation: foSlideIn 0.5s ease both; padding: 3rem 2.5rem 5rem; max-width: 640px; margin: 0 auto; }
+  .fo-confirm.active { display: block; }
+  .fo-confirm-badge { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: #c8401a; border: 1px solid rgba(200,64,26,0.35); padding: 0.3rem 0.8rem; border-radius: 2px; margin-bottom: 1.5rem; }
+  .fo-confirm-title { font-family: 'Playfair Display', serif; font-size: clamp(2.2rem, 6vw, 3.5rem); font-weight: 900; line-height: 1.0; letter-spacing: -0.03em; color: white; margin-bottom: 0.8rem; }
+  .fo-confirm-title em { font-style: italic; color: #c8401a; }
+  .fo-confirm-sub { font-size: 0.82rem; color: rgba(255,255,255,0.42); line-height: 1.85; margin-bottom: 3rem; max-width: 480px; }
+
+  /* ── TIMELINE ── */
+  .fo-timeline-label { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: 1.2rem; }
+  .fo-timeline { border: 1px solid rgba(255,255,255,0.07); border-radius: 3px; overflow: hidden; margin-bottom: 2.5rem; }
+  .fo-tl-row { display: grid; grid-template-columns: 120px 1fr; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .fo-tl-row:last-child { border-bottom: none; }
+  .fo-tl-when { padding: 1.2rem 1.4rem; border-right: 1px solid rgba(255,255,255,0.05); }
+  .fo-tl-day { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: #c8401a; margin-bottom: 0.15rem; }
+  .fo-tl-time { font-size: 0.68rem; color: rgba(255,255,255,0.2); }
+  .fo-tl-what { padding: 1.2rem 1.4rem; }
+  .fo-tl-action { font-size: 0.8rem; color: rgba(255,255,255,0.75); margin-bottom: 0.2rem; font-weight: 500; }
+  .fo-tl-detail { font-size: 0.7rem; color: rgba(255,255,255,0.3); line-height: 1.5; }
+
+  /* ── INBOX NOTE ── */
+  .fo-inbox { background: rgba(200,64,26,0.07); border: 1px solid rgba(200,64,26,0.2); border-radius: 3px; padding: 1.2rem 1.5rem; display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 2rem; }
+  .fo-inbox-icon { font-size: 1.1rem; flex-shrink: 0; }
+  .fo-inbox-text { font-size: 0.76rem; color: rgba(255,255,255,0.5); line-height: 1.7; }
+  .fo-inbox-text strong { color: rgba(255,255,255,0.85); font-weight: 500; }
+
+  /* ── HOME LINK ── */
+  .fo-home-link { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.3); text-decoration: none; transition: color 0.2s; }
+  .fo-home-link:hover { color: rgba(255,255,255,0.6); }
+
+  /* ── MOBILE ── */
+  @media (max-width: 600px) {
+    .fo-nav { padding: 1.2rem 1.5rem; }
+    .fo-progress { padding: 1.5rem 1.5rem 0; }
+    .fo-wrap { padding: 0 1.5rem 4rem; }
+    .fo-field-row { grid-template-columns: 1fr; }
+    .fo-check-grid { grid-template-columns: repeat(2, 1fr); }
+    .fo-tl-row { grid-template-columns: 90px 1fr; }
+    .fo-confirm { padding: 2rem 1.5rem 4rem; }
+    .fo-btn-row { flex-direction: column-reverse; }
+    .fo-btn-next, .fo-btn-submit, .fo-btn-back { width: 100%; justify-content: center; }
+    .fo-social-row { grid-template-columns: 1fr; gap: 0.3rem; }
+  }
+{% endstyle %}
+
+<div class="fo" id="foApp">
+
+  <!-- NAV -->
+  <nav class="fo-nav">
+    <a href="/" class="fo-logo">Fifty<span>.</span></a>
+    <span class="fo-nav-label">Website Brief</span>
+  </nav>
+
+  <!-- PROGRESS -->
+  <div class="fo-progress" id="foProgressWrap">
+    <div class="fo-progress-track">
+      <div class="fo-progress-fill" id="foProgressFill" style="width:25%"></div>
+    </div>
+    <div class="fo-progress-meta">
+      <span class="fo-step-label" id="foStepLabel">Your business</span>
+      <span class="fo-step-count" id="foStepCount">Step 1 of 4</span>
+    </div>
+  </div>
+
+  <!-- FORM WRAPPER -->
+  <form class="fo-wrap" id="foForm" action="/contact" method="POST" onsubmit="foHandleSubmit(event)">
+    <input type="hidden" name="form_type" value="contact">
+    <input type="hidden" name="utf8" value="✓">
+    <input type="hidden" name="contact[name]" id="foHiddenName">
+    <input type="hidden" name="contact[email]" id="foHiddenEmail">
+    <input type="hidden" name="contact[body]" id="foHiddenBody">
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- STEP 1 — YOUR BUSINESS                 -->
+    <!-- ═══════════════════════════════════════ -->
+    <div class="fo-step active" id="foStep1">
+      <div class="fo-step-head">
+        <div class="fo-step-num">Step 01 — Your business</div>
+        <h1 class="fo-step-title">Tell us about<br><em>what you do.</em></h1>
+        <p class="fo-step-sub">The more you tell us, the better your site will be. There are no wrong answers — just give us the real picture.</p>
+      </div>
+
+      <div class="fo-field">
+        <label class="fo-label" for="foBusinessName">Business name <span>*</span></label>
+        <input class="fo-input" id="foBusinessName" type="text" placeholder="e.g. Ross's Plumbing Services" autocomplete="organization">
+        <div class="fo-error-msg" id="foBusinessNameErr">Please enter your business name</div>
+      </div>
+
+      <div class="fo-field">
+        <label class="fo-label" for="foBusinessDesc">What does your business do? <span>*</span></label>
+        <textarea class="fo-textarea" id="foBusinessDesc" placeholder="Describe what you do, who you help, and what makes you different. Write it how you'd say it to a customer."></textarea>
+        <div class="fo-error-msg" id="foBusinessDescErr">Please describe your business</div>
+      </div>
+
+      <div class="fo-field fo-field-row">
+        <div>
+          <label class="fo-label" for="foIndustry">Industry / trade</label>
+          <select class="fo-select" id="foIndustry">
+            <option value="" disabled selected>Select your industry</option>
+            <option>Trades & Construction</option>
+            <option>Health & Beauty</option>
+            <option>Food & Hospitality</option>
+            <option>Retail & E-commerce</option>
+            <option>Professional Services</option>
+            <option>Creative & Design</option>
+            <option>Fitness & Wellness</option>
+            <option>Education & Coaching</option>
+            <option>Property & Lettings</option>
+            <option>Automotive</option>
+            <option>Technology</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div>
+          <label class="fo-label" for="foTagline">Tagline <span style="color:rgba(255,255,255,0.2); font-size:0.58rem;">(optional)</span></label>
+          <input class="fo-input" id="foTagline" type="text" placeholder="e.g. Fast, reliable, local">
+        </div>
+      </div>
+
+      <div class="fo-field">
+        <label class="fo-label">Do you have a logo?</label>
+        <div class="fo-radio-group" id="foLogoStatus">
+          <div class="fo-radio-card selected" onclick="foSelectRadio(this,'foLogoStatus')">
+            <div class="fo-radio-dot"></div>
+            <span class="fo-radio-label">Yes — I'll send it over</span>
+          </div>
+          <div class="fo-radio-card" onclick="foSelectRadio(this,'foLogoStatus')">
+            <div class="fo-radio-dot"></div>
+            <span class="fo-radio-label">No — I added Logo Design to my order</span>
+          </div>
+          <div class="fo-radio-card" onclick="foSelectRadio(this,'foLogoStatus')">
+            <div class="fo-radio-dot"></div>
+            <span class="fo-radio-label">No — please use my business name as a text logo</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="fo-btn-row">
+        <button type="button" class="fo-btn-next" onclick="foNext(1)">Continue &nbsp;→</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- STEP 2 — YOUR CONTACT DETAILS          -->
+    <!-- ═══════════════════════════════════════ -->
+    <div class="fo-step" id="foStep2">
+      <div class="fo-step-head">
+        <div class="fo-step-num">Step 02 — Your details</div>
+        <h1 class="fo-step-title">How we'll<br><em>get in touch.</em></h1>
+        <p class="fo-step-sub">We'll use this to introduce ourselves and keep you posted as we build. We'll also put your contact info on your website.</p>
+      </div>
+
+      <div class="fo-field fo-field-row">
+        <div>
+          <label class="fo-label" for="foContactName">Your name <span>*</span></label>
+          <input class="fo-input" id="foContactName" type="text" placeholder="First and last name" autocomplete="name">
+          <div class="fo-error-msg" id="foContactNameErr">Please enter your name</div>
+        </div>
+        <div>
+          <label class="fo-label" for="foEmail">Email address <span>*</span></label>
+          <input class="fo-input" id="foEmail" type="email" placeholder="you@yourbusiness.com" autocomplete="email">
+          <div class="fo-error-msg" id="foEmailErr">Please enter a valid email</div>
+        </div>
+      </div>
+
+      <div class="fo-field fo-field-row">
+        <div>
+          <label class="fo-label" for="foPhone">Phone number <span>*</span></label>
+          <input class="fo-input" id="foPhone" type="tel" placeholder="07700 000000" autocomplete="tel">
+          <div class="fo-error-msg" id="foPhoneErr">Please enter your phone number</div>
+        </div>
+        <div>
+          <label class="fo-label" for="foWebsiteUrl">Current website <span style="color:rgba(255,255,255,0.2); font-size:0.58rem;">(if any)</span></label>
+          <input class="fo-input" id="foWebsiteUrl" type="url" placeholder="https://...">
+        </div>
+      </div>
+
+      <div class="fo-field">
+        <label class="fo-label" for="foAddress">Business address</label>
+        <input class="fo-input" id="foAddress" type="text" placeholder="Street, Town, Postcode" autocomplete="street-address">
+        <div class="fo-hint">This goes in your website footer and contact page. Leave blank to omit it.</div>
+      </div>
+
+      <div class="fo-btn-row">
+        <button type="button" class="fo-btn-next" onclick="foNext(2)">Continue &nbsp;→</button>
+        <button type="button" class="fo-btn-back" onclick="foPrev(2)">← Back</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- STEP 3 — WEBSITE PREFERENCES           -->
+    <!-- ═══════════════════════════════════════ -->
+    <div class="fo-step" id="foStep3">
+      <div class="fo-step-head">
+        <div class="fo-step-num">Step 03 — Your website</div>
+        <h1 class="fo-step-title">Let's shape<br><em>the look and feel.</em></h1>
+        <p class="fo-step-sub">Don't overthink it — pick what feels right and we'll make it work beautifully.</p>
+      </div>
+
+      <div class="fo-field">
+        <label class="fo-label">Which pages do you need? <span>*</span> <span style="color:rgba(255,255,255,0.2); font-size:0.58rem;">(select all that apply)</span></label>
+        <div class="fo-check-grid" id="foPagesGrid">
+          <div class="fo-check-card selected" onclick="foToggleCheck(this)">
+            <div class="fo-check-box"></div>
+            <span class="fo-check-text">Home</span>
+          </div>
+          <div class="fo-check-card selected" onclick="foToggleCheck(this)">
+            <div class="fo-check-box"></div>
+            <span class="fo-check-text">About</span>
+          </div>
+          <div class="fo-check-card selected" onclick="foToggleCheck(this)">
+            <div class="fo-check-box"></div>
+            <span class="fo-check-text">Services</span>
+          </div>
+          <div class="fo-check-card selected" onclick="foToggleCheck(this)">
+            <div class="fo-check-box"></div>
+            <span class="fo-check-text">Contact</span>
+          </div>
+          <div class="fo-check-card" onclick="foToggleCheck(this)">
+            <div class="fo-check-box"></div>
+            <span class="fo-check-text">Gallery / Portfolio</span>
+          </div>
+          <div class="fo-check-card" onclick="foToggleCheck(this)">
+            <div class="fo-check-box"></div>
+            <span class="fo-check-text">Testimonials</span>
+          </div>
+          <div class="fo-check-card" onclick="foToggleCheck(this)">
+            <div class="fo-check-box"></div>
+            <span class="fo-check-text">Blog / News</span>
+          </div>
+          <div class="fo-check-card" onclick="foToggleCheck(this)">
+            <div class="fo-check-box"></div>
+            <span class="fo-check-text">FAQ</span>
+          </div>
+          <div class="fo-check-card" onclick="foToggleCheck(this)">
+            <div class="fo-check-box"></div>
+            <span class="fo-check-text">Pricing</span>
+          </div>
+        </div>
+        <div class="fo-error-msg" id="foPagesErr">Please select at least one page</div>
+      </div>
+
+      <div class="fo-divider"></div>
+
+      <div class="fo-field">
+        <label class="fo-label">What tone suits your business? <span>*</span></label>
+        <div class="fo-tone-grid" id="foToneGrid">
+          <div class="fo-tone-card" onclick="foSelectTone(this)">
+            <div class="fo-tone-title">Professional</div>
+            <div class="fo-tone-desc">Clean, authoritative, and trustworthy. Great for trades, finance, or legal.</div>
+          </div>
+          <div class="fo-tone-card" onclick="foSelectTone(this)">
+            <div class="fo-tone-title">Friendly</div>
+            <div class="fo-tone-desc">Warm, approachable, and conversational. Great for local businesses and services.</div>
+          </div>
+          <div class="fo-tone-card" onclick="foSelectTone(this)">
+            <div class="fo-tone-title">Bold</div>
+            <div class="fo-tone-desc">Strong, confident, high-impact. Great for fitness, automotive, or creative work.</div>
+          </div>
+          <div class="fo-tone-card" onclick="foSelectTone(this)">
+            <div class="fo-tone-title">Minimal</div>
+            <div class="fo-tone-desc">Understated and elegant. Great for design studios, coaches, or consultants.</div>
+          </div>
+        </div>
+        <div class="fo-error-msg" id="foToneErr">Please select a tone</div>
+      </div>
+
+      <div class="fo-divider"></div>
+
+      <div class="fo-field fo-field-row">
+        <div>
+          <label class="fo-label" for="foColours">Colours in mind? <span style="color:rgba(255,255,255,0.2); font-size:0.58rem;">(optional)</span></label>
+          <input class="fo-input" id="foColours" type="text" placeholder="e.g. Navy and gold, or #1a1a1a">
+          <div class="fo-hint">Describe it or drop in a hex code. We'll match your brand.</div>
+        </div>
+        <div>
+          <label class="fo-label" for="foInspiration">Sites you love the look of <span style="color:rgba(255,255,255,0.2); font-size:0.58rem;">(optional)</span></label>
+          <input class="fo-input" id="foInspiration" type="text" placeholder="URLs or just names">
+        </div>
+      </div>
+
+      <div class="fo-btn-row">
+        <button type="button" class="fo-btn-next" onclick="foNext(3)">Continue &nbsp;→</button>
+        <button type="button" class="fo-btn-back" onclick="foPrev(3)">← Back</button>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════ -->
+    <!-- STEP 4 — CONTENT & SOCIALS             -->
+    <!-- ═══════════════════════════════════════ -->
+    <div class="fo-step" id="foStep4">
+      <div class="fo-step-head">
+        <div class="fo-step-num">Step 04 — Content & socials</div>
+        <h1 class="fo-step-title">The final<br><em>details.</em></h1>
+        <p class="fo-step-sub">Almost there. Give us what you've got and we'll take it from here. Nothing here is required — anything you don't have, we'll sort.</p>
+      </div>
+
+      <div class="fo-field">
+        <label class="fo-label">Do you have photos for the site?</label>
+        <div class="fo-radio-group" id="foPhotosStatus">
+          <div class="fo-radio-card selected" onclick="foSelectRadio(this,'foPhotosStatus')">
+            <div class="fo-radio-dot"></div>
+            <span class="fo-radio-label">Yes — I'll share them via a link below</span>
+          </div>
+          <div class="fo-radio-card" onclick="foSelectRadio(this,'foPhotosStatus')">
+            <div class="fo-radio-dot"></div>
+            <span class="fo-radio-label">No — please use stock photos (we'll choose relevant ones)</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="fo-field">
+        <label class="fo-label" for="foPhotosLink">Photos / files link <span style="color:rgba(255,255,255,0.2); font-size:0.58rem;">(optional)</span></label>
+        <input class="fo-input" id="foPhotosLink" type="url" placeholder="Google Drive, Dropbox, WeTransfer...">
+        <div class="fo-hint">Drop a shared link to any photos, your logo, or other files. You can also send them after.</div>
+      </div>
+
+      <div class="fo-divider"></div>
+
+      <div class="fo-field">
+        <label class="fo-label">Social media <span style="color:rgba(255,255,255,0.2); font-size:0.58rem;">(optional — add any that apply)</span></label>
+        <div class="fo-social-row">
+          <span class="fo-social-label-fixed">Instagram</span>
+          <input class="fo-input" id="foInstagram" type="text" placeholder="@yourbusiness or full URL">
+        </div>
+        <div class="fo-social-row">
+          <span class="fo-social-label-fixed">Facebook</span>
+          <input class="fo-input" id="foFacebook" type="text" placeholder="facebook.com/yourbusiness">
+        </div>
+        <div class="fo-social-row">
+          <span class="fo-social-label-fixed">TikTok</span>
+          <input class="fo-input" id="foTiktok" type="text" placeholder="@yourbusiness">
+        </div>
+        <div class="fo-social-row">
+          <span class="fo-social-label-fixed">LinkedIn</span>
+          <input class="fo-input" id="foLinkedin" type="text" placeholder="linkedin.com/in/...">
+        </div>
+        <div class="fo-social-row">
+          <span class="fo-social-label-fixed">X / Twitter</span>
+          <input class="fo-input" id="foTwitter" type="text" placeholder="@yourbusiness">
+        </div>
+      </div>
+
+      <div class="fo-divider"></div>
+
+      <div class="fo-field">
+        <label class="fo-label" for="foNotes">Anything else we should know? <span style="color:rgba(255,255,255,0.2); font-size:0.58rem;">(optional)</span></label>
+        <textarea class="fo-textarea" id="foNotes" placeholder="Anything specific you want included, avoided, or flagged. The more context the better."></textarea>
+      </div>
+
+      <div class="fo-btn-row">
+        <button type="submit" class="fo-btn-submit">Send My Brief &nbsp;→</button>
+        <button type="button" class="fo-btn-back" onclick="foPrev(4)">← Back</button>
+      </div>
+    </div>
+
+  </form>
+
+  <!-- ═══════════════════════════════════════════ -->
+  <!-- CONFIRMATION SCREEN                         -->
+  <!-- ═══════════════════════════════════════════ -->
+  <div class="fo-confirm" id="foConfirm">
+
+    <div class="fo-confirm-badge">✦ Brief received</div>
+    <h1 class="fo-confirm-title">You're in.<br><em>We've got this.</em></h1>
+    <p class="fo-confirm-sub">Your brief is with us. Here's exactly what happens next — we'll keep you posted at every stage, and you'll be live sooner than you think.</p>
+
+    <div class="fo-timeline-label">What to expect</div>
+    <div class="fo-timeline">
+      <div class="fo-tl-row">
+        <div class="fo-tl-when">
+          <div class="fo-tl-day">Today</div>
+          <div class="fo-tl-time">Within 24hrs</div>
+        </div>
+        <div class="fo-tl-what">
+          <div class="fo-tl-action">We review your brief</div>
+          <div class="fo-tl-detail">A real human reads everything you've sent and we introduce ourselves by email. If we have any quick questions, we'll ask them now.</div>
+        </div>
+      </div>
+      <div class="fo-tl-row">
+        <div class="fo-tl-when">
+          <div class="fo-tl-day">Days 1–2</div>
+          <div class="fo-tl-time">Building</div>
+        </div>
+        <div class="fo-tl-what">
+          <div class="fo-tl-action">Your site takes shape</div>
+          <div class="fo-tl-detail">We design and build your website from scratch, tailored to your brief, brand, and industry. No templates, no shortcuts.</div>
+        </div>
+      </div>
+      <div class="fo-tl-row">
+        <div class="fo-tl-when">
+          <div class="fo-tl-day">Day 3</div>
+          <div class="fo-tl-time">Review</div>
+        </div>
+        <div class="fo-tl-what">
+          <div class="fo-tl-action">You get a private preview</div>
+          <div class="fo-tl-detail">We send you a link to review the site before anything goes live. Tell us what you love, what you'd tweak — we'll get it right.</div>
+        </div>
+      </div>
+      <div class="fo-tl-row">
+        <div class="fo-tl-when">
+          <div class="fo-tl-day">Day 4–5</div>
+          <div class="fo-tl-time">Live 🎉</div>
+        </div>
+        <div class="fo-tl-what">
+          <div class="fo-tl-action">Your website goes live</div>
+          <div class="fo-tl-detail">Once you're happy, we connect your domain and flip the switch. Your business is online, looking sharp, and ready for customers.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fo-inbox">
+      <div class="fo-inbox-icon">📬</div>
+      <div class="fo-inbox-text">
+        <strong>Keep an eye on your inbox.</strong> We'll be in touch within 24 hours to introduce ourselves. In the meantime, if you've got photos or files to share, just send them over to <strong>hello@fiftywebsites.com</strong> — the sooner we have them, the sooner you're live.
+      </div>
+    </div>
+
+    <a href="/" class="fo-home-link">← Back to Fifty</a>
+
+  </div>
+
+</div>
+
+<script>
+  var foStepLabels = ['Your business','Your details','Website preferences','Content & socials'];
+  var foCurrent = 1;
+
+  function foShowStep(n) {
+    for (var i = 1; i <= 4; i++) {
+      var el = document.getElementById('foStep' + i);
+      if (el) el.classList.remove('active');
+    }
+    var target = document.getElementById('foStep' + n);
+    if (target) {
+      target.classList.add('active');
+      // Force re-animation
+      target.style.animation = 'none';
+      target.offsetHeight;
+      target.style.animation = '';
+    }
+    var fill = Math.round((n / 4) * 100);
+    document.getElementById('foProgressFill').style.width = fill + '%';
+    document.getElementById('foStepLabel').textContent = foStepLabels[n - 1];
+    document.getElementById('foStepCount').textContent = 'Step ' + n + ' of 4';
+    foCurrent = n;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function foNext(from) {
+    if (!foValidate(from)) return;
+    foShowStep(from + 1);
+  }
+
+  function foPrev(from) {
+    foShowStep(from - 1);
+  }
+
+  function foValidate(step) {
+    var ok = true;
+    if (step === 1) {
+      var bn = document.getElementById('foBusinessName');
+      var bd = document.getElementById('foBusinessDesc');
+      if (!bn.value.trim()) { foShowErr('foBusinessNameErr', bn); ok = false; }
+      else foHideErr('foBusinessNameErr', bn);
+      if (!bd.value.trim()) { foShowErr('foBusinessDescErr', bd); ok = false; }
+      else foHideErr('foBusinessDescErr', bd);
+    }
+    if (step === 2) {
+      var cn = document.getElementById('foContactName');
+      var em = document.getElementById('foEmail');
+      var ph = document.getElementById('foPhone');
+      if (!cn.value.trim()) { foShowErr('foContactNameErr', cn); ok = false; }
+      else foHideErr('foContactNameErr', cn);
+      if (!em.value.trim() || !em.value.includes('@')) { foShowErr('foEmailErr', em); ok = false; }
+      else foHideErr('foEmailErr', em);
+      if (!ph.value.trim()) { foShowErr('foPhoneErr', ph); ok = false; }
+      else foHideErr('foPhoneErr', ph);
+    }
+    if (step === 3) {
+      var pagesSelected = document.querySelectorAll('#foPagesGrid .fo-check-card.selected');
+      if (pagesSelected.length === 0) { document.getElementById('foPagesErr').classList.add('visible'); ok = false; }
+      else document.getElementById('foPagesErr').classList.remove('visible');
+      var toneSelected = document.querySelector('#foToneGrid .fo-tone-card.selected');
+      if (!toneSelected) { document.getElementById('foToneErr').classList.add('visible'); ok = false; }
+      else document.getElementById('foToneErr').classList.remove('visible');
+    }
+    return ok;
+  }
+
+  function foShowErr(id, field) {
+    document.getElementById(id).classList.add('visible');
+    if (field) field.classList.add('error');
+  }
+  function foHideErr(id, field) {
+    document.getElementById(id).classList.remove('visible');
+    if (field) field.classList.remove('error');
+  }
+
+  function foToggleCheck(card) {
+    card.classList.toggle('selected');
+  }
+
+  function foSelectTone(card) {
+    var grid = document.getElementById('foToneGrid');
+    grid.querySelectorAll('.fo-tone-card').forEach(function(c) { c.classList.remove('selected'); });
+    card.classList.add('selected');
+  }
+
+  function foSelectRadio(card, groupId) {
+    var group = document.getElementById(groupId);
+    group.querySelectorAll('.fo-radio-card').forEach(function(c) { c.classList.remove('selected'); });
+    card.classList.add('selected');
+  }
+
+  function foBuildBody() {
+    var lines = [];
+    lines.push('═══════════════════════════════');
+    lines.push('FIFTY WEBSITE BRIEF');
+    lines.push('═══════════════════════════════');
+    lines.push('');
+    lines.push('── BUSINESS ──');
+    lines.push('Name: ' + (document.getElementById('foBusinessName').value || '—'));
+    lines.push('What they do: ' + (document.getElementById('foBusinessDesc').value || '—'));
+    lines.push('Industry: ' + (document.getElementById('foIndustry').value || '—'));
+    lines.push('Tagline: ' + (document.getElementById('foTagline').value || '—'));
+    var logoEl = document.querySelector('#foLogoStatus .fo-radio-card.selected .fo-radio-label');
+    lines.push('Logo status: ' + (logoEl ? logoEl.textContent : '—'));
+    lines.push('');
+    lines.push('── CONTACT ──');
+    lines.push('Name: ' + (document.getElementById('foContactName').value || '—'));
+    lines.push('Email: ' + (document.getElementById('foEmail').value || '—'));
+    lines.push('Phone: ' + (document.getElementById('foPhone').value || '—'));
+    lines.push('Address: ' + (document.getElementById('foAddress').value || '—'));
+    lines.push('Current site: ' + (document.getElementById('foWebsiteUrl').value || '—'));
+    lines.push('');
+    lines.push('── WEBSITE PREFERENCES ──');
+    var pages = [];
+    document.querySelectorAll('#foPagesGrid .fo-check-card.selected .fo-check-text').forEach(function(el) { pages.push(el.textContent); });
+    lines.push('Pages: ' + (pages.join(', ') || '—'));
+    var toneEl = document.querySelector('#foToneGrid .fo-tone-card.selected .fo-tone-title');
+    lines.push('Tone: ' + (toneEl ? toneEl.textContent : '—'));
+    lines.push('Colours: ' + (document.getElementById('foColours').value || '—'));
+    lines.push('Inspiration: ' + (document.getElementById('foInspiration').value || '—'));
+    lines.push('');
+    lines.push('── CONTENT & SOCIALS ──');
+    var photosEl = document.querySelector('#foPhotosStatus .fo-radio-card.selected .fo-radio-label');
+    lines.push('Photos: ' + (photosEl ? photosEl.textContent : '—'));
+    lines.push('Files link: ' + (document.getElementById('foPhotosLink').value || '—'));
+    lines.push('Instagram: ' + (document.getElementById('foInstagram').value || '—'));
+    lines.push('Facebook: ' + (document.getElementById('foFacebook').value || '—'));
+    lines.push('TikTok: ' + (document.getElementById('foTiktok').value || '—'));
+    lines.push('LinkedIn: ' + (document.getElementById('foLinkedin').value || '—'));
+    lines.push('X/Twitter: ' + (document.getElementById('foTwitter').value || '—'));
+    lines.push('');
+    lines.push('── NOTES ──');
+    lines.push(document.getElementById('foNotes').value || 'None');
+    return lines.join('\n');
+  }
+
+  function foHandleSubmit(e) {
+    e.preventDefault();
+    if (!foValidate(4)) return;
+
+    // Populate hidden fields
+    document.getElementById('foHiddenName').value = document.getElementById('foContactName').value;
+    document.getElementById('foHiddenEmail').value = document.getElementById('foEmail').value;
+    document.getElementById('foHiddenBody').value = foBuildBody();
+
+    // Submit silently in background
+    var form = document.getElementById('foForm');
+    var data = new FormData(form);
+    fetch('/contact', { method: 'POST', body: data, headers: { 'Accept': 'application/json' } });
+
+    // Show confirmation immediately
+    document.getElementById('foForm').style.display = 'none';
+    document.getElementById('foProgressWrap').style.display = 'none';
+    document.getElementById('foConfirm').classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Onboarding Form",
+  "settings": []
+}
+{% endschema %}

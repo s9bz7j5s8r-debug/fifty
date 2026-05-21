@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "onboarding": {
+      "type": "Onboarding",
+      "settings": {}
+    }
+  },
+  "order": ["onboarding"]
+}
