@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "plan-selector": {
+      "type": "PlanSelector",
+      "settings": {}
+    }
+  },
+  "order": ["plan-selector"]
+}

@@ -1,0 +1,262 @@
+{% comment %}
+  PlanSelector.liquid — Fifty pre-checkout plan selection page
+  Shows plan card, logo add-on toggle, live order summary, reassurance copy
+{% endcomment %}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700;1,900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+{% style %}
+  #header-group, footer, .shopify-section:not(.shopify-section--plan-selector) { display: none !important; }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #111111; }
+
+  /* ── PAGE SHELL ── */
+  .fp { font-family: 'DM Mono', monospace; background: #111111; min-height: 100vh; color: #f5f0e8; padding-bottom: 5rem; }
+
+  /* ── NAV ── */
+  .fp-nav { display: flex; align-items: center; justify-content: space-between; padding: 1.6rem 2.5rem; border-bottom: 1px solid rgba(255,255,255,0.07); }
+  .fp-logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 900; letter-spacing: -0.03em; color: #f5f0e8; text-decoration: none; }
+  .fp-logo span { color: #c8401a; }
+  .fp-nav-back { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.3); text-decoration: none; transition: color 0.2s; }
+  .fp-nav-back:hover { color: rgba(255,255,255,0.6); }
+
+  /* ── HERO ── */
+  .fp-hero { text-align: center; padding: 3.5rem 2rem 2.5rem; max-width: 560px; margin: 0 auto; }
+  .fp-hero-label { font-size: 0.65rem; letter-spacing: 0.28em; text-transform: uppercase; color: #c8401a; margin-bottom: 1rem; }
+  .fp-hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3rem); font-weight: 900; line-height: 1.05; letter-spacing: -0.03em; color: white; margin-bottom: 0.9rem; }
+  .fp-hero h1 em { font-style: italic; color: #c8401a; }
+  .fp-hero p { font-size: 0.82rem; color: rgba(255,255,255,0.4); line-height: 1.85; }
+
+  /* ── MAIN WRAP ── */
+  .fp-wrap { max-width: 500px; margin: 0 auto; padding: 0 1.5rem; }
+
+  /* ── PLAN CARD ── */
+  .fp-plan { border: 1px solid rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; margin-bottom: 1rem; }
+  .fp-plan-header { background: #c8401a; padding: 1.4rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+  .fp-plan-name { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-weight: 900; color: white; letter-spacing: -0.02em; }
+  .fp-plan-badge { font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.75); background: rgba(0,0,0,0.18); padding: 0.28rem 0.7rem; border-radius: 2px; }
+  .fp-plan-price { padding: 1.6rem 2rem; display: flex; align-items: baseline; gap: 0.4rem; background: rgba(200,64,26,0.08); border-bottom: 1px solid rgba(255,255,255,0.07); }
+  .fp-plan-currency { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 700; color: rgba(255,255,255,0.55); align-self: flex-start; margin-top: 0.5rem; }
+  .fp-plan-amount { font-family: 'Playfair Display', serif; font-size: 3.5rem; font-weight: 900; color: white; line-height: 1; }
+  .fp-plan-period { font-size: 0.72rem; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 0.1em; }
+  .fp-plan-setup-note { padding: 0.9rem 2rem; font-size: 0.73rem; color: rgba(255,255,255,0.45); background: rgba(255,255,255,0.02); border-bottom: 1px solid rgba(255,255,255,0.06); line-height: 1.5; }
+  .fp-plan-setup-note strong { color: rgba(255,255,255,0.75); font-weight: 500; }
+  .fp-plan-features { padding: 1.5rem 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0.65rem; }
+  .fp-feature { display: flex; align-items: flex-start; gap: 0.55rem; font-size: 0.73rem; color: rgba(255,255,255,0.55); line-height: 1.4; }
+  .fp-feature-tick { color: #c8401a; flex-shrink: 0; font-size: 0.7rem; margin-top: 0.1rem; }
+
+  /* ── LOGO ADD-ON ── */
+  .fp-addon-label { font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.25); margin-bottom: 0.5rem; padding: 0 0.1rem; }
+  .fp-addon { border: 1px solid rgba(255,255,255,0.09); border-radius: 3px; padding: 1.3rem 1.6rem; display: flex; align-items: center; gap: 1.1rem; cursor: pointer; transition: border-color 0.2s, background 0.2s; margin-bottom: 1.2rem; background: rgba(255,255,255,0.02); user-select: none; }
+  .fp-addon:hover { border-color: rgba(255,255,255,0.22); background: rgba(255,255,255,0.04); }
+  .fp-addon.selected { border-color: #c8401a; background: rgba(200,64,26,0.07); }
+  .fp-check { width: 20px; height: 20px; border: 1.5px solid rgba(255,255,255,0.2); border-radius: 3px; flex-shrink: 0; display: grid; place-items: center; transition: border-color 0.2s, background 0.2s; }
+  .fp-addon.selected .fp-check { background: #c8401a; border-color: #c8401a; }
+  .fp-check-icon { display: none; color: white; font-size: 0.7rem; line-height: 1; }
+  .fp-addon.selected .fp-check-icon { display: block; }
+  .fp-addon-body { flex: 1; min-width: 0; }
+  .fp-addon-title { font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 700; color: white; margin-bottom: 0.2rem; }
+  .fp-addon-desc { font-size: 0.7rem; color: rgba(255,255,255,0.35); line-height: 1.5; }
+  .fp-addon-price { text-align: right; flex-shrink: 0; }
+  .fp-addon-price-amount { font-family: 'Playfair Display', serif; font-size: 1.15rem; font-weight: 700; color: white; display: block; }
+  .fp-addon-price-label { font-size: 0.6rem; color: rgba(255,255,255,0.3); letter-spacing: 0.1em; text-transform: uppercase; }
+
+  /* ── REASSURANCE ── */
+  .fp-reassure { border: 1px solid rgba(255,255,255,0.07); border-radius: 3px; padding: 1.2rem 1.6rem; display: flex; gap: 1rem; align-items: flex-start; margin-bottom: 1.4rem; background: rgba(255,255,255,0.015); }
+  .fp-reassure-icon { font-size: 1.1rem; flex-shrink: 0; line-height: 1.4; }
+  .fp-reassure-text { font-size: 0.76rem; color: rgba(255,255,255,0.45); line-height: 1.75; }
+  .fp-reassure-text strong { color: rgba(255,255,255,0.82); font-weight: 500; }
+
+  /* ── ORDER SUMMARY ── */
+  .fp-summary { margin-bottom: 1.4rem; }
+  .fp-summary-row { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 0.73rem; color: rgba(255,255,255,0.38); }
+  .fp-summary-row:last-child { border-bottom: none; }
+  .fp-summary-row.fp-total { font-size: 0.8rem; color: rgba(255,255,255,0.7); padding-top: 0.7rem; }
+  .fp-summary-row.fp-total span:last-child { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: white; }
+
+  /* ── CTA ── */
+  .fp-cta { width: 100%; background: white; color: #111; border: none; padding: 1.1rem 2rem; font-family: 'DM Mono', monospace; font-size: 0.8rem; letter-spacing: 0.12em; text-transform: uppercase; cursor: pointer; border-radius: 3px; transition: background 0.2s, transform 0.15s; display: flex; align-items: center; justify-content: center; gap: 0.75rem; text-decoration: none; font-weight: 500; }
+  .fp-cta:hover { background: #f0ebe3; transform: translateY(-1px); }
+
+  /* ── PAYMENT NOTE ── */
+  .fp-pay-note { text-align: center; font-size: 0.65rem; color: rgba(255,255,255,0.2); margin-top: 1rem; letter-spacing: 0.06em; line-height: 1.7; }
+  .fp-pay-icons { display: flex; justify-content: center; align-items: center; gap: 0.6rem; margin-top: 0.6rem; flex-wrap: wrap; }
+  .fp-pay-icon { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08); border-radius: 3px; padding: 0.25rem 0.6rem; font-size: 0.65rem; color: rgba(255,255,255,0.35); letter-spacing: 0.06em; }
+
+  /* ── TRUST STRIP ── */
+  .fp-trust { display: flex; justify-content: center; gap: 2rem; margin-top: 1.8rem; flex-wrap: wrap; padding-bottom: 1rem; }
+  .fp-trust-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.63rem; color: rgba(255,255,255,0.18); letter-spacing: 0.1em; text-transform: uppercase; }
+
+  /* ── DIVIDER ── */
+  .fp-divider { height: 1px; background: rgba(255,255,255,0.06); margin: 1.2rem 0; }
+
+  /* ── MOBILE ── */
+  @media (max-width: 520px) {
+    .fp-plan-features { grid-template-columns: 1fr; }
+    .fp-nav { padding: 1.2rem 1.5rem; }
+    .fp-hero { padding: 2.5rem 1.5rem 2rem; }
+    .fp-plan-price { padding: 1.2rem 1.5rem; }
+    .fp-plan-header { padding: 1.2rem 1.5rem; }
+    .fp-plan-setup-note { padding: 0.8rem 1.5rem; }
+    .fp-plan-features { padding: 1.2rem 1.5rem; }
+    .fp-addon { flex-wrap: wrap; }
+    .fp-addon-price { margin-left: auto; }
+  }
+{% endstyle %}
+
+<div class="fp">
+
+  <!-- NAV -->
+  <nav class="fp-nav">
+    <a href="/" class="fp-logo">Fifty<span>.</span></a>
+    <a href="/" class="fp-nav-back">← Back</a>
+  </nav>
+
+  <!-- HERO -->
+  <div class="fp-hero">
+    <div class="fp-hero-label">Get Started · Step 1 of 1</div>
+    <h1>One plan.<br><em>Everything included.</em></h1>
+    <p>Your website, designed and hosted for a flat monthly fee. No hidden costs, no surprises — ever.</p>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="fp-wrap">
+
+    <!-- PLAN CARD -->
+    <div class="fp-plan">
+      <div class="fp-plan-header">
+        <div class="fp-plan-name">The Fifty Plan</div>
+        <div class="fp-plan-badge">Everything Included</div>
+      </div>
+      <div class="fp-plan-price">
+        <span class="fp-plan-currency">£</span>
+        <span class="fp-plan-amount">50</span>
+        <span class="fp-plan-period">/ month</span>
+      </div>
+      <div class="fp-plan-setup-note">
+        <strong>+ £50 one-time setup fee</strong> · Charged today along with your first month. Then just £50/month, cancel any time.
+      </div>
+      <div class="fp-plan-features">
+        <div class="fp-feature"><span class="fp-feature-tick">✦</span>Custom website design</div>
+        <div class="fp-feature"><span class="fp-feature-tick">✦</span>Hosting included</div>
+        <div class="fp-feature"><span class="fp-feature-tick">✦</span>SSL certificate</div>
+        <div class="fp-feature"><span class="fp-feature-tick">✦</span>Mobile optimised</div>
+        <div class="fp-feature"><span class="fp-feature-tick">✦</span>SEO from day one</div>
+        <div class="fp-feature"><span class="fp-feature-tick">✦</span>Unlimited updates</div>
+        <div class="fp-feature"><span class="fp-feature-tick">✦</span>UK-based support</div>
+        <div class="fp-feature"><span class="fp-feature-tick">✦</span>Cancel any time</div>
+      </div>
+    </div>
+
+    <!-- ADD-ON -->
+    <div class="fp-addon-label">Optional add-on</div>
+    <div class="fp-addon" id="fpAddon" onclick="fpToggleAddon()" role="checkbox" aria-checked="false">
+      <div class="fp-check">
+        <span class="fp-check-icon">✓</span>
+      </div>
+      <div class="fp-addon-body">
+        <div class="fp-addon-title">Professional Logo Design</div>
+        <div class="fp-addon-desc">Custom logo built for your business. Multiple concepts, unlimited revisions, full files included.</div>
+      </div>
+      <div class="fp-addon-price">
+        <span class="fp-addon-price-amount">£149</span>
+        <span class="fp-addon-price-label">one-time</span>
+      </div>
+    </div>
+
+    <!-- REASSURANCE -->
+    <div class="fp-reassure">
+      <div class="fp-reassure-icon">✌️</div>
+      <div class="fp-reassure-text">
+        <strong>Don't worry — we'll collect all your details after.</strong> Once payment goes through we'll reach out to get everything we need: your content, photos, colours, and preferences. You don't need to have anything ready right now. We've got this.
+      </div>
+    </div>
+
+    <div class="fp-divider"></div>
+
+    <!-- ORDER SUMMARY -->
+    <div class="fp-summary" id="fpSummary">
+      <div class="fp-summary-row">
+        <span>Website subscription</span>
+        <span>£50.00 / mo</span>
+      </div>
+      <div class="fp-summary-row">
+        <span>Setup fee (one-time)</span>
+        <span>£50.00</span>
+      </div>
+      <div class="fp-summary-row fp-total">
+        <span>Due today</span>
+        <span id="fpTotal">£100.00</span>
+      </div>
+    </div>
+
+    <!-- CTA -->
+    <a href="/cart/53809850089811:1,53809949933907:1" class="fp-cta" id="fpCta">
+      Continue to Checkout &nbsp;→
+    </a>
+
+    <!-- PAYMENT METHODS -->
+    <div class="fp-pay-note">
+      Secure checkout · 256-bit encryption
+      <div class="fp-pay-icons">
+        <span class="fp-pay-icon"> Apple Pay</span>
+        <span class="fp-pay-icon"> Google Pay</span>
+        <span class="fp-pay-icon">VISA</span>
+        <span class="fp-pay-icon">Mastercard</span>
+        <span class="fp-pay-icon">Amex</span>
+      </div>
+    </div>
+
+    <!-- TRUST STRIP -->
+    <div class="fp-trust">
+      <div class="fp-trust-item">🔒 Secure payment</div>
+      <div class="fp-trust-item">↩ Cancel any time</div>
+      <div class="fp-trust-item">🇬🇧 UK-based team</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  var FP_SUBSCRIPTION = 53809850089811;
+  var FP_SETUP       = 53809949933907;
+  var FP_LOGO        = 53809996759379;
+
+  var fpLogoSelected = false;
+
+  function fpToggleAddon() {
+    fpLogoSelected = !fpLogoSelected;
+    var el = document.getElementById('fpAddon');
+    el.classList.toggle('selected', fpLogoSelected);
+    el.setAttribute('aria-checked', fpLogoSelected.toString());
+    fpUpdateSummary();
+  }
+
+  function fpUpdateSummary() {
+    var todayTotal = 100; // setup + first month
+    var rows = '';
+
+    rows += '<div class="fp-summary-row"><span>Website subscription</span><span>£50.00 / mo</span></div>';
+    rows += '<div class="fp-summary-row"><span>Setup fee (one-time)</span><span>£50.00</span></div>';
+
+    if (fpLogoSelected) {
+      todayTotal += 149;
+      rows += '<div class="fp-summary-row"><span>Professional logo design</span><span>£149.00</span></div>';
+    }
+
+    rows += '<div class="fp-summary-row fp-total"><span>Due today</span><span id="fpTotal">£' + todayTotal.toFixed(2) + '</span></div>';
+    document.getElementById('fpSummary').innerHTML = rows;
+
+    var cartUrl = '/cart/' + FP_SUBSCRIPTION + ':1,' + FP_SETUP + ':1';
+    if (fpLogoSelected) cartUrl += ',' + FP_LOGO + ':1';
+    document.getElementById('fpCta').href = cartUrl;
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Plan Selector",
+  "settings": []
+}
+{% endschema %}

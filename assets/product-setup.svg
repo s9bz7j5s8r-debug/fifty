@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#c8401a"/>
+      <stop offset="100%" style="stop-color:#a03214"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg2)"/>
+  <line x1="0" y1="200" x2="1200" y2="200" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+  <line x1="0" y1="400" x2="1200" y2="400" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+  <line x1="0" y1="600" x2="1200" y2="600" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+  <line x1="300" y1="0" x2="300" y2="800" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+  <line x1="600" y1="0" x2="600" y2="800" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+  <line x1="900" y1="0" x2="900" y2="800" stroke="rgba(255,255,255,0.06)" stroke-width="1"/>
+  <rect x="0" y="0" width="6" height="800" fill="rgba(0,0,0,0.3)"/>
+  <text x="600" y="300" font-family="Georgia, serif" font-size="180" font-weight="900" fill="white" text-anchor="middle" letter-spacing="-8">£50</text>
+  <text x="600" y="370" font-family="Georgia, serif" font-size="36" font-weight="400" fill="rgba(255,255,255,0.6)" text-anchor="middle" letter-spacing="8">ONE TIME</text>
+  <text x="600" y="460" font-family="Georgia, serif" font-size="28" font-weight="700" fill="rgba(255,255,255,0.9)" text-anchor="middle" letter-spacing="6">WEBSITE SETUP FEE</text>
+  <text x="600" y="530" font-family="monospace" font-size="18" fill="rgba(255,255,255,0.55)" text-anchor="middle">Design · Build · Launch · Your site live in days</text>
+  <text x="80" y="760" font-family="Georgia, serif" font-size="40" font-weight="900" fill="rgba(255,255,255,0.2)" letter-spacing="-2">Fifty.</text>
+</svg>

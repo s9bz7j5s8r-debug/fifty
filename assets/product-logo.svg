@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a1a"/>
+      <stop offset="100%" style="stop-color:#222222"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="url(#bg3)"/>
+  <line x1="0" y1="200" x2="1200" y2="200" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+  <line x1="0" y1="400" x2="1200" y2="400" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+  <line x1="0" y1="600" x2="1200" y2="600" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+  <line x1="300" y1="0" x2="300" y2="800" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+  <line x1="600" y1="0" x2="600" y2="800" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+  <line x1="900" y1="0" x2="900" y2="800" stroke="rgba(255,255,255,0.03)" stroke-width="1"/>
+  <!-- Decorative circles suggesting a logo -->
+  <circle cx="600" cy="320" r="120" fill="none" stroke="rgba(200,64,26,0.4)" stroke-width="2"/>
+  <circle cx="600" cy="320" r="80" fill="none" stroke="rgba(200,64,26,0.25)" stroke-width="1.5"/>
+  <circle cx="600" cy="320" r="40" fill="#c8401a" opacity="0.8"/>
+  <rect x="0" y="0" width="6" height="800" fill="#c8401a"/>
+  <text x="600" y="490" font-family="Georgia, serif" font-size="28" font-weight="700" fill="#c8401a" text-anchor="middle" letter-spacing="6">PROFESSIONAL LOGO</text>
+  <text x="600" y="540" font-family="monospace" font-size="18" fill="rgba(255,255,255,0.35)" text-anchor="middle">Custom design · Multiple concepts · Full files</text>
+  <text x="600" y="590" font-family="Georgia, serif" font-size="48" font-weight="900" fill="white" text-anchor="middle">£149</text>
+  <text x="80" y="760" font-family="Georgia, serif" font-size="40" font-weight="900" fill="rgba(255,255,255,0.1)" letter-spacing="-2">Fifty.</text>
+</svg>
