@@ -404,6 +404,98 @@
   .fifty-reveal { opacity: 0; transform: translateY(2rem); transition: opacity 0.7s ease, transform 0.7s ease; }
   .fifty-reveal.visible { opacity: 1; transform: none; }
 
+  /* ── NAV ACTIONS (account + cart) ── */
+  .fifty-nav-actions { display: flex; align-items: center; gap: 0.15rem; }
+  .fifty-nav-icon-btn { position: relative; background: none; border: none; cursor: pointer; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; border-radius: 2px; transition: background 0.2s; color: var(--ink); padding: 0; flex-shrink: 0; }
+  .fifty-nav-icon-btn:hover { background: rgba(13,13,13,0.07); }
+  .fifty-nav-icon-btn svg { width: 18px; height: 18px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; pointer-events: none; }
+
+  /* CART BADGE */
+  .fifty-cart-badge { position: absolute; top: 2px; right: 2px; background: var(--accent); color: white; font-family: 'DM Mono', monospace; font-size: 0.5rem; font-weight: 700; min-width: 15px; height: 15px; border-radius: 8px; display: flex; align-items: center; justify-content: center; padding: 0 3px; pointer-events: none; transform: scale(0); transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1); line-height: 1; }
+  .fifty-cart-badge.show { transform: scale(1); }
+
+  /* ACCOUNT DROPDOWN */
+  .fifty-account-wrap { position: relative; }
+  .fifty-account-drop { position: absolute; top: calc(100% + 10px); right: 0; background: var(--white); border: 1px solid var(--border); border-radius: 3px; min-width: 215px; box-shadow: 0 16px 40px rgba(13,13,13,0.13), 0 2px 8px rgba(13,13,13,0.06); opacity: 0; pointer-events: none; transform: translateY(-6px) scale(0.98); transition: opacity 0.2s, transform 0.2s; z-index: 300; transform-origin: top right; }
+  .fifty-account-drop::before { content: ''; position: absolute; top: -5px; right: 12px; width: 9px; height: 9px; background: var(--white); border-left: 1px solid var(--border); border-top: 1px solid var(--border); transform: rotate(45deg); }
+  .fifty-account-drop.open { opacity: 1; pointer-events: all; transform: none; }
+  .fifty-account-drop-head { padding: 1rem 1.2rem 0.8rem; border-bottom: 1px solid var(--border); }
+  .fifty-account-drop-name { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: var(--ink); line-height: 1.2; }
+  .fifty-account-drop-sub { font-size: 0.67rem; color: var(--muted); margin-top: 0.25rem; letter-spacing: 0.02em; }
+  .fifty-account-drop-links { padding: 0.35rem 0; }
+  .fifty-account-drop-link { display: flex; align-items: center; gap: 0.65rem; padding: 0.62rem 1.2rem; font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink); text-decoration: none; transition: background 0.15s, color 0.15s; cursor: pointer; background: none; border: none; width: 100%; text-align: left; }
+  .fifty-account-drop-link:hover { background: var(--paper); color: var(--accent); }
+  .fifty-account-drop-link svg { width: 13px; height: 13px; stroke: currentColor; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; flex-shrink: 0; }
+  .fifty-account-drop-divider { height: 1px; background: var(--border); margin: 0.3rem 0.8rem; }
+  .fifty-account-drop-link.fifty-logout { color: var(--muted); }
+  .fifty-account-drop-link.fifty-logout:hover { color: #b52a1a; background: rgba(181,42,26,0.04); }
+
+  /* CART OVERLAY */
+  .fifty-cart-overlay { position: fixed; inset: 0; background: rgba(13,13,13,0.52); z-index: 900; opacity: 0; pointer-events: none; transition: opacity 0.3s; backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px); }
+  .fifty-cart-overlay.open { opacity: 1; pointer-events: all; }
+
+  /* CART DRAWER */
+  .fifty-cart-drawer { position: fixed; top: 0; right: 0; bottom: 0; width: 400px; max-width: 100vw; background: var(--ink); z-index: 1000; transform: translateX(100%); transition: transform 0.38s cubic-bezier(0.4,0,0.2,1); display: flex; flex-direction: column; box-shadow: -20px 0 60px rgba(0,0,0,0.3); }
+  .fifty-cart-drawer.open { transform: none; }
+  .fifty-cart-head { display: flex; align-items: center; justify-content: space-between; padding: 1.4rem 1.6rem; border-bottom: 1px solid rgba(255,255,255,0.07); flex-shrink: 0; }
+  .fifty-cart-head-left { display: flex; align-items: center; gap: 0.75rem; }
+  .fifty-cart-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 900; color: white; letter-spacing: -0.02em; }
+  .fifty-cart-count-pill { background: var(--accent); color: white; font-family: 'DM Mono', monospace; font-size: 0.6rem; font-weight: 700; padding: 0.18rem 0.55rem; border-radius: 100px; min-width: 22px; text-align: center; }
+  .fifty-cart-close { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.45); width: 32px; height: 32px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; transition: background 0.2s, color 0.2s; flex-shrink: 0; }
+  .fifty-cart-close:hover { background: rgba(255,255,255,0.12); color: white; }
+
+  /* CART ITEMS (scrollable area) */
+  .fifty-cart-items { flex: 1; overflow-y: auto; overscroll-behavior: contain; }
+  .fifty-cart-items::-webkit-scrollbar { width: 3px; }
+  .fifty-cart-items::-webkit-scrollbar-track { background: transparent; }
+  .fifty-cart-items::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+  .fifty-cart-item { display: grid; grid-template-columns: 58px 1fr; gap: 1rem; padding: 1.1rem 1.6rem; border-bottom: 1px solid rgba(255,255,255,0.05); align-items: start; }
+  .fifty-cart-item:last-child { border-bottom: none; }
+  .fifty-cart-item-img { width: 58px; height: 58px; background: rgba(255,255,255,0.05); border-radius: 3px; overflow: hidden; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(255,255,255,0.07); flex-shrink: 0; }
+  .fifty-cart-item-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .fifty-cart-item-placeholder { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 900; color: var(--accent); font-style: italic; }
+  .fifty-cart-item-body { min-width: 0; }
+  .fifty-cart-item-title { font-family: 'Playfair Display', serif; font-size: 0.9rem; font-weight: 700; color: white; line-height: 1.3; margin-bottom: 0.2rem; }
+  .fifty-cart-item-variant { font-size: 0.63rem; color: rgba(255,255,255,0.28); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 0.6rem; }
+  .fifty-cart-item-row { display: flex; align-items: center; justify-content: space-between; }
+  .fifty-cart-qty { display: flex; align-items: center; border: 1px solid rgba(255,255,255,0.1); border-radius: 2px; overflow: hidden; }
+  .fifty-cart-qty-btn { background: none; border: none; color: rgba(255,255,255,0.45); width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1rem; line-height: 1; transition: background 0.15s, color 0.15s; }
+  .fifty-cart-qty-btn:hover { background: rgba(255,255,255,0.07); color: white; }
+  .fifty-cart-qty-num { font-family: 'DM Mono', monospace; font-size: 0.72rem; color: white; min-width: 26px; text-align: center; }
+  .fifty-cart-item-right { display: flex; align-items: center; gap: 0.55rem; }
+  .fifty-cart-item-price { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: white; }
+  .fifty-cart-item-remove { background: none; border: none; color: rgba(255,255,255,0.18); cursor: pointer; font-size: 0.7rem; padding: 0.2rem; line-height: 1; transition: color 0.15s; }
+  .fifty-cart-item-remove:hover { color: rgba(200,64,26,0.85); }
+
+  /* CART EMPTY + LOADING */
+  .fifty-cart-empty { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 3.5rem 2rem; text-align: center; min-height: 320px; }
+  .fifty-cart-empty-bag { width: 52px; height: 52px; margin: 0 auto 1.4rem; opacity: 0.18; }
+  .fifty-cart-empty-bag svg { width: 100%; height: 100%; stroke: white; fill: none; stroke-width: 1.2; stroke-linecap: round; stroke-linejoin: round; }
+  .fifty-cart-empty-title { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: rgba(255,255,255,0.6); margin-bottom: 0.5rem; }
+  .fifty-cart-empty-sub { font-size: 0.74rem; color: rgba(255,255,255,0.25); line-height: 1.75; margin-bottom: 2rem; max-width: 220px; }
+  .fifty-cart-empty-cta { background: var(--accent); color: white; border: none; padding: 0.8rem 1.8rem; font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 2px; cursor: pointer; text-decoration: none; transition: background 0.2s, transform 0.15s; display: inline-block; }
+  .fifty-cart-empty-cta:hover { background: #e04d20; transform: translateY(-1px); }
+  .fifty-cart-loading { display: flex; align-items: center; justify-content: center; min-height: 200px; }
+  .fifty-cart-spinner { width: 22px; height: 22px; border: 2px solid rgba(255,255,255,0.08); border-top-color: var(--accent); border-radius: 50%; animation: fifty-spin 0.65s linear infinite; }
+  @keyframes fifty-spin { to { transform: rotate(360deg); } }
+
+  /* CART FOOTER */
+  .fifty-cart-foot { border-top: 1px solid rgba(255,255,255,0.07); padding: 1.2rem 1.6rem 1.5rem; flex-shrink: 0; background: rgba(0,0,0,0.18); }
+  .fifty-cart-subtotal-row { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 0.35rem; }
+  .fifty-cart-subtotal-label { font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.35); }
+  .fifty-cart-subtotal-amount { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 900; color: white; line-height: 1; }
+  .fifty-cart-foot-note { font-size: 0.63rem; color: rgba(255,255,255,0.2); line-height: 1.55; margin-bottom: 1.1rem; }
+  .fifty-cart-checkout { width: 100%; background: white; color: var(--ink); border: none; padding: 1rem; font-family: 'DM Mono', monospace; font-size: 0.76rem; letter-spacing: 0.12em; text-transform: uppercase; border-radius: 2px; cursor: pointer; transition: background 0.2s; display: block; text-align: center; text-decoration: none; font-weight: 500; margin-bottom: 0.65rem; }
+  .fifty-cart-checkout:hover { background: #f5f0e8; }
+  .fifty-cart-continue { width: 100%; background: none; border: 1px solid rgba(255,255,255,0.09); color: rgba(255,255,255,0.35); padding: 0.7rem; font-family: 'DM Mono', monospace; font-size: 0.67rem; letter-spacing: 0.1em; text-transform: uppercase; border-radius: 2px; cursor: pointer; transition: border-color 0.2s, color 0.2s; }
+  .fifty-cart-continue:hover { border-color: rgba(255,255,255,0.22); color: rgba(255,255,255,0.65); }
+
+  /* Mobile drawer full-width */
+  @media (max-width: 480px) {
+    .fifty-cart-drawer { width: 100vw; }
+    .fifty-account-drop { right: -0.5rem; }
+  }
+
   /* NAV MOBILE MENU */
   .fifty-nav-hamburger { display: none; flex-direction: column; justify-content: center; gap: 5px; background: none; border: none; cursor: pointer; padding: 0.3rem; z-index: 210; }
   .fifty-nav-hamburger span { display: block; width: 22px; height: 2px; background: var(--ink); border-radius: 2px; transition: transform 0.25s, opacity 0.25s; }
@@ -468,9 +560,69 @@
     <li><button class="fifty-nav-btn" onclick="fiftyOpenTC()">T&amp;Cs</button></li>
     <li><a class="fifty-nav-btn fifty-nav-cta" href="/products/fifty-website-subscription">Get Started</a></li>
   </ul>
-  <button class="fifty-nav-hamburger" id="fiftyHamburger" onclick="fiftyToggleNav()" aria-label="Menu">
-    <span></span><span></span><span></span>
-  </button>
+  <div class="fifty-nav-actions">
+
+    <!-- ACCOUNT -->
+    <div class="fifty-account-wrap">
+      <button class="fifty-nav-icon-btn" id="fiftyAccountBtn" onclick="fiftyToggleAccount()" aria-label="My account" aria-expanded="false" aria-haspopup="true">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.582-7 8-7s8 3 8 7"/></svg>
+      </button>
+      <div class="fifty-account-drop" id="fiftyAccountDrop" role="menu">
+        {% if customer %}
+          <div class="fifty-account-drop-head">
+            <div class="fifty-account-drop-name">{{ customer.first_name | default: 'My Account' }}</div>
+            <div class="fifty-account-drop-sub">{{ customer.email }}</div>
+          </div>
+          <div class="fifty-account-drop-links">
+            <a href="/account" class="fifty-account-drop-link" role="menuitem">
+              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+              Dashboard
+            </a>
+            <a href="/account/orders" class="fifty-account-drop-link" role="menuitem">
+              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+              My Orders
+            </a>
+            <a href="/account/addresses" class="fifty-account-drop-link" role="menuitem">
+              <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Addresses
+            </a>
+            <div class="fifty-account-drop-divider"></div>
+            <a href="/account/logout" class="fifty-account-drop-link fifty-logout" role="menuitem">
+              <svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+              Sign Out
+            </a>
+          </div>
+        {% else %}
+          <div class="fifty-account-drop-head">
+            <div class="fifty-account-drop-name">Hello there.</div>
+            <div class="fifty-account-drop-sub">Sign in to manage your subscription</div>
+          </div>
+          <div class="fifty-account-drop-links">
+            <a href="/account/login" class="fifty-account-drop-link" role="menuitem">
+              <svg viewBox="0 0 24 24"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+              Sign In
+            </a>
+            <a href="/account/register" class="fifty-account-drop-link" role="menuitem">
+              <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+              Create Account
+            </a>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- CART -->
+    <button class="fifty-nav-icon-btn" id="fiftyCartBtn" onclick="fiftyOpenCart()" aria-label="Open cart">
+      <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      <span class="fifty-cart-badge{% if cart.item_count > 0 %} show{% endif %}" id="fiftyCartBadge">{{ cart.item_count }}</span>
+    </button>
+
+    <!-- HAMBURGER (mobile only) -->
+    <button class="fifty-nav-hamburger" id="fiftyHamburger" onclick="fiftyToggleNav()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+
+  </div>
 </nav>
 <div class="fifty-nav-mobile" id="fiftyMobileNav">
   <ul>
@@ -1282,6 +1434,78 @@
   </div>
 </div>
 
+<!-- CART OVERLAY -->
+<div class="fifty-cart-overlay" id="fiftyCartOverlay" onclick="fiftyCloseCart()"></div>
+
+<!-- CART DRAWER -->
+<div class="fifty-cart-drawer" id="fiftyCartDrawer" role="dialog" aria-modal="true" aria-label="Shopping cart">
+
+  <div class="fifty-cart-head">
+    <div class="fifty-cart-head-left">
+      <span class="fifty-cart-title">Your Cart</span>
+      <span class="fifty-cart-count-pill" id="fiftyCartCountPill">{{ cart.item_count }}</span>
+    </div>
+    <button class="fifty-cart-close" onclick="fiftyCloseCart()" aria-label="Close cart">✕</button>
+  </div>
+
+  <div class="fifty-cart-items" id="fiftyCartItems">
+    {% if cart.item_count > 0 %}
+      {% for item in cart.items %}
+        <div class="fifty-cart-item" data-key="{{ item.key }}">
+          <div class="fifty-cart-item-img">
+            {% if item.image %}
+              <img src="{{ item.image | img_url: '120x120', crop: 'center' }}" alt="{{ item.title | escape }}" loading="lazy">
+            {% else %}
+              <span class="fifty-cart-item-placeholder">F.</span>
+            {% endif %}
+          </div>
+          <div class="fifty-cart-item-body">
+            <div class="fifty-cart-item-title">{{ item.product.title }}</div>
+            {% unless item.variant.title == 'Default Title' %}
+              <div class="fifty-cart-item-variant">{{ item.variant.title }}</div>
+            {% endunless %}
+            <div class="fifty-cart-item-row">
+              <div class="fifty-cart-qty">
+                <button class="fifty-cart-qty-btn" onclick="fiftyUpdateQty('{{ item.key }}', {{ item.quantity | minus: 1 }})" aria-label="Decrease">−</button>
+                <span class="fifty-cart-qty-num">{{ item.quantity }}</span>
+                <button class="fifty-cart-qty-btn" onclick="fiftyUpdateQty('{{ item.key }}', {{ item.quantity | plus: 1 }})" aria-label="Increase">+</button>
+              </div>
+              <div class="fifty-cart-item-right">
+                <span class="fifty-cart-item-price">{{ item.line_price | money }}</span>
+                <button class="fifty-cart-item-remove" onclick="fiftyUpdateQty('{{ item.key }}', 0)" title="Remove" aria-label="Remove {{ item.title | escape }}">✕</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <div class="fifty-cart-empty" id="fiftyCartEmpty">
+        <div class="fifty-cart-empty-bag">
+          <svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        </div>
+        <div class="fifty-cart-empty-title">Your cart is empty.</div>
+        <div class="fifty-cart-empty-sub">No items added yet. Start by picking your plan.</div>
+        <a href="/products/fifty-website-subscription" class="fifty-cart-empty-cta" onclick="fiftyCloseCart()">Get Started →</a>
+      </div>
+    {% endif %}
+  </div>
+
+  {% if cart.item_count > 0 %}
+  <div class="fifty-cart-foot" id="fiftyCartFoot">
+    <div class="fifty-cart-subtotal-row">
+      <span class="fifty-cart-subtotal-label">Due Today</span>
+      <span class="fifty-cart-subtotal-amount" id="fiftyCartTotal">{{ cart.total_price | money }}</span>
+    </div>
+    <p class="fifty-cart-foot-note">Includes first month + setup fee. Subscription renews at £50/month. Cancel any time.</p>
+    <a href="/checkout" class="fifty-cart-checkout">Proceed to Checkout &nbsp;→</a>
+    <button class="fifty-cart-continue" onclick="fiftyCloseCart()">← Continue Shopping</button>
+  </div>
+  {% else %}
+  <div class="fifty-cart-foot" id="fiftyCartFoot" style="display:none"></div>
+  {% endif %}
+
+</div>
+
 <script>
   function fiftyToggleNav() {
     var btn = document.getElementById('fiftyHamburger');
@@ -1390,6 +1614,8 @@
   }
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
+      if (fiftyCartIsOpen) { fiftyCloseCart(); return; }
+      if (fiftyAccountIsOpen) { fiftyCloseAccount(); return; }
       if (document.getElementById('fiftyCinemaPlayer').classList.contains('active')) fiftyCloseCinema();
       if (document.getElementById('fiftyLightbox').classList.contains('active')) fiftyCloseLightbox();
       if (document.getElementById('fiftyModal').classList.contains('active')) fiftyCloseModal();
@@ -1400,6 +1626,158 @@
     if (document.getElementById('fiftyLightbox').classList.contains('active')) {
       if (e.key === 'ArrowLeft') fiftyNavLightbox(-1);
       if (e.key === 'ArrowRight') fiftyNavLightbox(1);
+    }
+  });
+
+  // ── CART DRAWER ──────────────────────────────────────────────
+  var fiftyCartIsOpen = false;
+
+  function fiftyOpenCart() {
+    fiftyCartIsOpen = true;
+    fiftyCloseAccount();
+    document.getElementById('fiftyCartDrawer').classList.add('open');
+    document.getElementById('fiftyCartOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    fiftyLoadCart();
+  }
+
+  function fiftyCloseCart() {
+    fiftyCartIsOpen = false;
+    document.getElementById('fiftyCartDrawer').classList.remove('open');
+    document.getElementById('fiftyCartOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function fiftyFmt(pence) {
+    return '£' + (pence / 100).toFixed(2);
+  }
+
+  function fiftyLoadCart() {
+    var itemsEl = document.getElementById('fiftyCartItems');
+    itemsEl.innerHTML = '<div class="fifty-cart-loading"><div class="fifty-cart-spinner"></div></div>';
+    document.getElementById('fiftyCartFoot').style.display = 'none';
+
+    fetch('/cart.js')
+      .then(function(r) { return r.json(); })
+      .then(function(cart) { fiftyRenderCart(cart); })
+      .catch(function() {
+        itemsEl.innerHTML = '<div class="fifty-cart-empty"><div class="fifty-cart-empty-title">Couldn\'t load cart</div><div class="fifty-cart-empty-sub">Please refresh the page and try again.</div></div>';
+      });
+  }
+
+  function fiftyRenderCart(cart) {
+    var itemsEl = document.getElementById('fiftyCartItems');
+    var footEl  = document.getElementById('fiftyCartFoot');
+    var pill    = document.getElementById('fiftyCartCountPill');
+    var badge   = document.getElementById('fiftyCartBadge');
+    var count   = cart.item_count || 0;
+
+    // Update badge + pill
+    pill.textContent = count;
+    badge.textContent = count;
+    if (count > 0) badge.classList.add('show');
+    else badge.classList.remove('show');
+
+    if (count === 0) {
+      itemsEl.innerHTML =
+        '<div class="fifty-cart-empty">' +
+          '<div class="fifty-cart-empty-bag"><svg viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></div>' +
+          '<div class="fifty-cart-empty-title">Your cart is empty.</div>' +
+          '<div class="fifty-cart-empty-sub">No items yet. Start by choosing your plan.</div>' +
+          '<a href="/products/fifty-website-subscription" class="fifty-cart-empty-cta" onclick="fiftyCloseCart()">Get Started →</a>' +
+        '</div>';
+      footEl.style.display = 'none';
+      return;
+    }
+
+    var html = '';
+    cart.items.forEach(function(item) {
+      var imgHtml = item.image
+        ? '<img src="' + item.image + '" alt="' + (item.title || '').replace(/"/g, '&quot;') + '" loading="lazy">'
+        : '<span class="fifty-cart-item-placeholder">F.</span>';
+
+      var varHtml = (item.variant_title && item.variant_title !== 'Default Title')
+        ? '<div class="fifty-cart-item-variant">' + item.variant_title + '</div>'
+        : '';
+
+      html +=
+        '<div class="fifty-cart-item" data-key="' + item.key + '">' +
+          '<div class="fifty-cart-item-img">' + imgHtml + '</div>' +
+          '<div class="fifty-cart-item-body">' +
+            '<div class="fifty-cart-item-title">' + (item.product_title || item.title) + '</div>' +
+            varHtml +
+            '<div class="fifty-cart-item-row">' +
+              '<div class="fifty-cart-qty">' +
+                '<button class="fifty-cart-qty-btn" onclick="fiftyUpdateQty(\'' + item.key + '\',' + (item.quantity - 1) + ')" aria-label="Decrease quantity">−</button>' +
+                '<span class="fifty-cart-qty-num">' + item.quantity + '</span>' +
+                '<button class="fifty-cart-qty-btn" onclick="fiftyUpdateQty(\'' + item.key + '\',' + (item.quantity + 1) + ')" aria-label="Increase quantity">+</button>' +
+              '</div>' +
+              '<div class="fifty-cart-item-right">' +
+                '<span class="fifty-cart-item-price">' + fiftyFmt(item.line_price) + '</span>' +
+                '<button class="fifty-cart-item-remove" onclick="fiftyUpdateQty(\'' + item.key + '\',0)" title="Remove item" aria-label="Remove">✕</button>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+    });
+    itemsEl.innerHTML = html;
+
+    // Update footer
+    footEl.innerHTML =
+      '<div class="fifty-cart-subtotal-row">' +
+        '<span class="fifty-cart-subtotal-label">Due Today</span>' +
+        '<span class="fifty-cart-subtotal-amount">' + fiftyFmt(cart.total_price) + '</span>' +
+      '</div>' +
+      '<p class="fifty-cart-foot-note">Includes first month + setup fee. Subscription renews at £50/month. Cancel any time.</p>' +
+      '<a href="/checkout" class="fifty-cart-checkout">Proceed to Checkout &nbsp;→</a>' +
+      '<button class="fifty-cart-continue" onclick="fiftyCloseCart()">← Continue Shopping</button>';
+    footEl.style.display = 'block';
+  }
+
+  function fiftyUpdateQty(key, qty) {
+    // Optimistic fade on the item
+    var itemEl = document.querySelector('.fifty-cart-item[data-key="' + key + '"]');
+    if (itemEl) itemEl.style.opacity = '0.4';
+
+    fetch('/cart/change.js', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: key, quantity: qty })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(cart) { fiftyRenderCart(cart); })
+    .catch(function() { fiftyLoadCart(); });
+  }
+
+  // ── ACCOUNT DROPDOWN ──────────────────────────────────────────
+  var fiftyAccountIsOpen = false;
+
+  function fiftyToggleAccount() {
+    if (fiftyAccountIsOpen) fiftyCloseAccount();
+    else fiftyOpenAccount();
+  }
+
+  function fiftyOpenAccount() {
+    fiftyAccountIsOpen = true;
+    document.getElementById('fiftyAccountDrop').classList.add('open');
+    document.getElementById('fiftyAccountBtn').setAttribute('aria-expanded', 'true');
+  }
+
+  function fiftyCloseAccount() {
+    fiftyAccountIsOpen = false;
+    var drop = document.getElementById('fiftyAccountDrop');
+    if (drop) drop.classList.remove('open');
+    var btn = document.getElementById('fiftyAccountBtn');
+    if (btn) btn.setAttribute('aria-expanded', 'false');
+  }
+
+  // Close account on outside click
+  document.addEventListener('click', function(e) {
+    if (!fiftyAccountIsOpen) return;
+    var btn = document.getElementById('fiftyAccountBtn');
+    var drop = document.getElementById('fiftyAccountDrop');
+    if (btn && !btn.contains(e.target) && drop && !drop.contains(e.target)) {
+      fiftyCloseAccount();
     }
   });
 </script>
