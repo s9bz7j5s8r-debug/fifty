@@ -274,6 +274,12 @@
 {% endif %}
 
 <script
+  src="{{ 'animations.js' | asset_url }}"
+  type="module"
+  fetchpriority="low"
+></script>
+
+<script
   src="{{ 'auto-close-details.js' | asset_url }}"
   defer="defer"
 ></script>
