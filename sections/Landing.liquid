@@ -14,8 +14,8 @@
   .fifty-nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
   .fifty-nav-links a { color: var(--muted); text-decoration: none; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; font-family: 'DM Mono', monospace; }
   .fifty-nav-links a:hover { color: var(--ink); }
-  .fifty-nav-cta { background: transparent !important; padding: 0.5rem 1.2rem; border-radius: 2px; border: 2px solid #c8401a !important; color: #c8401a !important; }
-  .fifty-nav-cta:hover { background: #c8401a !important; color: #fff !important; }
+  .fifty-nav-cta { background: transparent !important; padding: 0.5rem 1.2rem; border-radius: 2px; border: 2px solid #3d7a5a !important; color: #3d7a5a !important; }
+  .fifty-nav-cta:hover { background: #3d7a5a !important; color: #fff !important; }
   .fifty-nav-btn { background: none; border: none; cursor: pointer; font-family: 'DM Mono', monospace; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); transition: color 0.2s; padding: 0; }
   .fifty-nav-btn:hover { color: var(--ink); }
 
@@ -56,7 +56,7 @@
   .fifty-pricing-modal-body { padding: 2.5rem 3rem; }
   .fifty-pricing-cards { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.2rem; margin-bottom: 2rem; }
   .fifty-pricing-card { border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 1.8rem 1.6rem; position: relative; }
-  .fifty-pricing-card.featured { border-color: var(--accent); background: rgba(200,64,26,0.08); }
+  .fifty-pricing-card.featured { border-color: var(--accent); background: rgba(61,122,90,0.08); }
   .fifty-pricing-card-tag { font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 1.2rem; }
   .fifty-pricing-card.featured .fifty-pricing-card-tag { color: var(--accent); }
   .fifty-pricing-card-amount { font-family: 'Playfair Display', serif; font-size: 2.6rem; font-weight: 900; color: white; line-height: 1; margin-bottom: 0.3rem; }
@@ -97,7 +97,7 @@
   .fifty-included-num { font-family: 'Playfair Display', serif; font-style: italic; font-size: 0.95rem; color: var(--accent); padding-top: 0.1rem; }
   .fifty-included-name { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: white; margin-bottom: 0.3rem; }
   .fifty-included-desc { font-size: 0.78rem; color: rgba(255,255,255,0.45); line-height: 1.6; }
-  .fifty-included-footer { margin: 0 3rem 2.5rem; padding: 1.8rem 2rem; background: rgba(200,64,26,0.12); border: 1px solid rgba(200,64,26,0.3); border-radius: 4px; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; }
+  .fifty-included-footer { margin: 0 3rem 2.5rem; padding: 1.8rem 2rem; background: rgba(61,122,90,0.12); border: 1px solid rgba(61,122,90,0.3); border-radius: 4px; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; }
   .fifty-included-price { display: flex; align-items: baseline; gap: 0.4rem; }
   .fifty-included-price-big { font-family: 'Playfair Display', serif; font-size: 3rem; font-weight: 900; color: white; line-height: 1; }
   .fifty-included-price-label { font-size: 0.78rem; color: rgba(255,255,255,0.4); letter-spacing: 0.1em; text-transform: uppercase; }
@@ -118,7 +118,7 @@
   :root {
     --ink: #0d0d0d;
     --paper: #f5f0e8;
-    --accent: #c8401a;
+    --accent: #3d7a5a;
     --muted: #8a8070;
     --border: #d4cfc4;
     --white: #fefdfb;
@@ -164,24 +164,24 @@
   .fifty-brand-section { position: relative; background: #080808; overflow: hidden; min-height: 72vh; display: flex; align-items: center; justify-content: center; }
   .fifty-brand-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.028) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.028) 1px, transparent 1px); background-size: 64px 64px; pointer-events: none; }
   .fifty-brand-orb { position: absolute; border-radius: 50%; filter: blur(90px); animation: fbOrb linear infinite; pointer-events: none; }
-  .fifty-brand-orb-1 { width: 650px; height: 650px; background: radial-gradient(circle, rgba(200,64,26,0.22) 0%, transparent 70%); top: -12%; left: -14%; animation-duration: 20s; }
+  .fifty-brand-orb-1 { width: 650px; height: 650px; background: radial-gradient(circle, rgba(61,122,90,0.22) 0%, transparent 70%); top: -12%; left: -14%; animation-duration: 20s; }
   .fifty-brand-orb-2 { width: 520px; height: 520px; background: radial-gradient(circle, rgba(0,100,200,0.14) 0%, transparent 70%); bottom: -12%; right: -10%; animation-duration: 25s; animation-delay: -9s; }
-  .fifty-brand-orb-3 { width: 380px; height: 380px; background: radial-gradient(circle, rgba(200,64,26,0.11) 0%, transparent 70%); top: 38%; right: 18%; animation-duration: 17s; animation-delay: -5s; }
+  .fifty-brand-orb-3 { width: 380px; height: 380px; background: radial-gradient(circle, rgba(61,122,90,0.11) 0%, transparent 70%); top: 38%; right: 18%; animation-duration: 17s; animation-delay: -5s; }
   @keyframes fbOrb { 0%{transform:translate(0,0) scale(1);} 25%{transform:translate(45px,-35px) scale(1.06);} 50%{transform:translate(22px,42px) scale(0.96);} 75%{transform:translate(-32px,18px) scale(1.04);} 100%{transform:translate(0,0) scale(1);} }
   .fifty-brand-section::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 50%, transparent 38%, rgba(0,0,0,0.65) 100%); pointer-events: none; z-index: 1; }
   .fifty-brand-content { position: relative; z-index: 2; text-align: center; padding: 6rem 2rem; }
   .fifty-brand-eyebrow { font-family: 'DM Mono', monospace; font-size: 0.63rem; letter-spacing: 0.38em; text-transform: uppercase; color: rgba(255,255,255,0.32); margin-bottom: 2rem; animation: fbUp 1s ease both; }
-  .fifty-brand-logo { font-family: 'Playfair Display', serif; font-size: clamp(4.5rem, 13vw, 9.5rem); font-weight: 900; color: #fff; letter-spacing: -0.03em; line-height: 1; animation: fbUp 1s ease 0.15s both; text-shadow: 0 0 90px rgba(200,64,26,0.45), 0 0 180px rgba(200,64,26,0.18); }
-  .fifty-brand-logo em { font-style: italic; color: #c8401a; }
+  .fifty-brand-logo { font-family: 'Playfair Display', serif; font-size: clamp(4.5rem, 13vw, 9.5rem); font-weight: 900; color: #fff; letter-spacing: -0.03em; line-height: 1; animation: fbUp 1s ease 0.15s both; text-shadow: 0 0 90px rgba(61,122,90,0.45), 0 0 180px rgba(61,122,90,0.18); }
+  .fifty-brand-logo em { font-style: italic; color: #3d7a5a; }
   .fifty-brand-tagline { font-size: clamp(0.82rem, 1.8vw, 1rem); color: rgba(255,255,255,0.42); margin-top: 1.5rem; letter-spacing: 0.02em; line-height: 1.8; animation: fbUp 1s ease 0.3s both; }
   .fifty-brand-stats { display: flex; align-items: center; justify-content: center; gap: 3rem; margin-top: 3.2rem; animation: fbUp 1s ease 0.45s both; flex-wrap: wrap; }
   .fifty-brand-stat { text-align: center; }
   .fifty-brand-stat-val { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 900; color: white; line-height: 1; }
-  .fifty-brand-stat-val em { font-style: italic; color: #c8401a; }
+  .fifty-brand-stat-val em { font-style: italic; color: #3d7a5a; }
   .fifty-brand-stat-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.28); margin-top: 0.45rem; }
   .fifty-brand-divider { width: 1px; height: 38px; background: rgba(255,255,255,0.1); }
-  .fifty-brand-cta { display: inline-flex; align-items: center; gap: 0.8rem; margin-top: 3.2rem; padding: 1rem 2.8rem; border: 1px solid rgba(200,64,26,0.65); color: white; text-decoration: none; font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; transition: all 0.3s; border-radius: 2px; animation: fbUp 1s ease 0.6s both; background: rgba(200,64,26,0.06); box-shadow: 0 0 30px rgba(200,64,26,0.15), inset 0 0 20px rgba(200,64,26,0.04); }
-  .fifty-brand-cta:hover { background: rgba(200,64,26,0.16); border-color: #c8401a; transform: translateY(-2px); box-shadow: 0 0 55px rgba(200,64,26,0.4), inset 0 0 30px rgba(200,64,26,0.08); color: white; }
+  .fifty-brand-cta { display: inline-flex; align-items: center; gap: 0.8rem; margin-top: 3.2rem; padding: 1rem 2.8rem; border: 1px solid rgba(61,122,90,0.65); color: white; text-decoration: none; font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; transition: all 0.3s; border-radius: 2px; animation: fbUp 1s ease 0.6s both; background: rgba(61,122,90,0.06); box-shadow: 0 0 30px rgba(61,122,90,0.15), inset 0 0 20px rgba(61,122,90,0.04); }
+  .fifty-brand-cta:hover { background: rgba(61,122,90,0.16); border-color: #3d7a5a; transform: translateY(-2px); box-shadow: 0 0 55px rgba(61,122,90,0.4), inset 0 0 30px rgba(61,122,90,0.08); color: white; }
   .fifty-brand-cta::after { content: '→'; opacity: 0.65; transition: transform 0.3s; }
   .fifty-brand-cta:hover::after { transform: translateX(5px); }
   @keyframes fbUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
@@ -212,7 +212,7 @@
   .fifty-why-compare-row:last-child { border-bottom: none; }
   .fifty-why-compare-row div { padding: 0.95rem 1.4rem; font-size: 0.78rem; line-height: 1.5; }
   .fifty-why-compare-row div:first-child { color: rgba(255,255,255,0.55); }
-  .fifty-why-compare-row div:nth-child(2) { border-left: 1px solid rgba(255,255,255,0.05); border-right: 1px solid rgba(255,255,255,0.05); background: rgba(200,64,26,0.06); text-align: center; color: rgba(255,255,255,0.85); }
+  .fifty-why-compare-row div:nth-child(2) { border-left: 1px solid rgba(255,255,255,0.05); border-right: 1px solid rgba(255,255,255,0.05); background: rgba(61,122,90,0.06); text-align: center; color: rgba(255,255,255,0.85); }
   .fifty-why-compare-row div:last-child { text-align: center; color: rgba(255,255,255,0.3); }
   .fifty-why-tick { color: var(--accent); font-size: 1rem; }
   .fifty-why-cross { color: rgba(255,255,255,0.2); font-size: 1rem; }
@@ -228,7 +228,7 @@
   .fifty-why-table tbody tr:hover { background: rgba(255,255,255,0.03); }
   .fifty-why-table td { padding: 0.95rem 1.4rem; color: rgba(255,255,255,0.45); vertical-align: middle; }
   .fifty-why-table td:first-child { color: rgba(255,255,255,0.6); font-weight: 500; }
-  .fifty-why-td-us { color: rgba(255,255,255,0.9) !important; background: rgba(200,64,26,0.08); font-weight: 600 !important; }
+  .fifty-why-td-us { color: rgba(255,255,255,0.9) !important; background: rgba(61,122,90,0.08); font-weight: 600 !important; }
   @media (max-width: 700px) { .fifty-why-table th, .fifty-why-table td { padding: 0.75rem 0.9rem; font-size: 0.75rem; } }
 
   /* FEATURES */
@@ -403,18 +403,18 @@
   .fifty-cart-item-right { display: flex; align-items: center; gap: 0.55rem; }
   .fifty-cart-item-price { font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; color: white; }
   .fifty-cart-item-remove { background: none; border: none; color: rgba(255,255,255,0.18); cursor: pointer; font-size: 0.7rem; padding: 0.2rem; line-height: 1; transition: color 0.15s; }
-  .fifty-cart-item-remove:hover { color: rgba(200,64,26,0.85); }
+  .fifty-cart-item-remove:hover { color: rgba(61,122,90,0.85); }
 
   /* CART BUNDLE (subscription + setup fee locked together) */
-  .fifty-cart-bundle { margin: 0.8rem 1.6rem 0; border: 1px solid rgba(200,64,26,0.28); border-radius: 3px; background: rgba(200,64,26,0.06); overflow: hidden; }
-  .fifty-cart-bundle-top { padding: 0.85rem 1rem 0.6rem; display: flex; align-items: center; gap: 0.6rem; border-bottom: 1px solid rgba(200,64,26,0.14); }
+  .fifty-cart-bundle { margin: 0.8rem 1.6rem 0; border: 1px solid rgba(61,122,90,0.28); border-radius: 3px; background: rgba(61,122,90,0.06); overflow: hidden; }
+  .fifty-cart-bundle-top { padding: 0.85rem 1rem 0.6rem; display: flex; align-items: center; gap: 0.6rem; border-bottom: 1px solid rgba(61,122,90,0.14); }
   .fifty-cart-bundle-badge { font-family: 'DM Mono', monospace; font-size: 0.55rem; letter-spacing: 0.12em; text-transform: uppercase; background: var(--accent); color: white; padding: 0.18rem 0.5rem; border-radius: 2px; flex-shrink: 0; }
   .fifty-cart-bundle-name { font-family: 'Playfair Display', serif; font-size: 0.95rem; font-weight: 700; color: white; letter-spacing: -0.01em; }
   .fifty-cart-bundle-lines { padding: 0.55rem 1rem 0; }
   .fifty-cart-bundle-line { display: flex; justify-content: space-between; align-items: center; padding: 0.3rem 0; }
   .fifty-cart-bundle-line-name { font-size: 0.7rem; color: rgba(255,255,255,0.4); }
   .fifty-cart-bundle-line-price { font-size: 0.7rem; color: rgba(255,255,255,0.5); }
-  .fifty-cart-bundle-foot { display: flex; justify-content: space-between; align-items: center; padding: 0.6rem 1rem 0.75rem; margin-top: 0.4rem; border-top: 1px solid rgba(200,64,26,0.14); }
+  .fifty-cart-bundle-foot { display: flex; justify-content: space-between; align-items: center; padding: 0.6rem 1rem 0.75rem; margin-top: 0.4rem; border-top: 1px solid rgba(61,122,90,0.14); }
   .fifty-cart-bundle-total-label { font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.28); }
   .fifty-cart-bundle-total-right { display: flex; align-items: center; gap: 0.55rem; }
   .fifty-cart-bundle-total { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-weight: 700; color: white; }
@@ -1681,7 +1681,7 @@
       if(nI>.02){
         var phase=t*.08, nx=W/2+Math.sin(phase)*180, ny=H/2+Math.cos(phase*.7)*90;
         var nb=cx.createRadialGradient(nx,ny,0,nx,ny,H*.85);
-        nb.addColorStop(0,'rgba(200,64,26,'+(0.055*nI)+')');
+        nb.addColorStop(0,'rgba(61,122,90,'+(0.055*nI)+')');
         nb.addColorStop(.45,'rgba(0,120,200,'+(0.035*nI)+')');
         nb.addColorStop(1,'rgba(0,0,0,0)');
         cx.fillStyle=nb; cx.fillRect(0,0,W,H);
@@ -1839,14 +1839,14 @@
       // Glow halo
       cx.globalAlpha=lA*.5;
       var halo=cx.createRadialGradient(W/2,lY,0,W/2,lY,H*.55);
-      halo.addColorStop(0,'rgba(200,64,26,.22)'); halo.addColorStop(.4,'rgba(0,120,200,.08)'); halo.addColorStop(1,'rgba(0,0,0,0)');
+      halo.addColorStop(0,'rgba(61,122,90,.22)'); halo.addColorStop(.4,'rgba(0,120,200,.08)'); halo.addColorStop(1,'rgba(0,0,0,0)');
       cx.fillStyle=halo; cx.fillRect(0,0,W,H);
 
       cx.globalAlpha=lA;
       cx.fillStyle='#fff';
       cx.font='900 '+Math.round(lSz)+'px "Playfair Display",Georgia,serif';
       cx.textAlign='center'; cx.textBaseline='middle';
-      cx.shadowColor='rgba(200,64,26,.9)'; cx.shadowBlur=70;
+      cx.shadowColor='rgba(61,122,90,.9)'; cx.shadowBlur=70;
       cx.fillText('Fifty.',W/2,lY);
       cx.globalAlpha=lA*.35; cx.shadowBlur=140;
       cx.fillText('Fifty.',W/2,lY);
@@ -1868,7 +1868,7 @@
       cx.save();
       cx.globalAlpha=fA*.9;
       var fg=cx.createRadialGradient(W/2,H/2,0,W/2,H/2,500);
-      fg.addColorStop(0,'rgba(255,255,255,1)'); fg.addColorStop(.08,'rgba(255,200,80,.8)'); fg.addColorStop(.35,'rgba(200,64,26,.25)'); fg.addColorStop(1,'rgba(0,0,0,0)');
+      fg.addColorStop(0,'rgba(255,255,255,1)'); fg.addColorStop(.08,'rgba(255,200,80,.8)'); fg.addColorStop(.35,'rgba(61,122,90,.25)'); fg.addColorStop(1,'rgba(0,0,0,0)');
       cx.fillStyle=fg; cx.fillRect(0,0,W,H);
       // Anamorphic streak
       cx.globalAlpha=fA*.55;
@@ -2008,12 +2008,12 @@
     (function initPreview(){
       cx.fillStyle='#000'; cx.fillRect(0,0,W,H);
       var pg=cx.createRadialGradient(W/2,H/2,0,W/2,H/2,H*.75);
-      pg.addColorStop(0,'rgba(200,64,26,.16)'); pg.addColorStop(.5,'rgba(0,60,140,.06)'); pg.addColorStop(1,'rgba(0,0,0,0)');
+      pg.addColorStop(0,'rgba(61,122,90,.16)'); pg.addColorStop(.5,'rgba(0,60,140,.06)'); pg.addColorStop(1,'rgba(0,0,0,0)');
       cx.fillStyle=pg; cx.fillRect(0,0,W,H);
       // Logo — multi-pass glow for crisp retina render
       cx.textAlign='center'; cx.textBaseline='middle';
       cx.font='900 228px "Playfair Display",Georgia,serif';
-      cx.shadowColor='rgba(200,64,26,.7)'; cx.shadowBlur=120;
+      cx.shadowColor='rgba(61,122,90,.7)'; cx.shadowBlur=120;
       cx.globalAlpha=.3; cx.fillStyle='#fff'; cx.fillText('Fifty.',W/2,H/2);
       cx.shadowBlur=55; cx.globalAlpha=1;    cx.fillText('Fifty.',W/2,H/2);
       cx.shadowBlur=0;
