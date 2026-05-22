@@ -160,24 +160,31 @@
   .fifty-section-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; line-height: 1.1; letter-spacing: -0.02em; max-width: 580px; }
   .fifty-section-title em { font-style: italic; color: var(--accent); }
 
-  /* CINEMATIC CANVAS */
-  .fifty-cinema-wrap { background: #000; position: relative; overflow: hidden; }
-  .fifty-cinema-canvas { display: block; width: 100%; cursor: pointer; }
-  .fifty-cinema-overlay { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.8rem; background: rgba(0,0,0,0.45); transition: opacity 0.6s; pointer-events: auto; cursor: pointer; }
-  .fifty-cinema-overlay.fc-hidden { opacity: 0; pointer-events: none; }
-  .fc-play-ring { width: 84px; height: 84px; border: 1.5px solid rgba(255,255,255,0.65); border-radius: 50%; display: grid; place-items: center; position: relative; transition: transform 0.3s, border-color 0.3s; }
-  .fc-play-ring::before { content: ''; width: 0; height: 0; border-top: 13px solid transparent; border-bottom: 13px solid transparent; border-left: 21px solid white; margin-left: 7px; }
-  .fc-play-ring::after { content: ''; position: absolute; inset: -12px; border-radius: 50%; border: 1px solid rgba(200,64,26,0.45); animation: fc-pulse 2.5s ease-out infinite; }
-  .fifty-cinema-wrap:hover .fc-play-ring { transform: scale(1.1); border-color: rgba(200,64,26,0.85); }
-  @keyframes fc-pulse { 0%{transform:scale(1);opacity:1;} 100%{transform:scale(1.7);opacity:0;} }
-  .fc-overlay-title { font-family: 'Playfair Display', serif; font-size: clamp(1.4rem, 2.5vw, 2.2rem); font-weight: 900; color: white; letter-spacing: -0.02em; text-align: center; line-height: 1.1; }
-  .fc-overlay-title em { font-style: italic; color: #c8401a; }
-  .fc-overlay-eyebrow { font-size: 0.68rem; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(255,255,255,0.35); }
-  .fc-cta { position: absolute; left: 50%; bottom: 13%; transform: translateX(-50%); display: inline-flex; align-items: center; gap: 0.8rem; padding: 1rem 2.8rem; background: transparent; border: 1px solid rgba(200,64,26,0.7); color: white; text-decoration: none; font-family: 'DM Mono', monospace; font-size: 0.8rem; letter-spacing: 0.18em; text-transform: uppercase; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.7s, transform 0.3s, border-color 0.3s, background 0.3s; border-radius: 2px; box-shadow: 0 0 30px rgba(200,64,26,0.25), inset 0 0 30px rgba(200,64,26,0.05); }
-  .fc-cta.show { opacity: 1; pointer-events: all; }
-  .fc-cta:hover { background: rgba(200,64,26,0.15); border-color: rgba(200,64,26,1); transform: translateX(-50%) translateY(-3px); box-shadow: 0 0 60px rgba(200,64,26,0.5), inset 0 0 40px rgba(200,64,26,0.1); }
-  .fc-cta::after { content: '→'; font-size: 1rem; opacity: 0.7; transition: transform 0.3s; }
-  .fc-cta:hover::after { transform: translateX(4px); }
+  /* BRAND ANIMATION SECTION */
+  .fifty-brand-section { position: relative; background: #080808; overflow: hidden; min-height: 72vh; display: flex; align-items: center; justify-content: center; }
+  .fifty-brand-grid { position: absolute; inset: 0; background-image: linear-gradient(rgba(255,255,255,0.028) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.028) 1px, transparent 1px); background-size: 64px 64px; pointer-events: none; }
+  .fifty-brand-orb { position: absolute; border-radius: 50%; filter: blur(90px); animation: fbOrb linear infinite; pointer-events: none; }
+  .fifty-brand-orb-1 { width: 650px; height: 650px; background: radial-gradient(circle, rgba(200,64,26,0.22) 0%, transparent 70%); top: -12%; left: -14%; animation-duration: 20s; }
+  .fifty-brand-orb-2 { width: 520px; height: 520px; background: radial-gradient(circle, rgba(0,100,200,0.14) 0%, transparent 70%); bottom: -12%; right: -10%; animation-duration: 25s; animation-delay: -9s; }
+  .fifty-brand-orb-3 { width: 380px; height: 380px; background: radial-gradient(circle, rgba(200,64,26,0.11) 0%, transparent 70%); top: 38%; right: 18%; animation-duration: 17s; animation-delay: -5s; }
+  @keyframes fbOrb { 0%{transform:translate(0,0) scale(1);} 25%{transform:translate(45px,-35px) scale(1.06);} 50%{transform:translate(22px,42px) scale(0.96);} 75%{transform:translate(-32px,18px) scale(1.04);} 100%{transform:translate(0,0) scale(1);} }
+  .fifty-brand-section::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 50%, transparent 38%, rgba(0,0,0,0.65) 100%); pointer-events: none; z-index: 1; }
+  .fifty-brand-content { position: relative; z-index: 2; text-align: center; padding: 6rem 2rem; }
+  .fifty-brand-eyebrow { font-family: 'DM Mono', monospace; font-size: 0.63rem; letter-spacing: 0.38em; text-transform: uppercase; color: rgba(255,255,255,0.32); margin-bottom: 2rem; animation: fbUp 1s ease both; }
+  .fifty-brand-logo { font-family: 'Playfair Display', serif; font-size: clamp(4.5rem, 13vw, 9.5rem); font-weight: 900; color: #fff; letter-spacing: -0.03em; line-height: 1; animation: fbUp 1s ease 0.15s both; text-shadow: 0 0 90px rgba(200,64,26,0.45), 0 0 180px rgba(200,64,26,0.18); }
+  .fifty-brand-logo em { font-style: italic; color: #c8401a; }
+  .fifty-brand-tagline { font-size: clamp(0.82rem, 1.8vw, 1rem); color: rgba(255,255,255,0.42); margin-top: 1.5rem; letter-spacing: 0.02em; line-height: 1.8; animation: fbUp 1s ease 0.3s both; }
+  .fifty-brand-stats { display: flex; align-items: center; justify-content: center; gap: 3rem; margin-top: 3.2rem; animation: fbUp 1s ease 0.45s both; flex-wrap: wrap; }
+  .fifty-brand-stat { text-align: center; }
+  .fifty-brand-stat-val { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 900; color: white; line-height: 1; }
+  .fifty-brand-stat-val em { font-style: italic; color: #c8401a; }
+  .fifty-brand-stat-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.22em; text-transform: uppercase; color: rgba(255,255,255,0.28); margin-top: 0.45rem; }
+  .fifty-brand-divider { width: 1px; height: 38px; background: rgba(255,255,255,0.1); }
+  .fifty-brand-cta { display: inline-flex; align-items: center; gap: 0.8rem; margin-top: 3.2rem; padding: 1rem 2.8rem; border: 1px solid rgba(200,64,26,0.65); color: white; text-decoration: none; font-family: 'DM Mono', monospace; font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; transition: all 0.3s; border-radius: 2px; animation: fbUp 1s ease 0.6s both; background: rgba(200,64,26,0.06); box-shadow: 0 0 30px rgba(200,64,26,0.15), inset 0 0 20px rgba(200,64,26,0.04); }
+  .fifty-brand-cta:hover { background: rgba(200,64,26,0.16); border-color: #c8401a; transform: translateY(-2px); box-shadow: 0 0 55px rgba(200,64,26,0.4), inset 0 0 30px rgba(200,64,26,0.08); color: white; }
+  .fifty-brand-cta::after { content: '→'; opacity: 0.65; transition: transform 0.3s; }
+  .fifty-brand-cta:hover::after { transform: translateX(5px); }
+  @keyframes fbUp { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
 
   /* WHY US */
   .fifty-why { background: var(--ink); color: var(--paper); padding: 7rem 2.5rem; position: relative; overflow: hidden; }
@@ -477,8 +484,8 @@
     .fifty-hero-ctas { flex-direction: column; align-items: center; }
     .fifty-hero-ctas .fifty-btn-primary, .fifty-hero-ctas .fifty-btn-ghost { width: 100%; max-width: 320px; text-align: center; justify-content: center; display: block; }
     /* Cinema */
-    .fifty-cinema-inner { padding: 3rem 1.5rem; }
-    .fifty-cinema-title { font-size: clamp(1.9rem, 7vw, 2.8rem); }
+    .fifty-brand-stats { gap: 1.6rem; }
+    .fifty-brand-divider { display: none; }
     .fifty-play-btn { padding: 0.75rem 1.5rem 0.75rem 0.75rem; font-size: 0.72rem; }
     .fifty-play-icon { width: 42px; height: 42px; }
     /* Marquee */
@@ -602,15 +609,34 @@
     <span>✦</span> £50 setup fee <span>✦</span> Hosting included <span>✦</span> Mobile ready <span>✦</span> SEO optimised <span>✦</span> SSL certificate <span>✦</span> Unlimited updates <span>✦</span> UK-based <span>✦</span> No long contracts
   </div></div>
 
-  <!-- CINEMATIC CANVAS AD -->
-  <section class="fifty-cinema-wrap" id="fiftyCinemaWrap">
-    <canvas class="fifty-cinema-canvas" id="fiftyCinemaCanvas"></canvas>
-    <div class="fifty-cinema-overlay" id="fiftyCinemaOverlay" onclick="fiftyPlayCinema()">
-      <div class="fc-play-ring"></div>
-      <h2 class="fc-overlay-title">Why your business <em>needs</em><br>to be online.</h2>
-      <span class="fc-overlay-eyebrow">— Watch the film —</span>
+  <!-- BRAND ANIMATION -->
+  <section class="fifty-brand-section" id="fiftyBrandSection">
+    <div class="fifty-brand-grid"></div>
+    <div class="fifty-brand-orb fifty-brand-orb-1"></div>
+    <div class="fifty-brand-orb fifty-brand-orb-2"></div>
+    <div class="fifty-brand-orb fifty-brand-orb-3"></div>
+    <div class="fifty-brand-content">
+      <p class="fifty-brand-eyebrow">Professional websites for UK businesses</p>
+      <div class="fifty-brand-logo">Fifty<em>.</em></div>
+      <p class="fifty-brand-tagline">Your business online. Professionally designed, fully hosted,<br>ready in days — not months.</p>
+      <div class="fifty-brand-stats">
+        <div class="fifty-brand-stat">
+          <div class="fifty-brand-stat-val"><em>£50</em></div>
+          <div class="fifty-brand-stat-label">Per month</div>
+        </div>
+        <div class="fifty-brand-divider"></div>
+        <div class="fifty-brand-stat">
+          <div class="fifty-brand-stat-val">48hrs</div>
+          <div class="fifty-brand-stat-label">Turnaround</div>
+        </div>
+        <div class="fifty-brand-divider"></div>
+        <div class="fifty-brand-stat">
+          <div class="fifty-brand-stat-val">0</div>
+          <div class="fifty-brand-stat-label">Long contracts</div>
+        </div>
+      </div>
+      <a class="fifty-brand-cta" href="#checkout">Get Started</a>
     </div>
-    <a class="fc-cta" id="fiftyCinemaCtaBtn" href="#checkout">Start Now</a>
   </section>
 
   <!-- WHY US -->
@@ -1483,8 +1509,7 @@
   document.getElementById('fiftyLightbox').addEventListener('click', (e) => { if (e.target.id === 'fiftyLightbox') fiftyCloseLightbox(); });
 
   // ═══════════════════════════════════════════════
-  // CINEMATIC 3D CANVAS ENGINE — OPTIMISED
-  // ═══════════════════════════════════════════════
+  // (brand animation is pure CSS — no JS needed)
   (function() {
     var cv = document.getElementById('fiftyCinemaCanvas');
     if (!cv) return;
