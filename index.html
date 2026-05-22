@@ -28,8 +28,8 @@
   nav ul { list-style: none; display: flex; gap: 2rem; align-items: center; }
   nav a { color: var(--muted); text-decoration: none; font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; transition: color 0.2s; }
   nav a:hover { color: var(--ink); }
-  .nav-cta { background: var(--ink) !important; color: var(--paper) !important; padding: 0.5rem 1.2rem; border-radius: 2px; }
-  .nav-cta:hover { background: var(--accent) !important; }
+  .nav-cta { background: var(--ink) !important; color: var(--paper) !important; padding: 0.5rem 1.2rem; border-radius: 2px; transition: background 0.2s, transform 0.15s; }
+  .nav-cta:hover { background: var(--accent) !important; transform: translateY(-2px); }
 
   .hero { min-height: 100vh; display: grid; place-items: center; padding: 8rem 2.5rem 4rem; position: relative; overflow: hidden; }
   .hero-bg-text { position: absolute; font-family: 'Playfair Display', serif; font-size: clamp(10rem, 28vw, 28rem); font-weight: 900; color: transparent; -webkit-text-stroke: 1px var(--border); top: 50%; left: 50%; transform: translate(-50%, -50%); white-space: nowrap; pointer-events: none; user-select: none; letter-spacing: -0.05em; animation: float 8s ease-in-out infinite; }
