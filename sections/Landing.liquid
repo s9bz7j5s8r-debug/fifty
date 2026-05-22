@@ -1483,14 +1483,21 @@
   document.getElementById('fiftyLightbox').addEventListener('click', (e) => { if (e.target.id === 'fiftyLightbox') fiftyCloseLightbox(); });
 
   // ═══════════════════════════════════════════════
-  // CINEMATIC 3D CANVAS ENGINE
+  // CINEMATIC 3D CANVAS ENGINE — OPTIMISED
   // ═══════════════════════════════════════════════
   (function() {
     var cv = document.getElementById('fiftyCinemaCanvas');
     if (!cv) return;
     var cx = cv.getContext('2d');
-    var W = 1920, H = 804;
-    cv.width = W; cv.height = H;
+
+    // HiDPI / Retina — render at device pixel ratio, capped at 2.5x
+    var DPR = Math.min(window.devicePixelRatio || 1, 2.5);
+    var W = 1920, H = 804;  // logical drawing space (all coords in these units)
+    cv.width  = Math.round(W * DPR);
+    cv.height = Math.round(H * DPR);
+    cx.scale(DPR, DPR);
+    cx.imageSmoothingEnabled  = true;
+    cx.imageSmoothingQuality  = 'high';
 
     var t = 0, dt = 0, lastTs = null, playing = false, started = false;
     var LOOP = 64; // loop duration seconds
@@ -1499,14 +1506,46 @@
     var cam = { x:0, y:0, z:-1200, rx:0, ry:0, fl:900, shake:0 };
     var mouseX = null, mouseY = null;
 
-    // ── Grain ────────────────────────────────────
-    var grains = [], GN = 6, grainIdx = 0;
+    // ── Grain (pre-baked at logical resolution) ──
+    var grains = [], GN = 8, grainIdx = 0;
     for (var _g = 0; _g < GN; _g++) {
       var _gc = document.createElement('canvas'); _gc.width=W; _gc.height=H;
       var _gx = _gc.getContext('2d'), _id = _gx.createImageData(W,H), _d = _id.data;
-      for (var _j=0; _j<_d.length; _j+=4) { var _v=(_d[_j]=_d[_j+1]=_d[_j+2]=(Math.random()*48)|0,_d[_j+3]=18); }
+      for (var _j=0; _j<_d.length; _j+=4) {
+        var _v=(Math.random()*62)|0;
+        _d[_j]=_d[_j+1]=_d[_j+2]=_v; _d[_j+3]=20;
+      }
       _gx.putImageData(_id,0,0); grains.push(_gc);
     }
+
+    // ── Pre-cached vignette + letterbox ──────────
+    var vigCv = document.createElement('canvas'); vigCv.width=W; vigCv.height=H;
+    var vigCx = vigCv.getContext('2d');
+    (function(){
+      var vg=vigCx.createRadialGradient(W/2,H/2,H*.12,W/2,H/2,H*.9);
+      vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(1,'rgba(0,0,0,.82)');
+      vigCx.fillStyle=vg; vigCx.fillRect(0,0,W,H);
+      vigCx.fillStyle='#000'; vigCx.fillRect(0,0,W,56); vigCx.fillRect(0,H-56,W,56);
+    })();
+
+    // ── Glow sprites (pre-rendered radial halos) ─
+    // Used instead of per-particle shadowBlur — far faster, higher quality
+    var PCOLS = [[0,190,255],[200,64,26],[255,255,255],[255,180,40],[120,80,220]];
+    var glowSprites = PCOLS.map(function(c){
+      var s=document.createElement('canvas'); s.width=s.height=128;
+      var sx=s.getContext('2d');
+      var g=sx.createRadialGradient(64,64,0,64,64,64);
+      g.addColorStop(0,'rgba('+c[0]+','+c[1]+','+c[2]+',1)');
+      g.addColorStop(.25,'rgba('+c[0]+','+c[1]+','+c[2]+',.55)');
+      g.addColorStop(.6,'rgba('+c[0]+','+c[1]+','+c[2]+',.15)');
+      g.addColorStop(1,'rgba(0,0,0,0)');
+      sx.fillStyle=g; sx.fillRect(0,0,128,128); return s;
+    });
+
+    // ── Bloom canvas (quarter-size — upscaling = blur = bloom) ──
+    var blmW=Math.round(W/4), blmH=Math.round(H/4);
+    var blmCv=document.createElement('canvas'); blmCv.width=blmW; blmCv.height=blmH;
+    var blmCx=blmCv.getContext('2d'); blmCx.imageSmoothingEnabled=true;
 
     // ── 3D Math ──────────────────────────────────
     var PHI = (1+Math.sqrt(5))/2;
@@ -1533,8 +1572,7 @@
     }
 
     // ── Particles ────────────────────────────────
-    var PC = 3800, particles = [];
-    var PCOLS = [[0,190,255],[200,64,26],[255,255,255],[255,180,40],[120,80,220]];
+    var PC = 5200, particles = [];
     for(var _p=0;_p<PC;_p++){
       particles.push({
         x:(Math.random()-.5)*5000, y:(Math.random()-.5)*4000, z:Math.random()*5000-2000,
@@ -1639,22 +1677,45 @@
     }
 
     function drawParticles(){
-      cx.save();
+      // Bucket by colour — one fillStyle set per colour group = far fewer state changes
+      // Large particles get a pre-rendered glow sprite instead of shadowBlur
+      var buckets=[[],[],[],[],[]];
       for(var _pi=0;_pi<particles.length;_pi++){
         var p=particles[_pi];
         var pp=proj(p.x,p.y,p.z); if(!pp)continue;
-        if(pp.x<-60||pp.x>W+60||pp.y<-60||pp.y>H+60)continue;
-        var sz2=Math.max(.4,p.sz*pp.sc*2.2);
-        var c=PCOLS[p.ci];
-        var al2=p.al*clamp(pp.sc*1.8,0,1);
-        if(al2<.01)continue;
-        cx.globalAlpha=al2;
-        cx.fillStyle='rgb('+c[0]+','+c[1]+','+c[2]+')';
-        if(sz2>2.5){cx.shadowColor='rgba('+c[0]+','+c[1]+','+c[2]+',.9)';cx.shadowBlur=sz2*3;}
-        else cx.shadowBlur=0;
-        cx.beginPath(); cx.arc(pp.x,pp.y,sz2,0,6.28); cx.fill();
+        if(pp.x<-80||pp.x>W+80||pp.y<-80||pp.y>H+80)continue;
+        var sz2=Math.max(.3,p.sz*pp.sc*2.4);
+        var al2=p.al*clamp(pp.sc*1.9,0,1);
+        if(al2<.008)continue;
+        buckets[p.ci].push({x:pp.x,y:pp.y,sz:sz2,al:al2});
       }
-      cx.shadowBlur=0; cx.restore();
+      cx.save();
+      for(var ci=0;ci<PCOLS.length;ci++){
+        var bk=buckets[ci]; if(!bk.length)continue;
+        var c=PCOLS[ci];
+        var col='rgb('+c[0]+','+c[1]+','+c[2]+')';
+        // Tiny particles — batch into a single path per colour
+        cx.fillStyle=col; cx.beginPath();
+        for(var bi=0;bi<bk.length;bi++){
+          var bp=bk[bi]; if(bp.sz>=2)continue;
+          cx.globalAlpha=bp.al;
+          cx.moveTo(bp.x+bp.sz,bp.y);
+          cx.arc(bp.x,bp.y,bp.sz,0,6.283);
+        }
+        cx.fill();
+        // Medium + large — glow sprite (radial halo, no shadowBlur)
+        for(var bi2=0;bi2<bk.length;bi2++){
+          var bp2=bk[bi2]; if(bp2.sz<2)continue;
+          var halo=bp2.sz*7;
+          cx.globalAlpha=bp2.al*.75;
+          cx.drawImage(glowSprites[ci],bp2.x-halo/2,bp2.y-halo/2,halo,halo);
+          // Sharp bright core on top
+          cx.globalAlpha=bp2.al;
+          cx.fillStyle=col;
+          cx.beginPath(); cx.arc(bp2.x,bp2.y,bp2.sz*.55,0,6.283); cx.fill();
+        }
+      }
+      cx.globalAlpha=1; cx.restore();
     }
 
     function drawGeos(){
@@ -1664,7 +1725,7 @@
 
       geos.forEach(function(obj){
         if(obj.type==='ring'){
-          var segs=32,pts=[];
+          var segs=64,pts=[];
           for(var _s=0;_s<=segs;_s++){
             var ang=_s/segs*6.28;
             var rv=rot3([Math.cos(ang)*obj.sz,0,Math.sin(ang)*obj.sz],obj.rx,obj.ry,obj.rz);
@@ -1803,11 +1864,8 @@
     }
 
     function drawVignette(){
-      var vg=cx.createRadialGradient(W/2,H/2,H*.13,W/2,H/2,H*.88);
-      vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(1,'rgba(0,0,0,.78)');
-      cx.fillStyle=vg; cx.fillRect(0,0,W,H);
-      // Letterbox
-      cx.fillStyle='#000'; cx.fillRect(0,0,W,58); cx.fillRect(0,H-58,W,58);
+      // Pre-cached — zero gradient recalculation per frame
+      cx.drawImage(vigCv,0,0);
     }
 
     // ═══ UPDATE ══════════════════════════════════
@@ -1864,11 +1922,39 @@
       drawLogo();
       drawFlare();
       drawScanlines();
+
+      // ── Bloom pass ───────────────────────────
+      // Downscale the current frame into the 1/4-size bloom canvas, then composite
+      // back at full size with 'screen' blend — the upscaling IS the blur (free bloom).
+      blmCx.drawImage(cv, 0, 0, blmW, blmH);
+      cx.save();
+      cx.globalCompositeOperation='screen';
+      cx.globalAlpha=.32;
+      cx.drawImage(blmCv, 0, 0, W, H); // upscaling to W×H = implicit blur
+      cx.globalAlpha=.16;
+      // Second softer pass at half-size for wider halo
+      cx.drawImage(blmCv, -W*.04, -H*.04, W*1.08, H*1.08);
+      cx.restore();
+
+      // ── Cinematic colour grade ────────────────
+      // Warm the shadows, cool the highlights for a premium film look
+      cx.save();
+      var cg=cx.createLinearGradient(0,0,0,H);
+      cg.addColorStop(0,'rgba(0,15,35,.08)');   // teal-blue highlights
+      cg.addColorStop(.5,'rgba(0,0,0,0)');
+      cg.addColorStop(1,'rgba(30,8,0,.1)');     // warm amber shadows
+      cx.globalCompositeOperation='source-over';
+      cx.fillStyle=cg; cx.fillRect(0,0,W,H);
+      cx.restore();
+
       drawVignette();
+
       // Grain
       grainIdx=(grainIdx+1)%GN; cx.drawImage(grains[grainIdx],0,0);
-      // Fade in
+
+      // Fade in from black
       if(t<1){ cx.save(); cx.globalAlpha=1-t; cx.fillStyle='#000'; cx.fillRect(0,0,W,H); cx.restore(); }
+
       // CTA
       var ctaEl=document.getElementById('fiftyCinemaCtaBtn');
       if(ctaEl) ctaEl.classList.toggle('show',t>=53);
@@ -1893,23 +1979,24 @@
     };
     window.fiftyCloseCinema=function(){};
 
-    // Static preview at dramatic moment
+    // Static preview — drawn at full DPR quality
     (function initPreview(){
       cx.fillStyle='#000'; cx.fillRect(0,0,W,H);
-      var pg=cx.createRadialGradient(W/2,H/2,0,W/2,H/2,H*.7);
-      pg.addColorStop(0,'rgba(200,64,26,.12)'); pg.addColorStop(1,'rgba(0,0,0,0)');
+      var pg=cx.createRadialGradient(W/2,H/2,0,W/2,H/2,H*.75);
+      pg.addColorStop(0,'rgba(200,64,26,.16)'); pg.addColorStop(.5,'rgba(0,60,140,.06)'); pg.addColorStop(1,'rgba(0,0,0,0)');
       cx.fillStyle=pg; cx.fillRect(0,0,W,H);
-      cx.fillStyle='#fff'; cx.font='900 220px "Playfair Display",Georgia,serif';
+      // Logo — multi-pass glow for crisp retina render
       cx.textAlign='center'; cx.textBaseline='middle';
-      cx.shadowColor='rgba(200,64,26,.8)'; cx.shadowBlur=80;
-      cx.fillText('Fifty.',W/2,H/2);
-      cx.fillStyle='rgba(255,255,255,.35)'; cx.shadowBlur=0;
-      cx.font='300 22px "DM Mono",monospace';
-      cx.fillText('£50 A MONTH  ·  PROFESSIONALLY DESIGNED  ·  FULLY HOSTED',W/2,H/2+110);
-      cx.fillStyle='#000'; cx.fillRect(0,0,W,56); cx.fillRect(0,H-56,W,56);
-      var vg=cx.createRadialGradient(W/2,H/2,H*.13,W/2,H/2,H*.88);
-      vg.addColorStop(0,'rgba(0,0,0,0)'); vg.addColorStop(1,'rgba(0,0,0,.75)');
-      cx.fillStyle=vg; cx.fillRect(0,0,W,H);
+      cx.font='900 228px "Playfair Display",Georgia,serif';
+      cx.shadowColor='rgba(200,64,26,.7)'; cx.shadowBlur=120;
+      cx.globalAlpha=.3; cx.fillStyle='#fff'; cx.fillText('Fifty.',W/2,H/2);
+      cx.shadowBlur=55; cx.globalAlpha=1;    cx.fillText('Fifty.',W/2,H/2);
+      cx.shadowBlur=0;
+      cx.globalAlpha=.38; cx.fillStyle='rgba(255,255,255,1)';
+      cx.font='300 23px "DM Mono",monospace';
+      cx.fillText('£50 A MONTH  ·  PROFESSIONALLY DESIGNED  ·  FULLY HOSTED',W/2,H/2+114);
+      cx.globalAlpha=1;
+      cx.drawImage(vigCv,0,0);
     })();
 
     // Mouse tracking
