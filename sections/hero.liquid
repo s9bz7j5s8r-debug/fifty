@@ -511,9 +511,10 @@
       ></a>
     {%- endif -%}
     <div
-      class="hero__media-grid"
+      class="hero__media-grid animate-fade-in"
       style="--hero-media-count: {{ media_count }};--hero-media-count-mobile: {{ media_count_mobile }};{%- if section.settings.image_1 != blank -%} --hero-media-aspect-ratio: {{ section.settings.image_1.aspect_ratio }};{% endif %}"
       data-testid="hero-media-wrapper"
+      data-animate="true"
     >
       {% liquid
         if section.settings.toggle_overlay
@@ -533,6 +534,7 @@
         {% if request.design_mode %}hero__content-wrapper--design-mode{% endif %}
       "
       style="{% render 'layout-panel-style', settings: section.settings %}"
+      data-scroll-animate="true"
     >
       {% content_for 'blocks' %}
     </div>
@@ -586,6 +588,53 @@
 
   .hero__content-wrapper .group-block-content {
     position: relative;
+  }
+
+  /* Animations for hero blocks */
+  .hero__content-wrapper[data-scroll-animate="true"] > * {
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .hero__content-wrapper[data-scroll-animate="true"] > :nth-child(1) {
+    animation-delay: 0s;
+  }
+
+  .hero__content-wrapper[data-scroll-animate="true"] > :nth-child(2) {
+    animation-delay: 0.15s;
+  }
+
+  .hero__content-wrapper[data-scroll-animate="true"] > :nth-child(3) {
+    animation-delay: 0.3s;
+  }
+
+  .hero__content-wrapper[data-scroll-animate="true"] > :nth-child(4) {
+    animation-delay: 0.45s;
+  }
+
+  .hero__content-wrapper[data-scroll-animate="true"] > :nth-child(5) {
+    animation-delay: 0.6s;
+  }
+
+  .hero__content-wrapper[data-scroll-animate="true"] > :nth-child(n + 6) {
+    animation-delay: 0.75s;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__content-wrapper[data-scroll-animate="true"] > * {
+      animation: none;
+    }
+  }
+
+  /* Keyframe for fade up animation */
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   .hero__media-grid {

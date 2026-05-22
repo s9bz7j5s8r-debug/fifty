@@ -1,0 +1,18 @@
+<svg viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .bg { fill: #f5f0e8; }
+      .text { font-family: 'Playfair Display', Georgia, serif; font-size: 140px; font-weight: 900; fill: #0d0d0d; letter-spacing: -4px; }
+      .dot { fill: #c8401a; }
+    </style>
+  </defs>
+
+  <!-- Cream background -->
+  <rect width="400" height="300" class="bg"/>
+
+  <!-- "Fifty" text -->
+  <text x="20" y="200" class="text">Fifty</text>
+
+  <!-- Red accent dot at the end, aligned with first character -->
+  <circle cx="330" cy="200" r="18" class="dot"/>
+</svg>
